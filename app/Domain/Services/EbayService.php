@@ -5,6 +5,7 @@ use DTS\eBaySDK\Trading\Enums\SeverityCodeType;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use DTS\eBaySDK\Trading\Types\GetItemTransactionsRequestType;
+use LaraCall\Domain\ValueObjects\PastDateRange;
 use LaravelDoctrine\ORM\Configuration\MetaData\Config;
 
 /**
@@ -37,11 +38,12 @@ class EbayService
     }
 
     /**
-     * @param string $itemId
+     * @param string        $itemId
+     * @param PastDateRange $dateRange
      *
      * @return array
      */
-    public function getItemTransactions($itemId)
+    public function getItemTransactions($itemId, PastDateRange $dateRange)
     {
         $request = new GetItemTransactionsRequestType();
         $request->RequesterCredentials = $this->customSecurityHeaderType;

@@ -161,7 +161,6 @@ return [
         /*
          * Custom Helpers
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Custom providers

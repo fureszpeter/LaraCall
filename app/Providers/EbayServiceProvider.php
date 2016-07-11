@@ -7,6 +7,11 @@ use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class EbayServiceProvider
+ *
+ * @package LaraCall
+ */
 class EbayServiceProvider extends ServiceProvider
 {
     /**
@@ -20,7 +25,7 @@ class EbayServiceProvider extends ServiceProvider
 
             $service = new TradingService([
                 'credentials' => Config::get("ebay.credentials", []),
-                'sandbox'     => Config::get("ebay.use_sandbox"),
+                'sandbox'     => Config::get("ebay.sandbox"),
                 'siteId'      => SiteIds::US
             ]);
 

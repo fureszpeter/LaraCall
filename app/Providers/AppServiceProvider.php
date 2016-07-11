@@ -2,6 +2,7 @@
 
 namespace LaraCall\Providers;
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+         /*
+         * Non-production service providers.
+         */
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
+
     }
 }

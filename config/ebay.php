@@ -1,9 +1,9 @@
 <?php
 
 $ebayConfig = [
-    'use_sandbox'   => env('EBAY_SANDBOX', true),
-    'default_config' => env('EBAY_CONFIG', 'sandbox'),
+    'default_config' => env('EBAY_DEFAULT_CONFIG', 'sandbox'),
     'sandbox'        => [
+        'sandbox'   => true,
         'credentials' => [
             'devId'  => env('EBAY_DEV_ID_SANDBOX'),
             'appId'  => env('EBAY_APP_ID_SANDBOX'),
@@ -12,6 +12,7 @@ $ebayConfig = [
         'authToken'   => env('EBAY_AUTH_TOKEN_SANDBOX'),
     ],
     'production'     => [
+        'sandbox'   => false,
         'credentials' => [
             'devId'  => env('EBAY_DEV_ID_PRODUCTION'),
             'appId'  => env('EBAY_APP_ID_PRODUCTION'),
