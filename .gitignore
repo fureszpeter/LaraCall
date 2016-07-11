@@ -1,7 +1,9 @@
 /vendor
 /node_modules
 /public/storage
+/storage/proxies
 Homestead.yaml
 Homestead.json
 .env
 _ide_helper*.php
+.idea/
