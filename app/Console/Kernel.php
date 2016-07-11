@@ -4,6 +4,8 @@ namespace LaraCall\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use LaraCall\Console\Commands\GetItemTransactionsCommand;
+use LaraCall\Console\Commands\ImportUsers;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +16,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         // Commands\Inspire::class,
+        ImportUsers::class,
+        GetItemTransactionsCommand::class
     ];
 
     /**

@@ -66,6 +66,20 @@ return [
             'engine' => null,
         ],
 
+        'a2billing' => [
+            'driver' => 'mysql',
+            'host' => env('DB_A2B_HOST', 'localhost'),
+            'port' => env('DB_A2B_PORT', '3306'),
+            'database' => env('DB_A2B_DATABASE', 'forge'),
+            'username' => env('DB_A2B_USERNAME', 'forge'),
+            'password' => env('DB_A2B_PASSWORD', ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => 'cc_',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
