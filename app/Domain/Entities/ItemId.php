@@ -65,7 +65,7 @@ class ItemId extends AbstractEntity
      */
     public function setShouldMonitor($shouldMonitor)
     {
-        TypeChecker::assertBoolean($shouldMonitor, '$shouldMonitor');
+        TypeChecker::assertBooleaKn($shouldMonitor, '$shouldMonitor');
 
         $this->shouldMonitor = $shouldMonitor;
 

@@ -1,12 +1,13 @@
 <?php
 namespace LaraCall\Domain\Services;
 
-use DTS\eBaySDK\Trading\Enums\SeverityCodeType;
+use DateTime;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use DTS\eBaySDK\Trading\Types\GetItemTransactionsRequestType;
 use LaraCall\Domain\ValueObjects\PastDateRange;
 use LaravelDoctrine\ORM\Configuration\MetaData\Config;
+use RuntimeException;
 
 /**
  * Class EbayService.
@@ -41,6 +42,8 @@ class EbayService
      * @param string        $itemId
      * @param PastDateRange $dateRange
      *
+     * @throws RuntimeException If something went wrong during the query.
+     *
      * @return array
      */
     public function getItemTransactions($itemId, PastDateRange $dateRange)
@@ -48,18 +51,14 @@ class EbayService
         $request = new GetItemTransactionsRequestType();
         $request->RequesterCredentials = $this->customSecurityHeaderType;
         $request->ItemID = $itemId;
-        $request->NumberOfDays = 2;
+        $request->ModTimeFrom = new DateTime($dateRange->getDateFrom());
+        $request->ModTimeTo = new DateTime($dateRange->getDateTo());
 
         $response = $this->service->getItemTransactions($request);
 
         if ($response->Errors) {
             foreach ($response->Errors as $error) {
-                printf(
-                    "%s: %s\n%s\n\n",
-                    $error->SeverityCode === SeverityCodeType::C_ERROR ? 'Error' : 'Warning',
-                    $error->ShortMessage,
-                    $error->LongMessage
-                );
+                throw new RuntimeException($error->LongMessage);
             }
         }
 

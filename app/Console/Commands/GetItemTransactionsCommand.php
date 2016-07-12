@@ -2,9 +2,11 @@
 
 namespace LaraCall\Console\Commands;
 
+use Carbon\Carbon;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use Illuminate\Console\Command;
 use LaraCall\Domain\Services\EbayService;
+use LaraCall\Domain\ValueObjects\PastDateRange;
 
 /**
  * Class GetItemTransactionsCommand.
@@ -59,7 +61,11 @@ class GetItemTransactionsCommand extends Command
      */
     public function handle()
     {
-        $transactions = $this->ebayService->getItemTransactions('110181384286');
+        $from = Carbon::createFromFormat('Y-m-d', '2016-07-10');
+        $transactions = $this->ebayService->getItemTransactions(
+            '110181384286',
+            new PastDateRange($from, Carbon::now())
+        );
 
         dd($transactions);
     }
