@@ -13,7 +13,7 @@ use Furesz\TypeChecker\TypeChecker;
  *
  * @ORM\Entity()
  */
-class ItemId extends AbstractEntity
+class EbayListing extends AbstractEntity
 {
     /**
      * @var string
@@ -21,6 +21,13 @@ class ItemId extends AbstractEntity
      * @ORM\Column(name="item_id", type="string", length=64, nullable=false, unique=true)
      */
     private $itemId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $sellerAccountName;
 
     /**
      * @var bool
@@ -31,15 +38,18 @@ class ItemId extends AbstractEntity
 
     /**
      * @param string $itemId
+     * @param string $sellerAccountName
      * @param bool   $shouldMonitor
      */
-    public function __construct($itemId, $shouldMonitor = true)
+    public function __construct($itemId, $sellerAccountName, $shouldMonitor = true)
     {
         TypeChecker::assertString($itemId, '$itemId');
-        TypeChecker::assertBoolean($shouldMonitor, '$shouldMonitor');
+
+        parent::__construct();
 
         $this->itemId = $itemId;
-        $this->shouldMonitor = $shouldMonitor;
+        $this->setShouldMonitor($shouldMonitor);
+        $this->setSellerAccountName($sellerAccountName);
     }
 
     /**
@@ -48,6 +58,14 @@ class ItemId extends AbstractEntity
     public function getItemId()
     {
         return $this->itemId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSellerAccountName()
+    {
+        return $this->sellerAccountName;
     }
 
     /**
@@ -65,9 +83,25 @@ class ItemId extends AbstractEntity
      */
     public function setShouldMonitor($shouldMonitor)
     {
-        TypeChecker::assertBooleaKn($shouldMonitor, '$shouldMonitor');
+        TypeChecker::assertBoolean($shouldMonitor, '$shouldMonitor');
 
         $this->shouldMonitor = $shouldMonitor;
+
+        return $this;
+    }
+
+    /**
+     * @param string $sellerAccountName
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return $this
+     */
+    public function setSellerAccountName($sellerAccountName)
+    {
+        TypeChecker::assertString($sellerAccountName, '$sellerAccountName');
+
+        $this->sellerAccountName = $sellerAccountName;
 
         return $this;
     }

@@ -10,6 +10,7 @@ $ebayConfig = [
             'certId' => env('EBAY_CERT_ID_SANDBOX'),
         ],
         'authToken'   => env('EBAY_AUTH_TOKEN_SANDBOX'),
+        'sellerUser'  => env('EBAY_SELLER_USER_SANDBOX'),
     ],
     'production'     => [
         'sandbox'   => false,
@@ -19,6 +20,7 @@ $ebayConfig = [
             'certId' => env('EBAY_CERT_ID_PRODUCTION'),
         ],
         'authToken'   => env('EBAY_AUTH_TOKEN_PRODUCTION'),
+        'sellerUser'  => env('EBAY_SELLER_USER_PRODUCTION'),
     ],
 ];
 

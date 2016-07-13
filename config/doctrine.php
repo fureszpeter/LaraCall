@@ -29,7 +29,7 @@ return [
                 'LaraCall'
             ],
             'paths'      => [
-                base_path('app')
+                app_path() . '/Domain/Entities/',
             ],
             'repository' => Doctrine\ORM\EntityRepository::class,
             'proxies'    => [
