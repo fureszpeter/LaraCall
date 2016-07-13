@@ -42,7 +42,7 @@ class DateRange
         }
 
         $this->dateFrom = clone $dateFrom;
-        $this->dateTo = clone $dateTo;
+        $this->dateTo   = clone $dateTo;
     }
 
     /**

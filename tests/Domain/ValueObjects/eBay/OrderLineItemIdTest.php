@@ -8,7 +8,6 @@ use LaraCall\Domain\ValueObjects\eBay\OrderLineItemId;
  */
 class OrderLineItemIdTest extends TestCase
 {
-
     public function test_can_create_valid_id()
     {
         $id = '110181384286-27974206001';
@@ -39,7 +38,7 @@ class OrderLineItemIdTest extends TestCase
     public function unexpectedOrderLineProvider()
     {
         return [
-            /** Too long */
+            /* Too long */
             ['1234567890123456789012345678901234567890123456789051'],
             ['123'],
             ['123-'],
@@ -47,4 +46,3 @@ class OrderLineItemIdTest extends TestCase
         ];
     }
 }
-

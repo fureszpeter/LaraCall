@@ -9,7 +9,6 @@ use LaraCall\Domain\ValueObjects\Pin;
  */
 class PinCollectionTest extends TestCase
 {
-
     public function testCanAddPinInstance()
     {
         $pin = new Pin('1234567890');
@@ -40,7 +39,7 @@ class PinCollectionTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             json_encode($pins),
-            (string)$collection);
+            (string) $collection);
     }
 
     public function testCanParseJsonString()
@@ -81,6 +80,4 @@ class PinCollectionTest extends TestCase
 
         $this->assertTrue($collection->contains(new Pin('2345678901')));
     }
-
 }
-

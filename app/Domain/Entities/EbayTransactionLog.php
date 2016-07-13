@@ -1,5 +1,4 @@
 <?php
-
 namespace LaraCall\Domain\Entities;
 
 use Carbon\Carbon;
@@ -70,8 +69,12 @@ class EbayTransactionLog
      * @param DateTimeInterface $transactionDate
      * @param string            $transactionData
      */
-    public function __construct($transactionId, $sellerUserName, DateTimeInterface $transactionDate, $transactionData)
-    {
+    public function __construct(
+        $transactionId,
+        $sellerUserName,
+        DateTimeInterface $transactionDate,
+        $transactionData
+    ) {
         TypeChecker::assertString($transactionId, '$transactionId');
         TypeChecker::assertString($sellerUserName, '$sellerUserName');
         TypeChecker::assertString($transactionData, '$transactionData');
@@ -79,9 +82,8 @@ class EbayTransactionLog
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
 
-
-        $this->transactionId = $transactionId;
-        $this->sellerUserName = $sellerUserName;
+        $this->transactionId   = $transactionId;
+        $this->sellerUserName  = $sellerUserName;
         $this->transactionDate = $transactionDate;
         $this->transactionData = $transactionData;
     }

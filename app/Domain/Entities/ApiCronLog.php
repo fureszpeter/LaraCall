@@ -42,7 +42,7 @@ class ApiCronLog extends AbstractEntity
     /**
      * @var ArrayCollection|EbayTransactionLog[]
      *
-     * @ORM\OneToMany(targetEntity="EbayTransactionLog", mappedBy="transactionId")
+     * @ORM\OneToMany(targetEntity="EbayTransactionLog", mappedBy="cronLog")
      */
     protected $transactions = [];
 
@@ -55,9 +55,9 @@ class ApiCronLog extends AbstractEntity
         parent::__construct();
         TypeChecker::assertString($command, '$command');
 
-        $this->rangeFrom = $dateRange->getDateFrom();
-        $this->rangeTo = $dateRange->getDateTo();
-        $this->command = $command;
+        $this->rangeFrom    = $dateRange->getDateFrom();
+        $this->rangeTo      = $dateRange->getDateTo();
+        $this->command      = $command;
         $this->transactions = new ArrayCollection();
     }
 

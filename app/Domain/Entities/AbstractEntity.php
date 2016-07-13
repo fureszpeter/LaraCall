@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AbstractEntity
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="IDENTITY")

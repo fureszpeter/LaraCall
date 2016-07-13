@@ -1,5 +1,4 @@
 <?php
-
 namespace LaraCall\Domain\ValueObjects;
 
 /**
@@ -52,11 +51,11 @@ class EbayConfig
      */
     public function __construct($isSandbox, $devId, $appId, $certId, $authToken = null, $sellerUserName = null)
     {
-        $this->isSandbox = $isSandbox;
-        $this->devId = $devId;
-        $this->appId = $appId;
-        $this->certId = $certId;
-        $this->authToken = $authToken;
+        $this->isSandbox      = $isSandbox;
+        $this->devId          = $devId;
+        $this->appId          = $appId;
+        $this->certId         = $certId;
+        $this->authToken      = $authToken;
         $this->sellerUserName = $sellerUserName;
 
         $this->credentials = [

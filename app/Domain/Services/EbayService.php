@@ -1,5 +1,4 @@
 <?php
-
 namespace LaraCall\Domain\Services;
 
 use DateTime;
@@ -37,7 +36,7 @@ class EbayService
      */
     public function __construct(TradingService $service, CustomSecurityHeaderType $customSecurityHeaderType)
     {
-        $this->service = $service;
+        $this->service                  = $service;
         $this->customSecurityHeaderType = $customSecurityHeaderType;
     }
 
@@ -51,11 +50,11 @@ class EbayService
      */
     public function getItemTransactions($itemId, PastDateRange $dateRange)
     {
-        $request = new GetItemTransactionsRequestType();
+        $request                       = new GetItemTransactionsRequestType();
         $request->RequesterCredentials = $this->customSecurityHeaderType;
-        $request->ItemID = $itemId;
-        $request->ModTimeFrom = new DateTime($dateRange->getDateFrom());
-        $request->ModTimeTo = new DateTime($dateRange->getDateTo());
+        $request->ItemID               = $itemId;
+        $request->ModTimeFrom          = new DateTime($dateRange->getDateFrom());
+        $request->ModTimeTo            = new DateTime($dateRange->getDateTo());
 
         $response = $this->service->getItemTransactions($request);
 
@@ -73,7 +72,7 @@ class EbayService
      */
     public function getOfficialTime()
     {
-        $request = new GeteBayOfficialTimeRequestType();
+        $request  = new GeteBayOfficialTimeRequestType();
         $response = $this->service->geteBayOfficialTime($request);
 
         return $response->Timestamp;
@@ -98,10 +97,10 @@ class EbayService
      */
     public function getSellerTransactions(PastDateRange $dateRange)
     {
-        $request = new GetSellerTransactionsRequestType();
+        $request                       = new GetSellerTransactionsRequestType();
         $request->RequesterCredentials = $this->customSecurityHeaderType;
-        $request->ModTimeFrom = $dateRange->getDateFrom();
-        $request->ModTimeTo = $dateRange->getDateTo();
+        $request->ModTimeFrom          = $dateRange->getDateFrom();
+        $request->ModTimeTo            = $dateRange->getDateTo();
 
         $response = $this->service->getSellerTransactions($request);
 

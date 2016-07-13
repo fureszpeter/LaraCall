@@ -69,7 +69,7 @@ class EbayListing extends AbstractEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isShouldMonitor()
     {
@@ -77,7 +77,7 @@ class EbayListing extends AbstractEntity
     }
 
     /**
-     * @param boolean $shouldMonitor
+     * @param bool $shouldMonitor
      *
      * @return $this
      */
