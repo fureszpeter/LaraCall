@@ -18,9 +18,12 @@ class SubscriptionFactory
     public static function createFromRow(User $user, $row)
     {
         $subscription = new Subscription($user, $row->username);
+
         return $subscription->setExpirationDate(
             Carbon::createFromFormat(self::DATE_FORMAT, $row->expirationdate)
         )
-            ->setSubscriptionCreationDate(self::DATE_FORMAT, $row->creationdate);
+        ->setSubscriptionCreationDate(
+            Carbon::createFromFormat(self::DATE_FORMAT, $row->creationdate)
+        );
     }
 }

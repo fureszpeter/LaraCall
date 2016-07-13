@@ -15,7 +15,6 @@ use UnexpectedValueException;
  */
 class DateRangeTest extends TestCase
 {
-
     /**
      * @dataProvider validDateRangeProvider
      *
@@ -54,4 +53,3 @@ class DateRangeTest extends TestCase
         ];
     }
 }
-

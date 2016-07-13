@@ -2,6 +2,7 @@
 namespace LaraCall\Domain\Entities;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Furesz\TypeChecker\TypeChecker;
 use LaraCall\Domain\ValueObjects\PastDateRange;
@@ -20,14 +21,14 @@ class ApiCronLog extends AbstractEntity
     /**
      * @var DateTimeInterface
      *
-     * @ORM\Column(name="range_from", nullable=false)
+     * @ORM\Column(type="datetime", name="range_from", nullable=false)
      */
     protected $rangeFrom;
 
     /**
      * @var DateTimeInterface
      *
-     * @ORM\Column(name="range_to", nullable=false)
+     * @ORM\Column(type="datetime", name="range_to", nullable=false)
      */
     protected $rangeTo;
 
@@ -36,22 +37,28 @@ class ApiCronLog extends AbstractEntity
      *
      * @ORM\Column(type="string", length=254, nullable=false)
      */
-    private $command;
+    protected $command;
 
     /**
-     * @param PastDateRange $dateRange
-     * @param string        $command
+     * @var ArrayCollection|EbayTransactionLog[]
      *
-     *
+     * @ORM\OneToMany(targetEntity="EbayTransactionLog", mappedBy="cronLog")
+     */
+    protected $transactions = [];
+
+    /**
+     * @param PastDateRange        $dateRange
+     * @param string               $command
      */
     public function __construct(PastDateRange $dateRange, $command)
     {
+        parent::__construct();
         TypeChecker::assertString($command, '$command');
 
-        parent::__construct();
-        $this->rangeFrom = $dateRange->getDateFrom();
-        $this->rangeTo = $dateRange->getDateTo();
-        $this->command = $command;
+        $this->rangeFrom    = $dateRange->getDateFrom();
+        $this->rangeTo      = $dateRange->getDateTo();
+        $this->command      = $command;
+        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -76,5 +83,13 @@ class ApiCronLog extends AbstractEntity
     public function getCommand()
     {
         return $this->command;
+    }
+
+    /**
+     * @return ArrayCollection|EbayTransactionLog[]
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

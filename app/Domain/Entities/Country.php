@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 
 /**
- * Countries
+ * Countries.
  *
  * @ORM\Entity(repositoryClass="\LaraCall\Infrastructure\Repositories\DoctrineCountryRepository")
  * @ORM\Cache(usage="READ_ONLY", region="country_region")
@@ -111,4 +111,3 @@ class Country implements JsonSerializable
         return $this->id;
     }
 }
-

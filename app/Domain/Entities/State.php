@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 
 /**
- * States
+ * States.
  *
  * @ORM\Entity(repositoryClass="\LaraCall\Infrastructure\Repositories\DoctrineStateRepository")
  * @ORM\Cache(usage="READ_ONLY", region="state_region")
@@ -52,4 +52,3 @@ class State
         return $this->abbrev;
     }
 }
-

@@ -40,17 +40,17 @@ class Pin implements JsonSerializable
     {
         TypeChecker::assertString($pin, '$pin');
 
-        if (!preg_match('/^[0-9]{10,10}$/', $pin)){
+        if (!preg_match('/^[0-9]{10,10}$/', $pin)) {
             throw new UnexpectedValueException(
                 sprintf('Pin is invalid. [received: %s]', $pin)
             );
         }
-        
+
         $this->pin = $pin;
 
         return $this;
     }
-    
+
     /**
      * @return string
      */
@@ -70,7 +70,7 @@ class Pin implements JsonSerializable
     /**
      * @return string
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->pin;
     }

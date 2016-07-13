@@ -38,7 +38,7 @@ class OrderLineItemId
             );
         }
 
-        if ( ! preg_match('/^[0-9]{1,}\-[0-9]{1,}$/', $orderLineItemId)) {
+        if (! preg_match('/^[0-9]{1,}\-[0-9]{1,}$/', $orderLineItemId)) {
             throw new UnexpectedValueException(
                 sprintf(
                     'OrderLineItemId is invalid. [id: %s]',

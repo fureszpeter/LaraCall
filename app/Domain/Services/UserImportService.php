@@ -57,9 +57,9 @@ class UserImportService
     /**
      * @param UserImportRowDto $dto
      *
-     * @return User
-     *
      * @throws NonUniqueResultException If user is non unique
+     *
+     * @return User
      */
     public function processRow(UserImportRowDto $dto)
     {

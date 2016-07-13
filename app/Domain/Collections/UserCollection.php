@@ -53,7 +53,6 @@ class UserCollection extends ArrayCollection implements JsonSerializable
         return in_array($user, $this->toArray());
     }
 
-
     /**
      * @return array
      */

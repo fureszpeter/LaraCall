@@ -11,9 +11,8 @@ interface StateRepository extends ObjectRepository
      * @param array $orderBy
      *
      * @throws \OutOfBoundsException If not found.
-
+     
      * @return State
      */
     public function getOneBy(array $criteria, array $orderBy = null);
-
 }

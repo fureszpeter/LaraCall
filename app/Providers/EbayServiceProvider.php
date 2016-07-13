@@ -6,6 +6,7 @@ use DTS\eBaySDK\Constants\SiteIds;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use Illuminate\Support\ServiceProvider;
+use LaraCall\Domain\ValueObjects\EbayConfig;
 
 /**
  * Class EbayServiceProvider
@@ -21,11 +22,25 @@ class EbayServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(EbayConfig::class, function (){
+
+            return new EbayConfig(
+                Config::get("ebay.sandbox"),
+                Config::get("ebay.credentials.devId"),
+                Config::get("ebay.credentials.appId"),
+                Config::get("ebay.credentials.certId"),
+                Config::get("ebay.authToken"),
+                Config::get("ebay.sellerUser")
+            );
+        });
+
         $this->app->singleton(TradingService::class, function (){
+            /** @var EbayConfig $config */
+            $config = $this->app->make(EbayConfig::class);
 
             $service = new TradingService([
-                'credentials' => Config::get("ebay.credentials", []),
-                'sandbox'     => Config::get("ebay.sandbox"),
+                'credentials' => $config->getCredentials(),
+                'sandbox'     => $config->getIsSandbox(),
                 'siteId'      => SiteIds::US
             ]);
 
@@ -33,8 +48,11 @@ class EbayServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(CustomSecurityHeaderType::class, function(){
+            /** @var EbayConfig $config */
+            $config = $this->app->make(EbayConfig::class);
+
             $securityHeader = new CustomSecurityHeaderType();
-            $securityHeader->eBayAuthToken = Config::get('ebay.authToken');
+            $securityHeader->eBayAuthToken = $config->getAuthToken();
 
             return $securityHeader;
         });

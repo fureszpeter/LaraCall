@@ -218,9 +218,9 @@ class User extends AbstractEntity implements JsonSerializable
      */
     public function resetSubscriptionsAndPins()
     {
-        $this->subscription = null;
+        $this->subscription        = null;
         $this->subscriptionCounter = 0;
-        $this->pins = json_encode(new PinCollection());
+        $this->pins                = json_encode(new PinCollection());
 
         return $this;
     }
@@ -230,7 +230,7 @@ class User extends AbstractEntity implements JsonSerializable
      */
     public function resetPins()
     {
-        $this->pins = json_encode(new PinCollection());
+        $this->pins                = json_encode(new PinCollection());
         $this->subscriptionCounter = 0;
 
         return $this;

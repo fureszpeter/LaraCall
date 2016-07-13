@@ -13,14 +13,13 @@ use UnexpectedValueException;
  */
 class PinTest extends TestCase
 {
-
     public function testGetPin()
     {
         $code = '1234567890';
 
         $pin = new Pin($code);
 
-        $this->assertEquals($code, (string)$pin);
+        $this->assertEquals($code, (string) $pin);
         $this->assertEquals($code, $pin->getPin());
     }
 
@@ -54,8 +53,7 @@ class PinTest extends TestCase
             //Too short
             ['123456789'],
             //Too long
-            ['12345678901']
+            ['12345678901'],
         ];
     }
 }
-

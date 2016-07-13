@@ -87,11 +87,10 @@ class PinCollection extends ArrayCollection implements JsonSerializable
         return in_array($user, $this->toArray());
     }
 
-
     /**
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->toArray();
     }

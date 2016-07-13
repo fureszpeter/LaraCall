@@ -4,15 +4,17 @@ namespace LaraCall\Domain\Services;
 use DateTime;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
+use DTS\eBaySDK\Trading\Types\GetAccountRequestType;
+use DTS\eBaySDK\Trading\Types\GeteBayOfficialTimeRequestType;
 use DTS\eBaySDK\Trading\Types\GetItemTransactionsRequestType;
+use DTS\eBaySDK\Trading\Types\GetSellerTransactionsRequestType;
+use DTS\eBaySDK\Trading\Types\TransactionArrayType;
 use LaraCall\Domain\ValueObjects\PastDateRange;
-use LaravelDoctrine\ORM\Configuration\MetaData\Config;
 use RuntimeException;
 
 /**
  * Class EbayService.
  *
- * @package LaraCall
  *
  * @license Proprietary
  */
@@ -34,7 +36,7 @@ class EbayService
      */
     public function __construct(TradingService $service, CustomSecurityHeaderType $customSecurityHeaderType)
     {
-        $this->service = $service;
+        $this->service                  = $service;
         $this->customSecurityHeaderType = $customSecurityHeaderType;
     }
 
@@ -48,11 +50,11 @@ class EbayService
      */
     public function getItemTransactions($itemId, PastDateRange $dateRange)
     {
-        $request = new GetItemTransactionsRequestType();
+        $request                       = new GetItemTransactionsRequestType();
         $request->RequesterCredentials = $this->customSecurityHeaderType;
-        $request->ItemID = $itemId;
-        $request->ModTimeFrom = new DateTime($dateRange->getDateFrom());
-        $request->ModTimeTo = new DateTime($dateRange->getDateTo());
+        $request->ItemID               = $itemId;
+        $request->ModTimeFrom          = new DateTime($dateRange->getDateFrom());
+        $request->ModTimeTo            = new DateTime($dateRange->getDateTo());
 
         $response = $this->service->getItemTransactions($request);
 
@@ -63,5 +65,55 @@ class EbayService
         }
 
         return $response->TransactionArray->toArray();
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getOfficialTime()
+    {
+        $request  = new GeteBayOfficialTimeRequestType();
+        $response = $this->service->geteBayOfficialTime($request);
+
+        return $response->Timestamp;
+    }
+
+    /**
+     * @return \DTS\eBaySDK\Trading\Types\AccountSummaryType
+     */
+    public function getAccountInfo()
+    {
+        $response = $this->service->getAccount(new GetAccountRequestType());
+
+        return $response;
+    }
+
+    /**
+     * @param PastDateRange $dateRange
+     *
+     * @throws RuntimeException If error occurs during the query.
+     *
+     * @return TransactionArrayType
+     */
+    public function getSellerTransactions(PastDateRange $dateRange)
+    {
+        $request                       = new GetSellerTransactionsRequestType();
+        $request->RequesterCredentials = $this->customSecurityHeaderType;
+        $request->ModTimeFrom          = $dateRange->getDateFrom();
+        $request->ModTimeTo            = $dateRange->getDateTo();
+
+        $response = $this->service->getSellerTransactions($request);
+
+        if ($response->Errors) {
+            foreach ($response->Errors as $error) {
+                throw new RuntimeException($error->LongMessage);
+            }
+        }
+
+        if ($response->TransactionArray) {
+            return $response->TransactionArray;
+        } else {
+            return new TransactionArrayType([]);
+        }
     }
 }

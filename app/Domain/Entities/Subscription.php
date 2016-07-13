@@ -70,10 +70,10 @@ class Subscription extends AbstractEntity implements JsonSerializable
     {
         parent::__construct();
 
-        $this->user = $user;
-        $this->pin = $pin;
+        $this->user                     = $user;
+        $this->pin                      = $pin;
         $this->subscriptionCreationDate = $this->getCreatedAt();
-        $this->expirationDate = Carbon::now()->addYear(1);
+        $this->expirationDate           = Carbon::now()->addYear(1);
     }
 
     /**
@@ -182,7 +182,7 @@ class Subscription extends AbstractEntity implements JsonSerializable
     public function refill(Money $money)
     {
         $this->lastRefillAmount = $money;
-        $this->lastRefillDate = Carbon::now();
+        $this->lastRefillDate   = Carbon::now();
     }
 
     /**
@@ -192,7 +192,7 @@ class Subscription extends AbstractEntity implements JsonSerializable
      */
     public function equals(Subscription $subscription = null)
     {
-        if (!$subscription){
+        if (!$subscription) {
             return false;
         }
 
@@ -202,15 +202,15 @@ class Subscription extends AbstractEntity implements JsonSerializable
     /**
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
-            'created_at' => $this->getCreatedAt(),
-            'updated_at' => $this->getUpdatedAt(),
-            'expiration_date' => $this->getExpirationDate(),
-            'last_refill_date' => $this->getLastRefillDate(),
-            'last_refill_amount' => $this->getLastRefillAmount(),
-            'pin' => $this->getPin(),
+            'created_at'                 => $this->getCreatedAt(),
+            'updated_at'                 => $this->getUpdatedAt(),
+            'expiration_date'            => $this->getExpirationDate(),
+            'last_refill_date'           => $this->getLastRefillDate(),
+            'last_refill_amount'         => $this->getLastRefillAmount(),
+            'pin'                        => $this->getPin(),
             'subscription_creation_date' => $this->getSubscriptionCreationDate(),
         ];
     }
