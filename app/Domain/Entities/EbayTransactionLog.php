@@ -4,12 +4,16 @@ namespace LaraCall\Domain\Entities;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Event;
 use Furesz\TypeChecker\TypeChecker;
+use LaraCall\Domain\ValueObjects\OrderStatusVO;
+use LaraCall\Events\TransactionLogCreatedEvent;
 
 /**
  * Class EbayTransactionLog.
  *
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
  */
 class EbayTransactionLog
 {
@@ -64,6 +68,13 @@ class EbayTransactionLog
     protected $cronLog;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    protected $orderStatus = OrderStatusVO::STATUS_RECEIVED;
+
+    /**
      * @param string            $transactionId
      * @param string            $sellerUserName
      * @param DateTimeInterface $transactionDate
@@ -86,6 +97,14 @@ class EbayTransactionLog
         $this->sellerUserName  = $sellerUserName;
         $this->transactionDate = $transactionDate;
         $this->transactionData = $transactionData;
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function fireEventOnPostPersist()
+    {
+        Event::fire(new TransactionLogCreatedEvent($this));
     }
 
     /**
@@ -146,5 +165,25 @@ class EbayTransactionLog
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderStatus()
+    {
+        return $this->orderStatus;
+    }
+
+    /**
+     * @param OrderStatusVO $orderStatus
+     *
+     * @return $this
+     */
+    public function setOrderStatus(OrderStatusVO $orderStatus)
+    {
+        $this->orderStatus = $orderStatus->getStatus();
+
+        return $this;
     }
 }
