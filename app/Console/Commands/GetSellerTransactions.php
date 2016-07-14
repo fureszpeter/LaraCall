@@ -1,5 +1,4 @@
 <?php
-
 namespace LaraCall\Console\Commands;
 
 use DateTime;
@@ -25,7 +24,7 @@ use UnexpectedValueException;
 class GetSellerTransactions extends Command
 {
     const API_COMMAND_NAME = 'getSellerTransactions';
-    const DATE_FORMAT = 'Y-m-d\TH:i:s';
+    const DATE_FORMAT      = 'Y-m-d\TH:i:s';
 
     /**
      * The name and signature of the console command.
@@ -33,7 +32,7 @@ class GetSellerTransactions extends Command
      * @var string
      */
     protected $signature = 'ebay:transactions:seller 
-        {--date-time-from=default : The start date of the period. (format: '.self::DATE_FORMAT.'}
+        {--date-time-from=default : The start date of the period. (format: ' . self::DATE_FORMAT . '}
         {--date-time-to=default : The end date of the period. (format: Y-m-d H:i:s}. Default is now.
     ';
 
@@ -86,10 +85,10 @@ class GetSellerTransactions extends Command
         parent::__construct();
 
         $this->tradingService = $tradingService;
-        $this->ebayService = $ebayService;
-        $this->em = $em;
+        $this->ebayService    = $ebayService;
+        $this->em             = $em;
         $this->cronRepository = $this->em->getRepository(ApiCronLog::class);
-        $this->ebayConfig = $ebayConfig;
+        $this->ebayConfig     = $ebayConfig;
     }
 
     /**
@@ -100,7 +99,7 @@ class GetSellerTransactions extends Command
     public function handle()
     {
         $dateTimeFrom = $this->getDateTimeFrom();
-        $dateTimeTo = $this->getDateTimeTo();
+        $dateTimeTo   = $this->getDateTimeTo();
 
         $dateRange = new PastDateRange($dateTimeFrom, $dateTimeTo);
 
@@ -110,7 +109,7 @@ class GetSellerTransactions extends Command
         $this->em->persist($cronLogEntity);
 
         $transactionTypes = $transactions->Transaction;
-        $transactionLogs = [];
+        $transactionLogs  = [];
         foreach ($transactionTypes as $transactionType) {
             $transactionLog = new EbayTransactionLog(
                 $transactionType->OrderLineItemID,
@@ -138,7 +137,7 @@ class GetSellerTransactions extends Command
         $providedDate = $this->option('date-time-from');
 
         if ($providedDate == 'default') {
-            /** @var ApiCronLog $cronLog */
+            /* @var ApiCronLog $cronLog */
             $cronLogs = $this->cronRepository->findBy(
                 ['command' => self::API_COMMAND_NAME],
                 ['rangeFrom' => 'DESC'],
@@ -173,7 +172,6 @@ class GetSellerTransactions extends Command
         }
 
         return $this->getDateFromString($providedDate);
-
     }
 
     /**

@@ -4,6 +4,8 @@ namespace LaraCall\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use LaraCall\Events\TransactionLogCreatedEvent;
+use LaraCall\Listeners\ProcessTransactionLogListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,13 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        /*
+         * Event fired after a new TransactionLogEntity inserted into the database.
+         */
+        TransactionLogCreatedEvent::class => [
+            ProcessTransactionLogListener::class,
+        ],
+
         'LaraCall\Events\SomeEvent' => [
             'LaraCall\Listeners\EventListener',
         ],
