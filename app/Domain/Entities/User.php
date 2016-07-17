@@ -22,7 +22,7 @@ use ValueObjects\Web\EmailAddress;
  *
  * @ORM\Entity(repositoryClass="\LaraCall\Infrastructure\Repositories\DoctrineUserRepository")
  */
-class User extends AbstractEntity implements JsonSerializable
+class User extends AbstractEntityWithId implements JsonSerializable
 {
     /**
      * @var string

@@ -49,6 +49,11 @@ class GetSellerTransactions extends Command
     protected $cronRepository;
 
     /**
+     * @var \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected $transactionLogRepository;
+
+    /**
      * @var TradingService
      */
     private $tradingService;
@@ -88,6 +93,7 @@ class GetSellerTransactions extends Command
         $this->ebayService    = $ebayService;
         $this->em             = $em;
         $this->cronRepository = $this->em->getRepository(ApiCronLog::class);
+        $this->transactionLogRepository = $this->em->getRepository(EbayTransactionLog::class);
         $this->ebayConfig     = $ebayConfig;
     }
 
@@ -98,19 +104,21 @@ class GetSellerTransactions extends Command
      */
     public function handle()
     {
-        $dateTimeFrom = $this->getDateTimeFrom();
-        $dateTimeTo   = $this->getDateTimeTo();
-
-        $dateRange = new PastDateRange($dateTimeFrom, $dateTimeTo);
+        $dateRange = new PastDateRange(
+            $this->getDateTimeFrom(),
+            $this->getDateTimeTo()
+        );
 
         $transactions = $this->ebayService->getSellerTransactions($dateRange);
 
         $cronLogEntity = new ApiCronLog($dateRange, self::API_COMMAND_NAME);
         $this->em->persist($cronLogEntity);
 
-        $transactionTypes = $transactions->Transaction;
-        $transactionLogs  = [];
-        foreach ($transactionTypes as $transactionType) {
+        foreach ($transactions->Transaction as $transactionType) {
+            if ($this->transactionLogRepository->find($transactionType->OrderLineItemID)) {
+                $this->info('OrderLine already exists. ' . $transactionType->OrderLineItemID);
+                continue;
+            }
             $transactionLog = new EbayTransactionLog(
                 $transactionType->OrderLineItemID,
                 $this->ebayConfig->getSellerUserName(),
@@ -119,8 +127,6 @@ class GetSellerTransactions extends Command
             );
             $transactionLog->setCronLog($cronLogEntity);
             $this->em->persist($transactionLog);
-
-            $transactionLogs[] = $transactionLog;
         }
 
         $this->em->flush();

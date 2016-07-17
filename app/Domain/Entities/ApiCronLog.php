@@ -16,7 +16,7 @@ use LaraCall\Domain\ValueObjects\PastDateRange;
  *
  * @ORM\Entity()
  */
-class ApiCronLog extends AbstractEntity
+class ApiCronLog extends AbstractEntityWithId
 {
     /**
      * @var DateTimeInterface

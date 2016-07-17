@@ -11,13 +11,15 @@ use Furesz\TypeChecker\TypeChecker;
  *
  * @license Proprietary
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="\LaraCall\Infrastructure\Repositories\DoctrineEbayListingRepository")
  */
 class EbayListing extends AbstractEntity
 {
     /**
      * @var string
      *
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(name="item_id", type="string", length=64, nullable=false, unique=true)
      */
     private $itemId;
@@ -37,11 +39,19 @@ class EbayListing extends AbstractEntity
     private $shouldMonitor = true;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="decimal", precision=19, scale=4, nullable=false, options={"default": 0})
+     */
+    private $value;
+
+    /**
      * @param string $itemId
+     * @param float       $value
      * @param string $sellerAccountName
      * @param bool   $shouldMonitor
      */
-    public function __construct($itemId, $sellerAccountName, $shouldMonitor = true)
+    public function __construct($itemId, $value, $sellerAccountName, $shouldMonitor = true)
     {
         TypeChecker::assertString($itemId, '$itemId');
 
@@ -58,6 +68,14 @@ class EbayListing extends AbstractEntity
     public function getItemId()
     {
         return $this->itemId;
+    }
+
+    /**
+     * @return float
+     */
+    public function getValue()
+    {
+        return floatval($this->value);
     }
 
     /**
@@ -86,6 +104,20 @@ class EbayListing extends AbstractEntity
         TypeChecker::assertBoolean($shouldMonitor, '$shouldMonitor');
 
         $this->shouldMonitor = $shouldMonitor;
+
+        return $this;
+    }
+
+    /**
+     * @param float $value
+     *
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        TypeChecker::assertDouble($value, '$value');
+
+        $this->value = (string) $value;
 
         return $this;
     }

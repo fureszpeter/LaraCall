@@ -1,0 +1,132 @@
+{
+  "AmountPaid": {
+    "value": 0,
+    "currencyID": "USD"
+  },
+  "AdjustmentAmount": {
+    "value": 0,
+    "currencyID": "USD"
+  },
+  "ConvertedAdjustmentAmount": {
+    "value": 0,
+    "currencyID": "USD"
+  },
+  "Buyer": {
+    "AboutMePage": false,
+    "EIASToken": "nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhDJGFowudj6x9nY+seQ==",
+    "Email": "fureszpeter@gmail.com",
+    "FeedbackScore": 500,
+    "PositiveFeedbackPercent": 0,
+    "FeedbackPrivate": false,
+    "FeedbackRatingStar": "Purple",
+    "IDVerified": true,
+    "eBayGoodStanding": true,
+    "NewUser": false,
+    "RegistrationDate": "1995-01-01T00:00:00.000Z",
+    "Site": "US",
+    "Status": "Confirmed",
+    "UserID": "testuser_itctbuyer",
+    "UserIDChanged": false,
+    "UserIDLastChanged": "2014-04-11T18:20:38.000Z",
+    "VATStatus": "NoVATTax",
+    "BuyerInfo": {
+      "ShippingAddress": {
+        "Name": "Test User",
+        "Street1": "address",
+        "CityName": "city",
+        "StateOrProvince": "WA",
+        "Country": "US",
+        "CountryName": "United States",
+        "Phone": "(180) 011-1111 ext.: 1",
+        "PostalCode": "98102",
+        "AddressID": "8215709",
+        "AddressOwner": "eBay",
+        "AddressUsage": "DefaultShipping"
+      }
+    },
+    "UserAnonymized": false,
+    "StaticAlias": "testus_iw3326niza@v3smtpm2m.qa.ebay.com",
+    "UserFirstName": "Test",
+    "UserLastName": "User"
+  },
+  "ShippingDetails": {
+    "ChangePaymentInstructions": true,
+    "PaymentEdited": false,
+    "SalesTax": {
+      "SalesTaxPercent": 0,
+      "ShippingIncludedInTax": false
+    },
+    "ShippingType": "Flat",
+    "SellingManagerSalesRecordNumber": 101,
+    "TaxTable": []
+  },
+  "ConvertedAmountPaid": {
+    "value": 8,
+    "currencyID": "USD"
+  },
+  "ConvertedTransactionPrice": {
+    "value": 4,
+    "currencyID": "USD"
+  },
+  "CreatedDate": "2016-07-11T19:21:05.000Z",
+  "DepositType": "None",
+  "Item": {
+    "AutoPay": false,
+    "Currency": "USD",
+    "ItemID": "110181384286",
+    "ListingType": "FixedPriceItem",
+    "PaymentMethods": [
+      "PayPal"
+    ],
+    "PrivateListing": false,
+    "Quantity": 50,
+    "SellingStatus": {
+      "CurrentPrice": {
+        "value": 4,
+        "currencyID": "USD"
+      },
+      "QuantitySold": 3,
+      "ListingStatus": "Active"
+    },
+    "IntegratedMerchantCreditCardEnabled": false,
+    "ConditionID": 1000,
+    "ConditionDisplayName": "New"
+  },
+  "QuantityPurchased": 2,
+  "Status": {
+    "eBayPaymentStatus": "NoPaymentFailure",
+    "CheckoutStatus": "CheckoutIncomplete",
+    "LastTimeModified": "2016-07-11T19:21:06.000Z",
+    "PaymentMethodUsed": "None",
+    "CompleteStatus": "Incomplete",
+    "BuyerSelectedShipping": false,
+    "PaymentHoldStatus": "None",
+    "IntegratedMerchantCreditCardEnabled": false,
+    "InquiryStatus": "NotApplicable",
+    "ReturnStatus": "NotApplicable"
+  },
+  "TransactionID": "27974206001",
+  "TransactionPrice": {
+    "value": 4,
+    "currencyID": "USD"
+  },
+  "BestOfferSale": true,
+  "ShippingServiceSelected": {
+    "ShippingService": "ShippingMethodOvernight",
+    "ShippingServiceCost": {
+      "value": 0,
+      "currencyID": "USD"
+    }
+  },
+  "TransactionSiteID": "US",
+  "Platform": "eBay",
+  "PayPalEmailAddress": "fureszpeter+seller@gmail.com",
+  "BuyerGuaranteePrice": {
+    "value": 20000,
+    "currencyID": "USD"
+  },
+  "OrderLineItemID": "110181384286-27974206001",
+  "IsMultiLegShipping": false,
+  "IntangibleItem": false,
+  "eBayPlusTransaction": false
+}

@@ -26,6 +26,7 @@ class DoctrineCountryRepository extends AbstractRepository implements CountryRep
             return $entity;
         }
 
+        $this->getEntityManager();
         throw new \OutOfBoundsException(
             sprintf('Country not exists by criteria. [criteria: %s]', implode(',', $criteria))
         );

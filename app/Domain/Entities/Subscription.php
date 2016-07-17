@@ -17,7 +17,7 @@ use ValueObjects\Money\Money;
  *
  * @ORM\Entity()
  */
-class Subscription extends AbstractEntity implements JsonSerializable
+class Subscription extends AbstractEntityWithId implements JsonSerializable
 {
     /**
      * @var User

@@ -10,7 +10,8 @@
         "laravel-doctrine/orm": "1.1.*",
         "nicolopignatelli/valueobjects": "^4.1",
         "furesz/typechecker": "^1.0",
-        "dts/ebay-sdk-php": "^5.0"
+        "dts/ebay-sdk-php": "^5.0",
+        "laravel-doctrine/migrations": "1.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

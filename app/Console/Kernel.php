@@ -8,6 +8,7 @@ use LaraCall\Console\Commands\EbayTimeCommand;
 use LaraCall\Console\Commands\GetItemTransactionsCommand;
 use LaraCall\Console\Commands\GetSellerTransactions;
 use LaraCall\Console\Commands\ImportUsers;
+use LaraCall\Console\Commands\ParseTransactions;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         GetItemTransactionsCommand::class,
         EbayTimeCommand::class,
         GetSellerTransactions::class,
+        ParseTransactions::class,
     ];
 
     /**

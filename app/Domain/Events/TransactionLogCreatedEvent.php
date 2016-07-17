@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LaraCall\Events;
+namespace LaraCall\Domain\Events;
 
 use LaraCall\Domain\Entities\EbayTransactionLog;
 

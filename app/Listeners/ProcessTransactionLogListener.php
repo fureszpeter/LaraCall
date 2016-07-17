@@ -3,7 +3,7 @@ namespace LaraCall\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use LaraCall\Events\TransactionLogCreatedEvent;
+use LaraCall\Domain\Events\TransactionLogCreatedEvent;
 use LaraCall\Jobs\ProcessTransactionJob;
 
 /**

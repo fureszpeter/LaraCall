@@ -152,6 +152,7 @@ return [
          * Application Service Providers...
          */
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
         LaraCall\Providers\AppServiceProvider::class,
         LaraCall\Providers\AuthServiceProvider::class,
         LaraCall\Providers\EventServiceProvider::class,

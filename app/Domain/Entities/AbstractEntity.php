@@ -15,17 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\MappedSuperclass()
  * @ORM\HasLifecycleCallbacks()
  */
-class AbstractEntity
+abstract class AbstractEntity
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer", unique=true, nullable=false)
-     */
-    protected $id;
-
     /**
      * @var DateTimeInterface
      *
@@ -60,22 +51,6 @@ class AbstractEntity
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    final private function setId($id)
-    {
-        //Do nothing, do not allow id setter.
     }
 
     /**

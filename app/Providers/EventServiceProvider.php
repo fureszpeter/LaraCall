@@ -4,7 +4,8 @@ namespace LaraCall\Providers;
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use LaraCall\Events\TransactionLogCreatedEvent;
+use LaraCall\Domain\Events\TransactionLogCreatedEvent;
+use LaraCall\Domain\Events\TransactionStatusChangedEvent;
 use LaraCall\Listeners\ProcessTransactionLogListener;
 
 class EventServiceProvider extends ServiceProvider
@@ -21,10 +22,9 @@ class EventServiceProvider extends ServiceProvider
         TransactionLogCreatedEvent::class => [
             ProcessTransactionLogListener::class,
         ],
-
-        'LaraCall\Events\SomeEvent' => [
-            'LaraCall\Listeners\EventListener',
-        ],
+        TransactionStatusChangedEvent::class => [
+            
+        ]
     ];
 
     /**
