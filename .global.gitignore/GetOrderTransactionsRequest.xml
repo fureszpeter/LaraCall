@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GetOrderTransactionsRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+    <RequesterCredentials>
+        <eBayAuthToken>AgAAAA**AQAAAA**aAAAAA**/ax+Vw**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhDJGFog+dj6x9nY+seQ**8ZoCAA**AAMAAA**gU3eCtRda3kEBO4J7dzDkHwGqMVBVvwf6YzYs/iBcNAAkDpry3bQ9r1uncIMIqcummyBa19HxBNSKusQxi6EflRbHAYg3UEBT3XS9K7ayCHfkeD/602H/KV8aT60Auu8c6btqx5TeY3CYjZAE9ZJnzgLOqUpkDEkTx/cke6NtNMEcoMgn6XmvkbhJzi54lvVos5wjQYRBl4NnJ7pOcqmm/Jg2hELrJvMvEu0sghL7+BB0JKup/SWUamMuN817mEAERuawASd09L4/DRcsNqxE1hx0jcpIhGA1Mb4EPuUuwWNmcGw1emRtpRb9l+94umyOhYYFYktEKJANzm4pflIBT552zKVDNiDvBWh6BvYILq2hFw+gO9h4DKTGBCT05SromQ+Iak1GYhwRmMEgoJR6OHii2Yx8AFppW41E1KzlrLASurNNqiB9UIBUVKQ2YrbhC8hibHeX7DYwvwTiJ6O0kl7rVM1hGf9jUcGg/5nOkRYndZF7yVoFkim0+I6xvqKIkgIXhgIIV8VqWbCq6WhYM+i9zuNalYqHsGwCIPpDxnM9cgKP8yj/vKoHgW0LHWI17eO+EXy/i/Gd4udZpAAFglGHh8FEISi/bFPfC0XhgusX07/YOovdwnxVsJ1pW2ULsqETYEocXLFCL9BKCaY3kMXNiRn5WhMQLB6U5AMwsvqlDpRdYtGGQAL8li5T34LptqTjWVdu2Ffo11TWkPQz0440hkkK9Ms7QLyCaQB2044BRqfdACz7q8mKkShM0RO</eBayAuthToken>
+    </RequesterCredentials>
+    <ItemTransactionIDArray>
+        <ItemTransactionID>
+            <OrderLineItemID>110181384286-27974206001</OrderLineItemID>
+        </ItemTransactionID>
+    </ItemTransactionIDArray>
+    <ItemTransactionIDArray>
+        <ItemTransactionID>
+            <OrderLineItemID>110181384286-27974206001</OrderLineItemID>
+        </ItemTransactionID>
+    </ItemTransactionIDArray>
+
+</GetOrderTransactionsRequest>​

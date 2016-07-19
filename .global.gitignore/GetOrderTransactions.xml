@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetOrderTransactionsResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+    <Timestamp>2016-07-18T21:44:36.721Z</Timestamp>
+    <Ack>Success</Ack>
+    <Version>949</Version>
+    <Build>E949_CORE_API_17937590_R1</Build>
+    <OrderArray>
+        <Order>
+            <OrderID>110181384286-27972830001</OrderID>
+            <OrderStatus>Completed</OrderStatus>
+            <AdjustmentAmount currencyID="USD">0.0</AdjustmentAmount>
+            <AmountPaid currencyID="USD">4.49</AmountPaid>
+            <AmountSaved currencyID="USD">0.0</AmountSaved>
+            <CheckoutStatus>
+                <eBayPaymentStatus>NoPaymentFailure</eBayPaymentStatus>
+                <LastModifiedTime>2016-07-10T19:37:22.000Z</LastModifiedTime>
+                <PaymentMethod>PayPal</PaymentMethod>
+                <Status>Complete</Status>
+                <IntegratedMerchantCreditCardEnabled>false</IntegratedMerchantCreditCardEnabled>
+            </CheckoutStatus>
+            <ShippingDetails>
+                <SalesTax>
+                    <SalesTaxPercent>0.0</SalesTaxPercent>
+                    <SalesTaxState>
+                    </SalesTaxState>
+                    <ShippingIncludedInTax>false</ShippingIncludedInTax>
+                    <SalesTaxAmount currencyID="USD">0.0</SalesTaxAmount>
+                </SalesTax>
+                <ShippingServiceOptions>
+                    <ShippingService>ShippingMethodOvernight</ShippingService>
+                    <ShippingServiceCost currencyID="USD">0.0</ShippingServiceCost>
+                    <ShippingServicePriority>1</ShippingServicePriority>
+                    <ExpeditedService>true</ExpeditedService>
+                    <ShippingTimeMin>1</ShippingTimeMin>
+                    <ShippingTimeMax>1</ShippingTimeMax>
+                </ShippingServiceOptions>
+                <SellingManagerSalesRecordNumber>100</SellingManagerSalesRecordNumber>
+                <GetItFast>false</GetItFast>
+            </ShippingDetails>
+            <CreatedTime>2016-07-10T19:36:15.000Z</CreatedTime>
+            <PaymentMethods>PayPal</PaymentMethods>
+            <SellerEmail>fureszpeter+seller@gmail.com</SellerEmail>
+            <ShippingAddress>
+                <Name>Test User</Name>
+                <Street1>address</Street1>
+                <Street2>
+                </Street2>
+                <CityName>city</CityName>
+                <StateOrProvince>WA</StateOrProvince>
+                <Country>US</Country>
+                <CountryName>United States</CountryName>
+                <Phone>1 800 111 1111</Phone>
+                <PostalCode>98102</PostalCode>
+                <AddressID>8215709</AddressID>
+                <AddressOwner>eBay</AddressOwner>
+                <ExternalAddressID>
+                </ExternalAddressID>
+            </ShippingAddress>
+            <ShippingServiceSelected>
+                <ShippingService>ShippingMethodOvernight</ShippingService>
+                <ShippingServiceCost currencyID="USD">0.0</ShippingServiceCost>
+            </ShippingServiceSelected>
+            <Subtotal currencyID="USD">4.49</Subtotal>
+            <Total currencyID="USD">4.49</Total>
+            <TransactionArray>
+                <Transaction>
+                    <AmountPaid currencyID="USD">4.49</AmountPaid>
+                    <AdjustmentAmount currencyID="USD">0.0</AdjustmentAmount>
+                    <ConvertedAdjustmentAmount currencyID="USD">0.0</ConvertedAdjustmentAmount>
+                    <ConvertedAmountPaid currencyID="USD">4.49</ConvertedAmountPaid>
+                    <ConvertedTransactionPrice currencyID="USD">4.49</ConvertedTransactionPrice>
+                    <CreatedDate>2016-07-10T19:36:15.000Z</CreatedDate>
+                    <DepositType>None</DepositType>
+                    <Item>
+                        <AutoPay>false</AutoPay>
+                        <ItemID>110181384286</ItemID>
+                        <ListingType>FixedPriceItem</ListingType>
+                        <PrivateListing>false</PrivateListing>
+                        <SellingStatus>
+                            <CurrentPrice currencyID="USD">4.49</CurrentPrice>
+                            <ListingStatus>Active</ListingStatus>
+                        </SellingStatus>
+                        <GetItFast>false</GetItFast>
+                        <ConditionID>1000</ConditionID>
+                        <ConditionDisplayName>New</ConditionDisplayName>
+                    </Item>
+                    <QuantityPurchased>1</QuantityPurchased>
+                    <Status>
+                        <eBayPaymentStatus>NoPaymentFailure</eBayPaymentStatus>
+                        <CheckoutStatus>CheckoutComplete</CheckoutStatus>
+                        <LastTimeModified>2016-07-10T19:37:22.000Z</LastTimeModified>
+                        <PaymentMethodUsed>PayPal</PaymentMethodUsed>
+                        <CompleteStatus>Complete</CompleteStatus>
+                        <BuyerSelectedShipping>true</BuyerSelectedShipping>
+                        <PaymentHoldStatus>None</PaymentHoldStatus>
+                        <IntegratedMerchantCreditCardEnabled>false</IntegratedMerchantCreditCardEnabled>
+                        <InquiryStatus>NotApplicable</InquiryStatus>
+                        <ReturnStatus>NotApplicable</ReturnStatus>
+                    </Status>
+                    <TransactionID>27972830001</TransactionID>
+                    <TransactionPrice currencyID="USD">4.49</TransactionPrice>
+                    <ShippingServiceSelected>
+                        <ShippingPackageInfo>
+                            <EstimatedDeliveryTimeMin>2016-07-12T07:00:00.000Z</EstimatedDeliveryTimeMin>
+                            <EstimatedDeliveryTimeMax>2016-07-12T07:00:00.000Z</EstimatedDeliveryTimeMax>
+                        </ShippingPackageInfo>
+                    </ShippingServiceSelected>
+                    <TransactionSiteID>US</TransactionSiteID>
+                    <Platform>eBay</Platform>
+                    <PayPalEmailAddress>fureszpeter+seller@gmail.com</PayPalEmailAddress>
+                    <BuyerGuaranteePrice currencyID="USD">20000.0</BuyerGuaranteePrice>
+                    <ActualShippingCost currencyID="USD">0.0</ActualShippingCost>
+                    <ActualHandlingCost currencyID="USD">0.0</ActualHandlingCost>
+                    <OrderLineItemID>110181384286-27972830001</OrderLineItemID>
+                    <IntangibleItem>false</IntangibleItem>
+                    <ExtendedOrderID>110181384286-27972830001!740487000</ExtendedOrderID>
+                    <eBayPlusTransaction>false</eBayPlusTransaction>
+                </Transaction>
+            </TransactionArray>
+            <BuyerUserID>testuser_itctbuyer</BuyerUserID>
+            <PaidTime>2016-07-10T19:37:22.000Z</PaidTime>
+            <IntegratedMerchantCreditCardEnabled>false</IntegratedMerchantCreditCardEnabled>
+            <PaymentHoldStatus>None</PaymentHoldStatus>
+            <IsMultiLegShipping>false</IsMultiLegShipping>
+            <SellerUserID>testuser_itctseller2014</SellerUserID>
+            <SellerEIASToken>nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhDJGFog+dj6x9nY+seQ==</SellerEIASToken>
+            <CancelStatus>NotApplicable</CancelStatus>
+            <ExtendedOrderID>110181384286-27972830001!740487000</ExtendedOrderID>
+            <ContainseBayPlusTransaction>false</ContainseBayPlusTransaction>
+        </Order>
+        <Order>
+            <OrderID>110181384286-27974206001</OrderID>
+            <OrderStatus>Completed</OrderStatus>
+            <AdjustmentAmount currencyID="USD">0.0</AdjustmentAmount>
+            <AmountPaid currencyID="USD">8.0</AmountPaid>
+            <AmountSaved currencyID="USD">0.0</AmountSaved>
+            <CheckoutStatus>
+                <eBayPaymentStatus>NoPaymentFailure</eBayPaymentStatus>
+                <LastModifiedTime>2016-07-18T20:17:19.000Z</LastModifiedTime>
+                <PaymentMethod>PayPal</PaymentMethod>
+                <Status>Complete</Status>
+                <IntegratedMerchantCreditCardEnabled>false</IntegratedMerchantCreditCardEnabled>
+            </CheckoutStatus>
+            <ShippingDetails>
+                <SalesTax>
+                    <SalesTaxPercent>0.0</SalesTaxPercent>
+                    <SalesTaxState>
+                    </SalesTaxState>
+                    <ShippingIncludedInTax>false</ShippingIncludedInTax>
+                    <SalesTaxAmount currencyID="USD">0.0</SalesTaxAmount>
+                </SalesTax>
+                <ShippingServiceOptions>
+                    <ShippingService>ShippingMethodOvernight</ShippingService>
+                    <ShippingServiceCost currencyID="USD">0.0</ShippingServiceCost>
+                    <ShippingServicePriority>1</ShippingServicePriority>
+                    <ExpeditedService>true</ExpeditedService>
+                    <ShippingTimeMin>1</ShippingTimeMin>
+                    <ShippingTimeMax>1</ShippingTimeMax>
+                </ShippingServiceOptions>
+                <SellingManagerSalesRecordNumber>101</SellingManagerSalesRecordNumber>
+                <GetItFast>false</GetItFast>
+            </ShippingDetails>
+            <CreatedTime>2016-07-11T19:21:05.000Z</CreatedTime>
+            <PaymentMethods>PayPal</PaymentMethods>
+            <SellerEmail>fureszpeter+seller@gmail.com</SellerEmail>
+            <ShippingAddress>
+                <Name>Test User</Name>
+                <Street1>address</Street1>
+                <Street2>
+                </Street2>
+                <CityName>city</CityName>
+                <StateOrProvince>WA</StateOrProvince>
+                <Country>US</Country>
+                <CountryName>United States</CountryName>
+                <Phone>1 800 111 1111</Phone>
+                <PostalCode>98102</PostalCode>
+                <AddressID>8215709</AddressID>
+                <AddressOwner>eBay</AddressOwner>
+                <ExternalAddressID>
+                </ExternalAddressID>
+            </ShippingAddress>
+            <ShippingServiceSelected>
+                <ShippingService>ShippingMethodOvernight</ShippingService>
+                <ShippingServiceCost currencyID="USD">0.0</ShippingServiceCost>
+            </ShippingServiceSelected>
+            <Subtotal currencyID="USD">8.0</Subtotal>
+            <Total currencyID="USD">8.0</Total>
+            <TransactionArray>
+                <Transaction>
+                    <AmountPaid currencyID="USD">8.0</AmountPaid>
+                    <AdjustmentAmount currencyID="USD">0.0</AdjustmentAmount>
+                    <ConvertedAdjustmentAmount currencyID="USD">0.0</ConvertedAdjustmentAmount>
+                    <ConvertedAmountPaid currencyID="USD">8.0</ConvertedAmountPaid>
+                    <ConvertedTransactionPrice currencyID="USD">4.0</ConvertedTransactionPrice>
+                    <CreatedDate>2016-07-11T19:21:05.000Z</CreatedDate>
+                    <DepositType>None</DepositType>
+                    <Item>
+                        <AutoPay>false</AutoPay>
+                        <ItemID>110181384286</ItemID>
+                        <ListingType>FixedPriceItem</ListingType>
+                        <PrivateListing>false</PrivateListing>
+                        <SellingStatus>
+                            <CurrentPrice currencyID="USD">4.49</CurrentPrice>
+                            <ListingStatus>Active</ListingStatus>
+                        </SellingStatus>
+                        <GetItFast>false</GetItFast>
+                        <ConditionID>1000</ConditionID>
+                        <ConditionDisplayName>New</ConditionDisplayName>
+                    </Item>
+                    <QuantityPurchased>2</QuantityPurchased>
+                    <Status>
+                        <eBayPaymentStatus>NoPaymentFailure</eBayPaymentStatus>
+                        <CheckoutStatus>CheckoutComplete</CheckoutStatus>
+                        <LastTimeModified>2016-07-18T20:17:19.000Z</LastTimeModified>
+                        <PaymentMethodUsed>PayPal</PaymentMethodUsed>
+                        <CompleteStatus>Complete</CompleteStatus>
+                        <BuyerSelectedShipping>true</BuyerSelectedShipping>
+                        <PaymentHoldStatus>None</PaymentHoldStatus>
+                        <IntegratedMerchantCreditCardEnabled>false</IntegratedMerchantCreditCardEnabled>
+                        <InquiryStatus>NotApplicable</InquiryStatus>
+                        <ReturnStatus>NotApplicable</ReturnStatus>
+                    </Status>
+                    <TransactionID>27974206001</TransactionID>
+                    <TransactionPrice currencyID="USD">4.0</TransactionPrice>
+                    <ShippingServiceSelected>
+                        <ShippingPackageInfo>
+                            <EstimatedDeliveryTimeMin>2016-07-19T07:00:00.000Z</EstimatedDeliveryTimeMin>
+                            <EstimatedDeliveryTimeMax>2016-07-19T07:00:00.000Z</EstimatedDeliveryTimeMax>
+                        </ShippingPackageInfo>
+                    </ShippingServiceSelected>
+                    <TransactionSiteID>US</TransactionSiteID>
+                    <Platform>eBay</Platform>
+                    <PayPalEmailAddress>fureszpeter+seller@gmail.com</PayPalEmailAddress>
+                    <BuyerGuaranteePrice currencyID="USD">20000.0</BuyerGuaranteePrice>
+                    <ActualShippingCost currencyID="USD">0.0</ActualShippingCost>
+                    <ActualHandlingCost currencyID="USD">0.0</ActualHandlingCost>
+                    <OrderLineItemID>110181384286-27974206001</OrderLineItemID>
+                    <IntangibleItem>false</IntangibleItem>
+                    <ExtendedOrderID>110181384286-27974206001!743718000</ExtendedOrderID>
+                    <eBayPlusTransaction>false</eBayPlusTransaction>
+                </Transaction>
+            </TransactionArray>
+            <BuyerUserID>testuser_itctbuyer</BuyerUserID>
+            <PaidTime>2016-07-18T20:17:19.000Z</PaidTime>
+            <IntegratedMerchantCreditCardEnabled>false</IntegratedMerchantCreditCardEnabled>
+            <PaymentHoldStatus>None</PaymentHoldStatus>
+            <IsMultiLegShipping>false</IsMultiLegShipping>
+            <SellerUserID>testuser_itctseller2014</SellerUserID>
+            <SellerEIASToken>nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhDJGFog+dj6x9nY+seQ==</SellerEIASToken>
+            <CancelStatus>NotApplicable</CancelStatus>
+            <ExtendedOrderID>110181384286-27974206001!743718000</ExtendedOrderID>
+            <ContainseBayPlusTransaction>false</ContainseBayPlusTransaction>
+        </Order>
+    </OrderArray>
+</GetOrderTransactionsResponse>​

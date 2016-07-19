@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use LaraCall\Domain\Entities\ApiCronLog;
 use LaraCall\Domain\Entities\EbayTransactionLog;
 use LaraCall\Domain\Services\EbayService;
+use LaraCall\Domain\ValueObjects\DateTime as DateTimeVo;
 use LaraCall\Domain\ValueObjects\EbayConfig;
 use LaraCall\Domain\ValueObjects\PastDateRange;
 use OutOfBoundsException;
@@ -109,6 +110,9 @@ class GetSellerTransactions extends Command
             $this->getDateTimeTo()
         );
 
+        $this->info('Date from: ' . DateTimeVo::instance($dateRange->getDateFrom()));
+        $this->info('Date from: ' . DateTimeVo::instance($dateRange->getDateTo()));
+
         $transactions = $this->ebayService->getSellerTransactions($dateRange);
 
         $cronLogEntity = new ApiCronLog($dateRange, self::API_COMMAND_NAME);
@@ -146,7 +150,7 @@ class GetSellerTransactions extends Command
             /* @var ApiCronLog $cronLog */
             $cronLogs = $this->cronRepository->findBy(
                 ['command' => self::API_COMMAND_NAME],
-                ['rangeFrom' => 'DESC'],
+                ['rangeTo' => 'DESC'],
                 1
             );
 

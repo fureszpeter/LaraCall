@@ -7,8 +7,14 @@ use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use DTS\eBaySDK\Trading\Types\GetAccountRequestType;
 use DTS\eBaySDK\Trading\Types\GeteBayOfficialTimeRequestType;
 use DTS\eBaySDK\Trading\Types\GetItemTransactionsRequestType;
+use DTS\eBaySDK\Trading\Types\GetOrderTransactionsRequestType;
 use DTS\eBaySDK\Trading\Types\GetSellerTransactionsRequestType;
+use DTS\eBaySDK\Trading\Types\ItemTransactionIDArrayType;
+use DTS\eBaySDK\Trading\Types\ItemTransactionIDType;
+use DTS\eBaySDK\Trading\Types\OrderArrayType;
+use DTS\eBaySDK\Trading\Types\OrderIDArrayType;
 use DTS\eBaySDK\Trading\Types\TransactionArrayType;
+use LaraCall\Domain\Entities\EbayTransactionLog;
 use LaraCall\Domain\ValueObjects\PastDateRange;
 use RuntimeException;
 
@@ -115,5 +121,44 @@ class EbayService
         } else {
             return new TransactionArrayType([]);
         }
+    }
+
+    /**
+     * @param \LaraCall\Domain\Entities\EbayTransactionLog[] ...$ebayTransactionLogs
+     *
+     * @return OrderArrayType
+     */
+    public function getOrderTransaction(EbayTransactionLog ...$ebayTransactionLogs)
+    {
+        $request                         = new GetOrderTransactionsRequestType();
+        $request->RequesterCredentials   = $this->customSecurityHeaderType;
+        $transactionIds                  = array_map(
+            function (EbayTransactionLog $transactionLog) {
+                return $transactionLog->getTransactionId();
+            },
+            $ebayTransactionLogs
+        );
+        $request->ItemTransactionIDArray = new ItemTransactionIDArrayType();
+        foreach ($transactionIds as $transactionId) {
+            $itemTransactionIDType                                = new ItemTransactionIDType();
+            $itemTransactionIDType->OrderLineItemID               = $transactionId;
+            $request->ItemTransactionIDArray->ItemTransactionID[] = $itemTransactionIDType;
+        }
+
+        $response = $this->service->getOrderTransactions($request);
+
+        if ($response->Errors) {
+            foreach ($response->Errors as $error) {
+                throw new RuntimeException($error->LongMessage);
+            }
+        }
+
+        if ($response->OrderArray) {
+            return $response->OrderArray;
+        } else {
+            return new OrderArrayType([]);
+        }
+
+
     }
 }

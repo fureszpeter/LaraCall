@@ -9,6 +9,7 @@ use LaraCall\Console\Commands\GetItemTransactionsCommand;
 use LaraCall\Console\Commands\GetSellerTransactions;
 use LaraCall\Console\Commands\ImportUsers;
 use LaraCall\Console\Commands\ParseTransactions;
+use LaraCall\Console\Commands\RecheckTransactions;
 
 class Kernel extends ConsoleKernel
 {
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
         EbayTimeCommand::class,
         GetSellerTransactions::class,
         ParseTransactions::class,
+        RecheckTransactions::class
     ];
 
     /**
