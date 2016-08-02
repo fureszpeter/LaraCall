@@ -45,7 +45,7 @@ class EbayTimeCommand extends Command
      */
     public function handle()
     {
-        $this->info('Timezone: ' . $this->service->getOfficialTime()->getTimezone());
+        $this->info('Timezone: ' . $this->service->getOfficialTime()->getTimezone()->getName());
         $this->info('Time:' . $this->service->getOfficialTime()->format(DATE_ISO8601));
     }
 }
