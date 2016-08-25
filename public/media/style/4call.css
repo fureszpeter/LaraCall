@@ -1,0 +1,345 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face {
+    font-family: comicBold;
+    src: url('/media/style/comic.ttf');
+}
+@font-face {
+    font-family: helveticaNeue;
+    src: url('/media/style/HelveticaNeueLight.ttf');
+}
+body {
+    background-color:#ffffff;
+    background-image: url(/media/img/backg.png);
+    font-family: helveticaNeue, Helvetica;
+    /*font-family: comicBold, "Comic Sans MS", cursive, sans-serif;*/
+}
+h1, h2, h3 {
+    color:#90AA30;
+}
+a:link, a:hover, a:visited {
+    text-decoration:none;
+}
+a:link, a:visited {
+    color:#90AA30;
+}
+a:hover {
+    color:#a7d400;
+}
+#main {
+    width: 900px;
+    margin:0 auto;
+}
+#logo {
+    background-color: transparent;
+    background-image: url(/media/img/itctLogo.png);
+    background-repeat: no-repeat;
+    width: 119px;
+    height: 150px;
+    z-index: 30;
+    float: left;
+    position: relative;
+}
+#logo2 {
+    background-color: transparent;
+    background-image: url(/media/img/4callLogoText.png);
+    background-repeat: no-repeat;
+    width: 258px;
+    height: 100px;
+    z-index: 25;
+    float: left;
+    position: relative;
+    top: 10px;
+}
+#picField {
+    background-image: url(/media/img/4callAnim.png);
+    background-size: auto 163px;
+    background-repeat: no-repeat;
+    width: 520px;
+    height: 163px;
+    z-index: -1;
+    float: right;
+    position: relative;
+    top: -10px;
+    left: 150px;
+}
+#menu, #menu_user {
+    clear:both;
+    position: relative;
+    right: 0px;
+    background-color: transparent;
+    background-image: url(/media/img/menuBack.png);
+    background-repeat: no-repeat;
+    background-position:right;
+    height: 42px;
+    width: 831px;
+    float: right;
+}
+#menu {
+    top: -45px;
+    background-image: url(/media/img/menuBack.png);
+    height: 42px;
+    width: 831px;
+}
+#menu_user {
+    background-image: url(/media/img/menuBack2.png);
+    height: 42px;
+    width: 900px;
+}
+
+#menuText {
+    font-family: comicBold, "Comic Sans MS", cursive, sans-serif;
+    color: #FFFFFF;
+    text-decoration:none;
+    font-size: 15px;
+    position:relative;
+    top: -16px;
+    padding: 3px 0px 0px 30px;
+}
+.butt, .buttgreen {
+    color: #FFFFFF !important;
+    text-decoration:none;
+    font-size: 20px;
+    font-weight:900;
+    text-shadow: 0px 0px 2px #000000;
+}
+.butt p, #menuText p {
+    float: left;
+    padding: 20px 15px 0px 20px;
+}
+.buttgreen p {
+    float: left;
+    padding: 20px 15px 0px 30px !important;
+}
+#menuText img {
+    margin-top: -5px;
+}
+.butt p:hover {
+    cursor:pointer;
+    cursor:hand;
+    text-shadow: 0px 0px 7px #00f6ff;
+}
+.buttgreen p:hover {
+    cursor:pointer;
+    cursor:hand;
+    text-shadow: 0px 0px 7px #6fda40;
+}
+/*CONTENT:*/
+#content {
+    clear:both;
+    position: relative;
+    top: -30px;
+}
+#content h1 {
+    font-family: comicBold, "Comic Sans MS", cursive, sans-serif;
+    color: #FFFFFF;
+    text-decoration:none;
+    font-size: 20px;
+    font-weight:900;
+    text-shadow: 0 0 2px #000000;
+    margin: 0;
+}
+.leftCol {
+    background-color: #FFFFFF;
+    float: left;
+    width: 266px;
+    padding-left: 20px
+}
+.leftCol .blockHead {
+    background-color: transparent;
+    background-image: url(/media/img/blockHead1.png);
+    background-repeat: no-repeat;
+    height: 39px;
+    width: 266px;
+    padding: 5px 0px 0px 20px;
+}
+.blockMid {
+    background-image: url(/media/img/blockLeft1.png), url(/media/img/blockRight1.png);
+    background-position: top 39px left, top 39px right;
+    background-repeat: repeat-y, repeat-y;
+    padding: 0px 20px 0px 20px;
+    margin: 0;
+}
+p {
+    margin: 0;
+}
+.leftCol p {
+    background-color: transparent;
+    background-image: url(/media/img/dotGreen.png);
+    background-repeat: no-repeat;
+    background-position: left top 20px;
+    padding: 15px 0px 0px 25px;
+}
+.leftCol h10 {
+    padding-left: 15px;
+}
+.rightCol {
+    background-color: #FFFFFF;
+    float: right;
+    width: 544px;
+    padding-right: 20px
+}
+.rightCol .blockHead {
+    background-color: transparent;
+    background-image: url(/media/img/blockHead2.png);
+    background-repeat: no-repeat;
+    height: 44px;
+    width: 544px;
+    padding: 5px 0px 0px 20px;
+}
+.blockBottom {
+    background-image: url(/media/img/blockBotLeft.png), url(/media/img/blockBotMid.png), url(/media/img/blockBotRight.png);
+    background-position: bottom left, bottom left 14px, bottom right;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: auto auto, 97% 27px, auto auto;
+    height: 27px;
+    width: 100%;
+}
+.bigbox {
+    background-image: url(/media/img/hrline.png), url(/media/img/blockBotLeft.png), url(/media/img/blockBotMid.png), url(/media/img/blockBotRight.png), url(/media/img/blockLeft1.png), url(/media/img/blockRight1.png);
+    background-position: top center, bottom left, bottom left 14px, bottom right, top left, top right;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat-y, repeat-y;
+    background-size: 99% auto, auto auto, 100% 27px, auto auto, auto auto, auto auto;
+    padding: 10px 0px 20px 0px;
+    background-clip: border-box, border-box, border-box, border-box, content-box, content-box;
+}
+.bigbox .boxcontent {
+    padding: 0px 20px 0px 20px;
+}
+/*BUTTON*/
+form .outer-submit {
+    font-family: Arial;
+    color: #FFFFFF;
+    text-decoration:none;
+    font-size: 15px;
+    font-weight:900;
+    text-shadow: 0px 0px 10px #58661e;
+    background-color: transparent;
+    background-image: url(/media/img//butBluLeft.png);
+    background-repeat: no-repeat;
+    position:relative;
+    float: right;
+    padding: 0px 0px 0px 10px;
+    height: 44px;
+
+}
+form input[type=submit] {
+    font-family: Arial;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight:900;
+    text-shadow: 0px 0px 10px #014ab6;
+    height: 44px;
+    background-color: transparent;
+    background-image: url(/media/img/butBluRight.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+    margin: 0px;
+    padding: 0px 10px 10px 0px;
+    border: none;
+}
+form .outer-submit:hover {
+    cursor:pointer;
+    cursor:hand;
+    text-shadow: 0px 0px 10px #00f6ff;
+}
+form input[type=submit]:hover {
+    cursor:pointer;
+    cursor:hand;
+    text-shadow: 0px 0px 10px #00f6ff;
+}
+/*ALERTS*/
+#error {
+    background-image: url(/media/img/alertsign.png),url(/media/img/alertbot.png), url(/media/img/alerttop.png), url(/media/img/alertmid.png);
+    background-position: left top, left bottom, left top, left top;
+    background-clip: padding-box, padding-box, padding-box, content-box;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat-y;
+    padding-bottom: 39px !important;
+    padding-top: 40px !important;
+    color: #434343 !important;
+    background-color: transparent !important;
+    border: none !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    width: 50% !important;
+}
+#error p {
+    margin-left: 60px;
+    margin-right: 20px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    text-shadow: 1px 1px 5px #000000;
+}
+hr {
+    background-image: url(/media/img/hrline.png);
+    background-repeat: no-repeat;
+    border: 0;
+    height: 14px;
+}
+/*BUY:*/
+.act_step {
+    color: #90AA30 !important;
+    text-decoration: underline !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
+}
+.outer-submit  {
+    float: right !important;
+}
+
+#footer{
+    background: #f5f5f5;
+    border-top: 1px solid #90AA30;
+    padding-top: 10px;
+    width: 100%;
+    position: relative;
+    clear: both;
+    padding-bottom: 0px;
+}
+
+ul#footer-nav-top{
+    height: 71px;
+    display: table !important;
+    margin: 60px auto 0 auto;
+    text-align: left;
+
+}
+
+#footer ul li {
+    float: left;
+    display: inline;
+    border-right: none;
+    line-height: 1em;
+    font-size: 11px;
+    text-align: left;
+    padding: 0 15px;
+}
+
+#footer ul li ul {
+    padding: 5px 0 0 0;
+    width: auto;
+    text-align: left;
+    margin: 0;
+}
+#footer ul li ul li {
+    padding: 0;
+    clear: both;
+    border: none;
+    width: auto;
+}
+#footer ul li.divider {
+    border-right: 1px solid #6F6F6F;
+    height: 11px;
+    margin: 0;
+    padding: 0;
+    width: 1px;
+}
+
+#footer ul#footer-nav-bottom {
+    height: 71px;
+    display: table !important;
+    margin: 10px auto 0 auto;
+    text-align: left;
+}
+
