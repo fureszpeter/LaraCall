@@ -2,8 +2,9 @@
 
 namespace LaraCall\Console\Commands;
 
+use DTS\eBaySDK\Trading\Services\TradingService;
+use DTS\eBaySDK\Trading\Types\GeteBayOfficialTimeRequestType;
 use Illuminate\Console\Command;
-use LaraCall\Domain\Services\EbayService;
 
 class EbayTimeCommand extends Command
 {
@@ -22,16 +23,16 @@ class EbayTimeCommand extends Command
     protected $description = 'Command description';
 
     /**
-     * @var EbayService
+     * @var TradingService
      */
     private $service;
 
     /**
      * Create a new command instance.
      *
-     * @param EbayService $service
+     * @param TradingService $service
      */
-    public function __construct(EbayService $service)
+    public function __construct(TradingService $service)
     {
         parent::__construct();
 
@@ -45,7 +46,10 @@ class EbayTimeCommand extends Command
      */
     public function handle()
     {
-        $this->info('Timezone: ' . $this->service->getOfficialTime()->getTimezone()->getName());
-        $this->info('Time:' . $this->service->getOfficialTime()->format(DATE_ISO8601));
+    	$response = $this->service->geteBayOfficialTime(new GeteBayOfficialTimeRequestType());
+	    $timestamp = $response->Timestamp;
+
+        $this->info('Timezone: ' . $timestamp->getTimezone()->getName());
+        $this->info('Time:' . $timestamp->format(DATE_ISO8601));
     }
 }
