@@ -80,12 +80,12 @@ class EbayTransactionLog extends AbstractEntity
     protected $transactionData;
 
     /**
-     * @var ApiCronLog|null
+     * @var EbaySyncLog|null
      *
-     * @ORM\ManyToOne(targetEntity="ApiCronLog")
-     * @ORM\JoinColumn(name="cron_id", referencedColumnName="id" , nullable=true)
+     * @ORM\ManyToOne(targetEntity="EbaySyncLog")
+     * @ORM\JoinColumn(name="sync_id", referencedColumnName="id" , nullable=true)
      */
-    protected $cronLog;
+    protected $syncLog;
 
     /**
      * @var string
@@ -207,13 +207,13 @@ class EbayTransactionLog extends AbstractEntity
     }
 
     /**
-     * @param ApiCronLog|null $cronLog
+     * @param EbaySyncLog|null $syncLog
      *
      * @return $this
      */
-    public function setCronLog(ApiCronLog $cronLog)
+    public function setSyncLog(EbaySyncLog $syncLog)
     {
-        $this->cronLog = $cronLog;
+        $this->syncLog = $syncLog;
 
         return $this;
     }
@@ -251,11 +251,11 @@ class EbayTransactionLog extends AbstractEntity
     }
 
     /**
-     * @return ApiCronLog|null
+     * @return EbaySyncLog|null
      */
-    public function getCronLog()
+    public function getSyncLog()
     {
-        return $this->cronLog;
+        return $this->syncLog;
     }
 
     /**

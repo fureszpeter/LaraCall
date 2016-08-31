@@ -20,11 +20,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         ImportUsers::class,
-        GetItemTransactionsCommand::class,
+//        GetItemTransactionsCommand::class,
         EbayTimeCommand::class,
-        GetSellerTransactions::class,
-        ParseTransactions::class,
-        RecheckTransactions::class
+//        GetSellerTransactions::class,
+//        ParseTransactions::class,
+//        RecheckTransactions::class
     ];
 
     /**
