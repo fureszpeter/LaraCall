@@ -6,6 +6,8 @@ use DTS\eBaySDK\Constants\SiteIds;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use Illuminate\Support\ServiceProvider;
+use LaraCall\Domain\Services\EbaySyncService;
+use LaraCall\Domain\Services\SyncService;
 use LaraCall\Domain\ValueObjects\EbayConfig;
 
 /**
@@ -56,5 +58,7 @@ class EbayServiceProvider extends ServiceProvider
 
             return $securityHeader;
         });
+
+        $this->app->bind(SyncService::class, EbaySyncService::class);
     }
 }

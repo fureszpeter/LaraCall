@@ -1,9 +1,9 @@
 <?php
 namespace LaraCall\Domain\Services;
 
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use LaraCall\Domain\Entities\EbaySyncLog;
-use LaraCall\Domain\Repositories\ApiCronLogRepository;
 
 /**
  * Class EbaySyncService.
@@ -14,11 +14,6 @@ use LaraCall\Domain\Repositories\ApiCronLogRepository;
  */
 class EbaySyncService implements SyncService
 {
-    /**
-     * @var EbaySyncLog
-     */
-    private $cronLogRepository;
-
     /**
      * @var EntityManagerInterface
      */
@@ -32,16 +27,16 @@ class EbaySyncService implements SyncService
         $this->em = $em;
     }
 
-
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
     public function getLastSyncDate()
     {
-        $this->em->getRepository(EbaySyncLog::class)->findBy([
-            'command' =>
-        ]);
-        // TODO: Implement getLastSyncDate() method.
-        return new \DateTime();
+        /** @var EbaySyncLog[] $result */
+        $result = $this->em->getRepository(EbaySyncLog::class)->findBy([], ['rangeTo' => 'DESC'], 1);
+
+        $syncLog = current($result);
+
+        return !empty($result) ? $syncLog->getRangeTo() : null;
     }
 }
