@@ -2,26 +2,26 @@
 
 namespace LaraCall\Console\Commands;
 
-use DateTime;
 use Illuminate\Console\Command;
 use LaraCall\Domain\Services\SyncService;
-use LaraCall\Domain\ValueObjects\DateTime as DateTimeVO;
+use LaraCall\Domain\ValueObjects\DateTime;
+use ValueObjects\DateTime\Date;
 
-class EbayLastSyncDate extends Command
+class EbaySync extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'ebay:last-sync-date';
+    protected $signature = 'ebay:fetch {--F|from-date=} {--T|to-date=} {--I|item=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get the last date of sync.';
+    protected $description = 'Fetch Ebay transactions';
 
     /**
      * @var SyncService
@@ -47,16 +47,11 @@ class EbayLastSyncDate extends Command
      */
     public function handle()
     {
-        $date = $this->service->getLastSyncDate();
-        if ($date instanceof DateTime) {
-            $this->output->write(
-                sprintf('Last sync date: %s', DateTimeVO::instance($date))
-            );
+        $dateFrom = $this->option('from-date')
+            ? DateTime::createFromFormat()
+            : new Date();
 
-            return;
-        }
-
-        $this->warn(sprintf('There is no sync, please do first sync manually.'));
+        $this->info($dateFrom);
 
         return;
     }

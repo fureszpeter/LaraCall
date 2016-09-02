@@ -5,6 +5,7 @@ namespace LaraCall\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use LaraCall\Console\Commands\EbayLastSyncDate;
+use LaraCall\Console\Commands\EbaySync;
 use LaraCall\Console\Commands\EbayTimeCommand;
 use LaraCall\Console\Commands\ImportUsers;
 
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
 //        GetItemTransactionsCommand::class,
         EbayTimeCommand::class,
         EbayLastSyncDate::class,
+        EbaySync::class,
 //        GetSellerTransactions::class,
 //        ParseTransactions::class,
 //        RecheckTransactions::class
