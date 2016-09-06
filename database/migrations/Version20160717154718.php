@@ -12,7 +12,7 @@ class Version20160717154718 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
+//        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
         $this->addSql('CREATE TABLE users (id INTEGER NOT NULL, email VARCHAR(128) NOT NULL, password VARCHAR(128) DEFAULT NULL, registration_date DATETIME NOT NULL, subscription_counter INTEGER DEFAULT 0 NOT NULL, pins CLOB NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, contact_first_name VARCHAR(128) DEFAULT NULL, contact_last_name VARCHAR(128) DEFAULT NULL, contact_country VARCHAR(128) DEFAULT NULL, contact_state VARCHAR(128) DEFAULT NULL, contact_zip_code VARCHAR(16) DEFAULT NULL, contact_address1 VARCHAR(254) DEFAULT NULL, contact_address2 VARCHAR(254) DEFAULT NULL, contact_phone_number VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9E7927C74 ON users (email)');
@@ -38,7 +38,7 @@ class Version20160717154718 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
+//        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
         $this->addSql('DROP TABLE users');
         $this->addSql('DROP TABLE subscriptions');

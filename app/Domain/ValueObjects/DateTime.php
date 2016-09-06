@@ -1,9 +1,10 @@
 <?php
 namespace LaraCall\Domain\ValueObjects;
 
+use DateTime as DateTimeOriginal;
 use DateTimeInterface;
 
-class DateTime extends \DateTime
+class DateTime extends DateTimeOriginal
 {
     public function format($format = null)
     {

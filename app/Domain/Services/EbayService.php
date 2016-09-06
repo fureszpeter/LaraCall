@@ -12,7 +12,6 @@ use DTS\eBaySDK\Trading\Types\GetSellerTransactionsRequestType;
 use DTS\eBaySDK\Trading\Types\ItemTransactionIDArrayType;
 use DTS\eBaySDK\Trading\Types\ItemTransactionIDType;
 use DTS\eBaySDK\Trading\Types\OrderArrayType;
-use DTS\eBaySDK\Trading\Types\OrderIDArrayType;
 use DTS\eBaySDK\Trading\Types\TransactionArrayType;
 use LaraCall\Domain\Entities\EbayTransactionLog;
 use LaraCall\Domain\ValueObjects\PastDateRange;
