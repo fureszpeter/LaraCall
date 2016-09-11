@@ -2,13 +2,14 @@
 
 namespace LaraCall\Console\Commands;
 
+use DateInterval;
 use DateTime as DateTimeOriginal;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use DTS\eBaySDK\Trading\Types\GetOrdersRequestType;
-use DTS\eBaySDK\Trading\Types\GetSellerTransactionsRequestType;
 use Illuminate\Console\Command;
 use LaraCall\Domain\Services\SyncService;
+use LaraCall\Domain\ValueObjects\DateSplitter;
 use LaraCall\Domain\ValueObjects\eBay\EbayTime;
 use LaraCall\Domain\ValueObjects\PastDateRange;
 use RuntimeException;
@@ -81,17 +82,43 @@ class EbaySync extends Command
 
         $toDate = $this->isToDateProvided()
             ? new EbayTime($this->option('to-date'))
-            : new EbayTime();
+            : new EbayTime('now - 2 minutes');
 
-        $dateRange = new PastDateRange($fromDate, $toDate);
+        $providedDateRange = new PastDateRange(
+            $fromDate,
+            $toDate
+        );
+        $this->info(
+            sprintf(
+                'Provided date range. From: %s, To: %s',
+                $providedDateRange->getDateFrom(),
+                $providedDateRange->getDateTo()
+            )
+        );
 
-        $this->info('from-date: ' . $dateRange->getDateFrom());
-        $this->info('to-date: ' . $dateRange->getDateTo());
+        $dateSplitter = new DateSplitter($providedDateRange);
+        $splittedDateRanges = $dateSplitter->split(new DateInterval('P90D'));
+
+        $i=0;
+        foreach ($splittedDateRanges as $splittedDateRange) {
+            $this->info(
+                sprintf(
+                    '%s range. From: %s, To: %s',
+                    ++$i,
+                    $splittedDateRange->getDateFrom(),
+                    $splittedDateRange->getDateTo()
+                )
+            );
+        }
+
+        $this->info('from-date: ' . $providedDateRange->getDateFrom());
+        $this->info('to-date: ' . $providedDateRange->getDateTo());
 
         $request                       = new GetOrdersRequestType();
         $request->RequesterCredentials = $this->customSecurityHeaderType;
-        $request->ModTimeFrom          = new DateTimeOriginal($dateRange->getDateFrom());
-        $request->ModTimeTo            = new DateTimeOriginal($dateRange->getDateTo());
+        $request->CreateTimeFrom       = new DateTimeOriginal($providedDateRange->getDateFrom());
+        $request->CreateTimeTo         = new DateTimeOriginal($providedDateRange->getDateTo());
+        $request->IncludeFinalValueFee = true;
 
         $response = $this->tradingService->getOrders($request);
 
@@ -102,14 +129,23 @@ class EbaySync extends Command
             }
         }
 
-        foreach ($response->OrderArray->Order as $order)
-        {
-            $this->info('order id: ' . $order->OrderID);
-            $this->info('amount payed:' . $order->AmountPaid->value);
-            $this->info('amount payed:' . $order->PaidTime->format(DATE_ISO8601));
-        }
-        dd($response);
+        foreach ($response->OrderArray->Order as $order) {
+            $this->info(sprintf('order id: %s', $order->OrderID));
+            $this->info(sprintf('amount payed: %s' , $order->AmountPaid->value));
+            $this->info(sprintf('Buyer id: %s', $order->BuyerUserID));
+            $this->info(sprintf('Checkout status: %s', $order->CheckoutStatus->Status));
+            $this->info(sprintf('Ebay payment status: %s', $order->CheckoutStatus->eBayPaymentStatus));
+            var_dump($order->TransactionArray->Transaction);
 
+            $this->info(
+                sprintf(
+                    'payment date: %s',
+                    $order->PaidTime instanceof \DateTime
+                        ? $order->PaidTime->format(DATE_ISO8601)
+                        : 'never paid'
+                )
+            );
+        }
     }
 
     /**

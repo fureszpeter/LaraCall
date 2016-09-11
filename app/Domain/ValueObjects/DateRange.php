@@ -1,6 +1,8 @@
 <?php
 namespace LaraCall\Domain\ValueObjects;
 
+use DateInterval;
+use DateTimeImmutable;
 use DateTimeInterface;
 use UnexpectedValueException;
 
@@ -14,22 +16,22 @@ use UnexpectedValueException;
 class DateRange
 {
     /**
-     * @var DateTimeInterface
+     * @var DateTimeImmutable
      */
     private $dateFrom;
 
     /**
-     * @var DateTimeInterface
+     * @var DateTimeImmutable
      */
     private $dateTo;
 
     /**
-     * @param DateTimeInterface $dateFrom
-     * @param DateTimeInterface $dateTo
+     * @param DateTimeImmutable $dateFrom
+     * @param DateTimeImmutable $dateTo
      *
      * @throws UnexpectedValueException If dateFrom later than dateTo.
      */
-    public function __construct(DateTimeInterface $dateFrom, DateTimeInterface $dateTo)
+    public function __construct(DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo)
     {
         if ($dateFrom > $dateTo) {
             throw new UnexpectedValueException(
@@ -41,8 +43,8 @@ class DateRange
             );
         }
 
-        $this->dateFrom = clone $dateFrom;
-        $this->dateTo   = clone $dateTo;
+        $this->dateFrom = $dateFrom;
+        $this->dateTo   = $dateTo;
     }
 
     /**
@@ -59,5 +61,13 @@ class DateRange
     public function getDateTo()
     {
         return $this->dateTo;
+    }
+
+    /**
+     * @return DateInterval
+     */
+    public function getInterval()
+    {
+        return $this->getDateFrom()->diff($this->getDateTo());
     }
 }
