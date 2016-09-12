@@ -1,7 +1,7 @@
 <?php
 
 $ebayConfig = [
-	'sandbox'     => true,
+	'sandbox'     => env('EBAY_SANDBOX'),
 	'credentials' => [
 		'devId'  => env('EBAY_DEV_ID'),
 		'appId'  => env('EBAY_APP_ID'),

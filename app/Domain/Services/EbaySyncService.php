@@ -2,6 +2,7 @@
 namespace LaraCall\Domain\Services;
 
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use LaraCall\Domain\Entities\EbaySyncLog;
 
@@ -28,7 +29,7 @@ class EbaySyncService implements SyncService
     }
 
     /**
-     * @return DateTime|null
+     * @return DateTimeImmutable|null
      */
     public function getLastSyncDate()
     {
@@ -37,6 +38,6 @@ class EbaySyncService implements SyncService
 
         $syncLog = current($result);
 
-        return !empty($result) ? $syncLog->getRangeTo() : null;
+        return !empty($result) ? DateTimeImmutable::createFromMutable($syncLog->getRangeTo()) : null;
     }
 }

@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         ImportUsers::class,
 //        GetItemTransactionsCommand::class,
         EbayTimeCommand::class,
-        EbayLastSyncDate::class,
+        //EbayLastSyncDate::class,
         EbaySync::class,
 //        GetSellerTransactions::class,
 //        ParseTransactions::class,

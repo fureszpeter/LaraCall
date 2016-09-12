@@ -10,7 +10,7 @@ namespace LaraCall\Domain\Services;
 interface SyncService
 {
     /**
-     * @return \DateTime|null
+     * @return \DateTimeImmutable|null
      */
     public function getLastSyncDate();
 }

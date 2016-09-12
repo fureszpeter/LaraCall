@@ -1,13 +1,15 @@
 <?php
 namespace LaraCall\Domain\ValueObjects;
 
+use Furesz\TypeChecker\TypeChecker;
+
 /**
  * Class EbayConfig.
  */
 class EbayConfig
 {
     /**
-     * @var string
+     * @var bool
      */
     private $isSandbox;
 
@@ -42,7 +44,7 @@ class EbayConfig
     private $credentials = [];
 
     /**
-     * @param string      $isSandbox
+     * @param bool      $isSandbox
      * @param string      $devId
      * @param string      $appId
      * @param string      $certId
@@ -51,6 +53,17 @@ class EbayConfig
      */
     public function __construct($isSandbox, $devId, $appId, $certId, $authToken = null, $sellerUserName = null)
     {
+    	TypeChecker::assertBoolean($isSandbox, '$isSandbox');
+	    TypeChecker::assertString($devId, '$devId');
+	    TypeChecker::assertString($appId, '$appId');
+	    TypeChecker::assertString($certId, '$certId');
+	    if (!is_null($authToken)){
+	    	TypeChecker::assertString($authToken, '$authToken');
+	    }
+	    if (!is_null($sellerUserName)){
+	    	TypeChecker::assertString($sellerUserName, '$sellerUserName');
+	    }
+
         $this->isSandbox      = $isSandbox;
         $this->devId          = $devId;
         $this->appId          = $appId;
@@ -66,7 +79,7 @@ class EbayConfig
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function getIsSandbox()
     {
