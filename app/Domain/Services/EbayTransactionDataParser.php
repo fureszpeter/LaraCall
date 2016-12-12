@@ -4,7 +4,7 @@ namespace LaraCall\Domain\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use DTS\eBaySDK\Trading\Enums\CheckoutStatusCodeType;
 use DTS\eBaySDK\Trading\Enums\CompleteStatusCodeType;
-use LaraCall\Domain\Repositories\EbayListingRepository;
+use LaraCall\Domain\Repositories\EbayItemRepository;
 use LaraCall\Domain\ValueObjects\OrderStatusVO;
 use LaraCall\Domain\ValueObjects\TransactionParseResult;
 
@@ -18,7 +18,7 @@ use LaraCall\Domain\ValueObjects\TransactionParseResult;
 class EbayTransactionDataParser implements TransactionDataParser
 {
     /**
-     * @var EbayListingRepository
+     * @var EbayItemRepository
      */
     private $ebayListingRepository;
 
@@ -29,11 +29,11 @@ class EbayTransactionDataParser implements TransactionDataParser
 
     /**
      * @param EntityManagerInterface $em
-     * @param EbayListingRepository  $ebayListingRepository
+     * @param EbayItemRepository     $ebayListingRepository
      */
     public function __construct(
         EntityManagerInterface $em,
-        EbayListingRepository $ebayListingRepository
+        EbayItemRepository $ebayListingRepository
     ) {
         $this->em                    = $em;
         $this->ebayListingRepository = $ebayListingRepository;

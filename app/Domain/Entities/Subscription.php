@@ -28,7 +28,7 @@ class Subscription extends AbstractEntityWithId implements JsonSerializable
     protected $user;
 
     /**
-     * @var Pin
+     * @var string
      *
      * @ORM\Column(type="string", length=10, unique=true, nullable=false)
      */
@@ -71,7 +71,7 @@ class Subscription extends AbstractEntityWithId implements JsonSerializable
         parent::__construct();
 
         $this->user                     = $user;
-        $this->pin                      = $pin;
+        $this->pin                      = $pin->getPin();
         $this->subscriptionCreationDate = $this->getCreatedAt();
         $this->expirationDate           = Carbon::now()->addYear(1);
     }
@@ -157,11 +157,7 @@ class Subscription extends AbstractEntityWithId implements JsonSerializable
      */
     public function getPin()
     {
-        if ($this->pin instanceof Pin) {
-            return $this->pin;
-        } else {
-            return $this->pin = new Pin($this->pin);
-        }
+        return new Pin($this->pin);
     }
 
     /**
@@ -171,7 +167,7 @@ class Subscription extends AbstractEntityWithId implements JsonSerializable
      */
     public function setPin(Pin $pin)
     {
-        $this->pin = $pin;
+        $this->pin = $pin->getPin();
 
         return $this;
     }

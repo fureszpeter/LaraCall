@@ -44,7 +44,7 @@ class EbayConfig
     private $credentials = [];
 
     /**
-     * @param bool      $isSandbox
+     * @param bool        $isSandbox
      * @param string      $devId
      * @param string      $appId
      * @param string      $certId
@@ -53,16 +53,17 @@ class EbayConfig
      */
     public function __construct($isSandbox, $devId, $appId, $certId, $authToken = null, $sellerUserName = null)
     {
-    	TypeChecker::assertBoolean($isSandbox, '$isSandbox');
-	    TypeChecker::assertString($devId, '$devId');
-	    TypeChecker::assertString($appId, '$appId');
-	    TypeChecker::assertString($certId, '$certId');
-	    if (!is_null($authToken)){
-	    	TypeChecker::assertString($authToken, '$authToken');
-	    }
-	    if (!is_null($sellerUserName)){
-	    	TypeChecker::assertString($sellerUserName, '$sellerUserName');
-	    }
+        TypeChecker::assertBoolean($isSandbox, '$isSandbox');
+        TypeChecker::assertString($devId, '$devId');
+        TypeChecker::assertString($appId, '$appId');
+        TypeChecker::assertString($certId, '$certId');
+
+        if ( ! is_null($authToken)) {
+            TypeChecker::assertString($authToken, '$authToken');
+        }
+        if ( ! is_null($sellerUserName)) {
+            TypeChecker::assertString($sellerUserName, '$sellerUserName');
+        }
 
         $this->isSandbox      = $isSandbox;
         $this->devId          = $devId;

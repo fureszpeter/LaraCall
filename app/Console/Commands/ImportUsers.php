@@ -5,6 +5,7 @@ namespace LaraCall\Console\Commands;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\DB;
@@ -128,7 +129,7 @@ class ImportUsers extends Command
                 $this->em->flush();
                 $this->em->clear();
 
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->error(
                     sprintf(
                         'Can not parse row. \n[row: %s] \n[Errpr: %s]',

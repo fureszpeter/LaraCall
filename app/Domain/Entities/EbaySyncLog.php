@@ -1,6 +1,7 @@
 <?php
 namespace LaraCall\Domain\Entities;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use LaraCall\Domain\ValueObjects\DateRange;
@@ -17,14 +18,14 @@ use LaraCall\Domain\ValueObjects\DateRange;
 class EbaySyncLog extends AbstractEntityWithId
 {
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", name="range_from", nullable=false)
      */
     protected $rangeFrom;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="datetime", name="range_to", nullable=false)
      */
@@ -56,7 +57,7 @@ class EbaySyncLog extends AbstractEntityWithId
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getRangeFrom()
     {
@@ -64,7 +65,7 @@ class EbaySyncLog extends AbstractEntityWithId
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getRangeTo()
     {

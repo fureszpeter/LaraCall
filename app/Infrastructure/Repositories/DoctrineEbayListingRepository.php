@@ -1,7 +1,7 @@
 <?php
 namespace LaraCall\Infrastructure\Repositories;
 
-use LaraCall\Domain\Repositories\EbayListingRepository;
+use LaraCall\Domain\Repositories\EbayItemRepository;
 
 /**
  * Class DoctrineEbayListingRepository.
@@ -10,7 +10,7 @@ use LaraCall\Domain\Repositories\EbayListingRepository;
  *
  * @license Proprietary
  */
-class DoctrineEbayListingRepository extends AbstractRepository implements EbayListingRepository
+class DoctrineEbayItemRepository extends AbstractRepository implements EbayItemRepository
 {
 
 }

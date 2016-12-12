@@ -5,8 +5,9 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Furesz\TypeChecker\TypeChecker;
+use JsonSerializable;
 
-class EbayTime extends DateTimeImmutable
+class EbayTime extends DateTimeImmutable implements JsonSerializable
 {
     /**
      * @param string $dateString
@@ -30,4 +31,11 @@ class EbayTime extends DateTimeImmutable
         return (string)preg_replace('/000Z$/', 'Z', $this->format('Y-m-d\TH:i:s.u\Z'));
     }
 
+    /**
+     * @return string
+     */
+    function jsonSerialize()
+    {
+        return (string) $this;
+    }
 }

@@ -26,13 +26,16 @@ class Kernel extends HttpKernel
         'web' => [
             \LaraCall\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+//            \Illuminate\Session\Middleware\StartSession::class,
+//            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        ],
+
+        'csrf' => [
             \LaraCall\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'api' => [
-            'throttle:60,1',
+//            'throttle:60,1',
         ],
     ];
 

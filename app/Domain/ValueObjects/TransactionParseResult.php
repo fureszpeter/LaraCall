@@ -3,7 +3,7 @@ namespace LaraCall\Domain\ValueObjects;
 
 use Doctrine\ORM\Mapping as ORM;
 use Furesz\TypeChecker\TypeChecker;
-use LaraCall\Domain\Entities\EbayListing;
+use LaraCall\Domain\Entities\Item;
 
 class TransactionParseResult
 {

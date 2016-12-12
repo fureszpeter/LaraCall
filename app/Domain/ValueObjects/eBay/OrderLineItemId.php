@@ -2,6 +2,7 @@
 namespace LaraCall\Domain\ValueObjects\eBay;
 
 use Furesz\TypeChecker\TypeChecker;
+use JsonSerializable;
 use UnexpectedValueException;
 
 /**
@@ -11,7 +12,7 @@ use UnexpectedValueException;
  *
  * @license Proprietary
  */
-class OrderLineItemId
+class OrderLineItemId implements JsonSerializable
 {
     /**
      * @var string
@@ -38,16 +39,21 @@ class OrderLineItemId
             );
         }
 
-        if (! preg_match('/^[0-9]{1,}\-[0-9]{1,}$/', $orderLineItemId)) {
+        if ( ! preg_match('/^[0-9]{1,}\-[0-9]{1,}$/', $orderLineItemId)) {
             throw new UnexpectedValueException(
                 sprintf(
                     'OrderLineItemId is invalid. [id: %s]',
-                        $orderLineItemId
+                    $orderLineItemId
                 )
             );
         }
 
         $this->orderLineItemId = $orderLineItemId;
+    }
+
+    public function __toString()
+    {
+        return $this->getOrderLineItemId();
     }
 
     /**
@@ -56,5 +62,13 @@ class OrderLineItemId
     public function getOrderLineItemId()
     {
         return $this->orderLineItemId;
+    }
+
+    /**
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->getOrderLineItemId();
     }
 }
