@@ -83,11 +83,11 @@ class MigrateDbCommand extends Command
      */
     protected function migrate(string $sourceDb, string $targetDb, string $tableName, PDO $pdo)
     {
-        $sourceColumns = $this->getColumnNames($pdo, $sourceDb, $tableName);
+        $targetColumns = $this->getColumnNames($pdo, $targetDb, $tableName);
 
         $escapedFields = array_map(function (string $field){
             return "`{$field}`";
-        }, $sourceColumns);
+        }, $targetColumns);
 
         $implodedFields = implode(', ', $escapedFields);
 
