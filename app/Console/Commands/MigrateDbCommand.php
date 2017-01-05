@@ -12,7 +12,7 @@ class MigrateDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'migrate:db {--F|table-filter=cc_% : Filter for table} {--V|verbose}';
+    protected $signature = 'migrate:db {--F|table-filter=cc_% : Filter for table}';
 
     /**
      * The console command description.
