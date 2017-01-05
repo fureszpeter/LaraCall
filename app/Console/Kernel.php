@@ -4,6 +4,9 @@ namespace LaraCall\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use LaraCall\Console\Commands\IpnProcessCommand;
+use LaraCall\Console\Commands\ListPayPalIpnMessagesCommand;
+use LaraCall\Console\Commands\MigrateDbCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +16,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+        ListPayPalIpnMessagesCommand::class,
+        IpnProcessCommand::class,
+        MigrateDbCommand::class,
     ];
 
     /**
