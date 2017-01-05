@@ -50,9 +50,16 @@ class MigrateDbCommand extends Command
         }, $tables);
 
         foreach ($tables as $tableName) {
-            if ($this->confirm("Do you want a migrate [table: `{$tableName}`]?", true)) {
+            if ($this->confirm("Do you want a migrate [table: `{$tableName}`] (target table will be deleted!)?", true)) {
+
+                $this->info("Deleting table data `{$targetDb}`.`{$tableName}`");
+                $numberOfDeletedRows = $this->deleteTableData($pdo, $targetDb, $tableName);
+                $this->info("Deleted {$numberOfDeletedRows} from `{$targetDb}`.`{$tableName}`");
+
                 $this->info("Migrating {$tableName}");
-                $this->migrate($sourceDb, $targetDb, $tableName, $pdo);
+                $numberOfInsertedRows = $this->migrate($sourceDb, $targetDb, $tableName, $pdo);
+                $this->info("Inserted {$numberOfInsertedRows} to `{$targetDb}`.`{$tableName}`");
+                $this->output->writeln('================');
             }
         }
 
@@ -69,6 +76,8 @@ class MigrateDbCommand extends Command
      * @param string $targetDb
      * @param string $tableName
      * @param PDO    $pdo
+     *
+     * @return int
      */
     protected function migrate(string $sourceDb, string $targetDb, string $tableName, PDO $pdo)
     {
@@ -84,7 +93,11 @@ class MigrateDbCommand extends Command
             . "\n"
             . " SELECT {$implodedFields} FROM `{$sourceDb}`.$tableName;";
 
-        $this->info($sql);
+        $insert = $pdo->prepare($sql);
+        $insert->execute();
+
+        return $insert->rowCount();
+
     }
 
     /**
@@ -105,5 +118,21 @@ class MigrateDbCommand extends Command
         }, $columnNames);
 
         return $columnNames;
+    }
+
+    /**
+     * @param PDO    $pdo
+     * @param string $targetDb
+     * @param string $tableName
+     *
+     * @return int
+     */
+    private function deleteTableData(PDO $pdo, string $targetDb, string $tableName)
+    {
+        $sql = "DELETE FROM `{$targetDb}`.{$tableName};";
+        $query = $pdo->prepare($sql);
+        $query->execute();
+
+        return $query->rowCount();
     }
 }
