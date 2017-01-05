@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use LaraCall\Http\Controllers\IpnController;
+
+//Route::get('/', ['uses' => 'IndexController@index']);
+
+
+Route::group(['middleware' => 'api'], function () {
+
+    Route::match(
+        ['GET', 'POST'],
+        '/api/paypal/ipn',
+        ['uses' => 'IpnController@payPalIpn']
+    );
 });
+

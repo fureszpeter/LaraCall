@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Budapest',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,11 +151,24 @@ return [
         /*
          * Application Service Providers...
          */
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
         LaraCall\Providers\AppServiceProvider::class,
         LaraCall\Providers\AuthServiceProvider::class,
         LaraCall\Providers\EventServiceProvider::class,
         LaraCall\Providers\RouteServiceProvider::class,
+        \LaraCall\Providers\RepositoryServiceProvider::class,
 
+        /*
+         * Custom Helpers
+         */
+
+        /*
+         * Custom providers
+         */
+        \LaraCall\Providers\EbayServiceProvider::class,
+        \LaraCall\Domain\Registration\RegistrationServiceProvider::class,
+        \LaraCall\Providers\ConsoleServiceProvider::class,
     ],
 
     /*
