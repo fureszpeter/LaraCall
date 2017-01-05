@@ -12,7 +12,7 @@ class MigrateDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'migrate:db';
+    protected $signature = 'migrate:db {--F|table-filter=cc_% : Filter for table} {--V|verbose}';
 
     /**
      * The console command description.
@@ -38,10 +38,12 @@ class MigrateDbCommand extends Command
      */
     public function handle(PDO $pdo)
     {
+        $filter = $this->option('table-filter');
+
         $sourceDb = $this->ask('What is the source db?', 'mya2billing');
         $targetDb = $this->ask('What is the original (new, untouched, target) database?', 'a2billing');
 
-        $query = $pdo->query("SHOW TABLES IN {$targetDb} LIKE 'cc_%'");
+        $query = $pdo->query("SHOW TABLES IN {$targetDb} LIKE '{$filter}'");
 
         $tables = $query->fetchAll();
 
@@ -91,7 +93,11 @@ class MigrateDbCommand extends Command
 
         $sql = "INSERT INTO `{$targetDb}`.{$tableName}({$implodedFields})"
             . "\n"
-            . " SELECT {$implodedFields} FROM `{$sourceDb}`.$tableName;";
+            . "SELECT {$implodedFields} FROM `{$sourceDb}`.`$tableName`;";
+
+        if ($this->option('verbose')){
+            $this->info($sql);
+        }
 
         $insert = $pdo->prepare($sql);
         $insert->execute();
