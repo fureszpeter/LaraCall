@@ -4,6 +4,8 @@ namespace LaraCall\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use LaraCall\Domain\Repositories\DeliveryTokenRepository;
+use Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -52,8 +54,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes(Router $router)
     {
+
+        Route::bind('token', function ($token){
+            return app()->make(DeliveryTokenRepository::class)->get($token);
+        });
+
         $router->group([
-            'namespace' => $this->namespace, 'middleware' => 'web',
+            'middleware' => 'web',
         ], function ($router) {
             require app_path('Http/routes.php');
         });

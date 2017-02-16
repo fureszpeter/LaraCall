@@ -4,8 +4,7 @@ namespace LaraCall\Providers;
 
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use LaraCall\Domain\Services\EbayTransactionDataParser;
-use LaraCall\Domain\Services\TransactionDataParser;
+use Orangehill\Iseed\IseedServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
          */
         if ($this->app->environment() !== 'production') {
             $this->app->register(IdeHelperServiceProvider::class);
+            $this->app->register(IseedServiceProvider::class);
         }
     }
 }

@@ -5,13 +5,28 @@ namespace LaraCall\Providers;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\ServiceProvider;
 use LaraCall\Domain\Entities\Country;
-use LaraCall\Domain\Entities\Item;
+use LaraCall\Domain\Entities\Delivery;
+use LaraCall\Domain\Entities\EbayPriceList;
+use LaraCall\Domain\Entities\EbayUser;
+use LaraCall\Domain\Entities\PaymentTransaction;
+use LaraCall\Domain\Entities\PayPalIpn;
+use LaraCall\Domain\Entities\Pin;
 use LaraCall\Domain\Entities\State;
+use LaraCall\Domain\Entities\Subscription;
 use LaraCall\Domain\Entities\User;
 use LaraCall\Domain\Repositories\CountryRepository;
-use LaraCall\Domain\Repositories\EbayItemRepository;
+use LaraCall\Domain\Repositories\DeliveryTokenRepository;
+use LaraCall\Domain\Repositories\EbayPriceListRepository;
+use LaraCall\Domain\Repositories\EbaySalesPriceListRepository;
+use LaraCall\Domain\Repositories\EbayUserRepository;
+use LaraCall\Domain\Repositories\PaymentTransactionRepository;
+use LaraCall\Domain\Repositories\PayPalIpnRepository;
+use LaraCall\Domain\Repositories\PinRepository;
 use LaraCall\Domain\Repositories\StateRepository;
+use LaraCall\Domain\Repositories\SubscriptionRepository;
 use LaraCall\Domain\Repositories\UserRepository;
+use LaraCall\Infrastructure\Repositories\DoctrineCountryRepository;
+use LaraCall\Infrastructure\Repositories\DoctrinePayPalIpnRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -22,7 +37,39 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /** @var EntityManagerInterface $em */
+        $em = $this->app->make(EntityManagerInterface::class);
+
+        $this->app->singleton(PayPalIpnRepository::class, function () use ($em) {
+            return $em->getRepository(PayPalIpn::class);
+        });
+        $this->app->singleton(UserRepository::class, function () use ($em) {
+            return $em->getRepository(User::class);
+        });
+        $this->app->singleton(EbayUserRepository::class, function () use ($em) {
+            return $em->getRepository(EbayUser::class);
+        });
+        $this->app->singleton(EbayPriceListRepository::class, function () use ($em) {
+            return $em->getRepository(EbayPriceList::class);
+        });
+        $this->app->singleton(CountryRepository::class, function () use ($em) {
+            return $em->getRepository(Country::class);
+        });
+        $this->app->singleton(StateRepository::class, function () use ($em) {
+            return $em->getRepository(State::class);
+        });
+        $this->app->singleton(SubscriptionRepository::class, function () use ($em) {
+            return $em->getRepository(Subscription::class);
+        });
+        $this->app->singleton(PinRepository::class, function () use ($em) {
+            return $em->getRepository(Pin::class);
+        });
+        $this->app->singleton(DeliveryTokenRepository::class, function () use ($em) {
+            return $em->getRepository(Delivery::class);
+        });
+        $this->app->singleton(PaymentTransactionRepository::class, function () use ($em) {
+            return $em->getRepository(PaymentTransaction::class);
+        });
     }
 
     /**
@@ -32,23 +79,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(CountryRepository::class, function (){
-            $em = $this->app->make(EntityManagerInterface::class);
-            return $em->getRepository(Country::class);
-        });
-        $this->app->singleton(StateRepository::class, function (){
-            $em = $this->app->make(EntityManagerInterface::class);
-            return $em->getRepository(State::class);
-        });
-        $this->app->singleton(UserRepository::class, function (){
-            $em = $this->app->make(EntityManagerInterface::class);
 
-            return $em->getRepository(User::class);
-        });
-        $this->app->singleton(EbayItemRepository::class, function (){
-            $em = $this->app->make(EntityManagerInterface::class);
 
-            return $em->getRepository(Item::class);
-        });
     }
 }

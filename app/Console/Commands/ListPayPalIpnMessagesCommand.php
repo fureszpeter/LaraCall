@@ -2,10 +2,9 @@
 
 namespace LaraCall\Console\Commands;
 
-use Doctrine\ORM\EntityManager;
 use Illuminate\Console\Command;
-use LaraCall\Domain\Entities\IpnSalesMessageEntity;
-use LaraCall\Domain\PayPal\ValueObjects\IpnSalesMessage;
+use LaraCall\Domain\Entities\PayPalIpn;
+use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use Symfony\Component\Console\Helper\Table;
 
 class ListPayPalIpnMessagesCommand extends Command
@@ -35,35 +34,17 @@ class ListPayPalIpnMessagesCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param EntityManager $em
+     * @param PayPalIpnRepository $repository
      */
-    public function handle(EntityManager $em)
+    public function handle(PayPalIpnRepository $repository)
     {
-        $builder = $em->createQueryBuilder();
-        $query   = $builder
-            ->addSelect(['ipn'])
-            ->from(IpnSalesMessageEntity::class, 'ipn')
-            ->orderBy('ipn.dateReceived', 'DESC')
-            ->setMaxResults(10)
-            ->getQuery();
-
-        $result = $query->getResult();
-
-        $header = ! empty($result)
-            ? array_keys(current($result)->jsonSerialize())
-            : array_keys(
-                (new IpnSalesMessageEntity(
-                    new IpnSalesMessage([]),
-                    false
-                ))->jsonSerialize()
-            );
-
+        $ipnSalesMessages = $repository->findLast(10);
 
         $table = new Table($this->getOutput());
-        $table->setHeaders($header);
+        $table->setHeaders(PayPalIpn::getHeaders());
 
-        foreach ($result as $entity) {
-            $table->addRow($entity->jsonSerialize());
+        foreach ($ipnSalesMessages as $ipnSalesMessage) {
+            $table->addRow($ipnSalesMessage->jsonSerialize());
         }
 
         $table->render();

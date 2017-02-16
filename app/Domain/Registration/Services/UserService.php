@@ -1,25 +1,22 @@
 <?php
 namespace LaraCall\Domain\Registration\Services;
 
+use LaraCall\Domain\ValueObjects\BillingInfo;
+use LaraCall\Domain\ValueObjects\BuyerInfo;
+use LaraCall\Domain\ValueObjects\ShippingInfo;
+
 class UserService implements UserServiceInterface
 {
-
     /**
-     * @param string $email
-     *
-     * @return bool
-     */
-    public function isUserExists(string $email): bool
-    {
-
-    }
-
-    /**
-     * @param string $email
+     * @param BuyerInfo    $buyerInfo
+     * @param BillingInfo  $billingInfo
+     * @param ShippingInfo $shippingInfo
      *
      * @return string
+     * @internal param string $email
+     *
      */
-    public function register(string $email): string
+    public function register(BuyerInfo $buyerInfo, BillingInfo $billingInfo, ShippingInfo $shippingInfo): string
     {
         // TODO: Implement register() method.
     }

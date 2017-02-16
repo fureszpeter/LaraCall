@@ -2,6 +2,11 @@
 
 namespace LaraCall\Domain\Registration\Services;
 
+use LaraCall\Domain\Entities\Subscription;
+use LaraCall\Domain\ValueObjects\BillingInfo;
+use LaraCall\Domain\ValueObjects\BuyerInfo;
+use LaraCall\Domain\ValueObjects\ShippingInfo;
+
 /**
  * Interface UserServiceInterface
  * @package LaraCall\Domain\Services
@@ -9,16 +14,16 @@ namespace LaraCall\Domain\Registration\Services;
 interface UserServiceInterface
 {
     /**
-     * @param string $email
+     * @param BuyerInfo    $buyerInfo
+     * @param BillingInfo  $billingInfo
+     * @param ShippingInfo $shippingInfo
      *
-     * @return bool
-     */
-    public function isUserExists(string $email): bool;
-
-    /**
-     * @param string $email
+     * @return Subscription
      *
-     * @return string
      */
-    public function register(string $email) : string;
+    public function register(
+        BuyerInfo $buyerInfo,
+        BillingInfo $billingInfo,
+        ShippingInfo $shippingInfo
+    ): Subscription;
 }

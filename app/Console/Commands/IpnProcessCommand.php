@@ -2,11 +2,17 @@
 
 namespace LaraCall\Console\Commands;
 
-use Doctrine\ORM\EntityManager;
 use Illuminate\Console\Command;
-use LaraCall\Domain\Entities\IpnSalesMessageEntity;
-use LaraCall\Domain\Registration\Services\UserServiceInterface;
+use Illuminate\Contracts\Bus\Dispatcher;
+use LaraCall\Jobs\ProcessPayPalIpnJob;
 
+/**
+ * Class IpnProcessCommand.
+ *
+ * @package LaraCall
+ *
+ * @license Proprietary
+ */
 class IpnProcessCommand extends Command
 {
     /**
@@ -14,14 +20,14 @@ class IpnProcessCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ipn:process {id}';
+    protected $signature = 'ipn:process {ipnId : The IPN id}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Process an ebay ipn message.';
 
     /**
      * Create a new command instance.
@@ -34,22 +40,14 @@ class IpnProcessCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param UserServiceInterface $userService
-     * @param EntityManager        $em
+     * @param Dispatcher $dispatcher
      */
-    public function handle(UserServiceInterface $userService, EntityManager $em)
-    {
-        $repo = $em->getRepository(IpnSalesMessageEntity::class);
-        $id   = $this->input->getArgument('id');
+    public function handle(
+        Dispatcher $dispatcher
+    ) {
+        $ipnId = $this->argument('ipnId');
 
-        $ipnMessageEntity = $repo->find($id);
-
-        if (is_null($ipnMessageEntity)) {
-            $this->error(
-                sprintf('Ipn message not found with id: %s', $id)
-            );
-
-            return;
-        }
+        $dispatcher->dispatch(new ProcessPayPalIpnJob($ipnId));
     }
+
 }

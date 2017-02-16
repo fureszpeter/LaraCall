@@ -3,6 +3,8 @@
 namespace LaraCall\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use LaraCall\Http\Middleware\God;
+use LaraCall\Http\Middleware\Subscriber;
 
 class Kernel extends HttpKernel
 {
@@ -26,8 +28,8 @@ class Kernel extends HttpKernel
         'web' => [
             \LaraCall\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-//            \Illuminate\Session\Middleware\StartSession::class,
-//            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         ],
 
         'csrf' => [
@@ -52,5 +54,7 @@ class Kernel extends HttpKernel
         'can'        => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest'      => \LaraCall\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'subscriber' => Subscriber::class,
+        'god'        => God::class,
     ];
 }
