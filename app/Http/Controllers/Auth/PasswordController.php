@@ -2,6 +2,11 @@
 
 namespace LaraCall\Http\Controllers\Auth;
 
+use Auth;
+use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Str;
+use LaraCall\Domain\Entities\User;
+use LaraCall\Domain\Services\PasswordService;
 use LaraCall\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
@@ -22,11 +27,19 @@ class PasswordController extends Controller
 
     /**
      * Create a new password controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    protected function resetPassword(User $user, $password)
+    {
+        $user->setPassword(app(PasswordService::class)->encrypt($password));
+        $user->setRememberToken(Str::random(60));
+
+        app(EntityManagerInterface::class)->flush();
+
+        Auth::guard($this->getGuard())->login($user);
     }
 }

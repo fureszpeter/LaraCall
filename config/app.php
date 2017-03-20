@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Budapest',
 
     /*
     |--------------------------------------------------------------------------
@@ -142,7 +142,8 @@ return [
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+//        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        \LaravelDoctrine\ORM\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
@@ -151,11 +152,26 @@ return [
         /*
          * Application Service Providers...
          */
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
         LaraCall\Providers\AppServiceProvider::class,
         LaraCall\Providers\AuthServiceProvider::class,
         LaraCall\Providers\EventServiceProvider::class,
         LaraCall\Providers\RouteServiceProvider::class,
+        LaraCall\Providers\RepositoryServiceProvider::class,
 
+        /*
+         * Custom Helpers
+         */
+
+        /*
+         * Custom providers
+         */
+        LaraCall\Providers\EbayServiceProvider::class,
+        LaraCall\Providers\ConsoleServiceProvider::class,
+        LaraCall\Providers\DomainServiceProvider::class,
+        Snowfire\Beautymail\BeautymailServiceProvider::class,
+        Illuminate\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -201,6 +217,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Html'      => Illuminate\Html\HtmlFacade::class,
+        'Form'      => Illuminate\Html\FormFacade::class,
 
     ],
 

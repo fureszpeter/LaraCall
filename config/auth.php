@@ -66,8 +66,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => LaraCall\User::class,
+            'driver' => 'doctrine',
+            'model' => \LaraCall\Domain\Entities\User::class,
         ],
 
         // 'users' => [
@@ -98,7 +98,7 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'email' => 'auth.emails.password',
+            'email' => 'emails.password',
             'table' => 'password_resets',
             'expire' => 60,
         ],
