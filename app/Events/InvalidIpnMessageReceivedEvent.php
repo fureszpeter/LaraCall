@@ -2,26 +2,24 @@
 
 namespace LaraCall\Events;
 
-use LaraCall\Domain\PayPal\ValueObjects\IpnSalesMessage;
-use LaraCall\Events\Event;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class InvalidIpnMessageReceivedEvent extends Event
 {
     use SerializesModels;
 
     /**
-     * @var IpnSalesMessage
+     * @var PayPalIpn
      */
     private $saleMessage;
 
     /**
      * Create a new event instance.
      *
-     * @param IpnSalesMessage $saleMessage
+     * @param PayPalIpn $saleMessage
      */
-    public function __construct(IpnSalesMessage $saleMessage)
+    public function __construct(PayPalIpn $saleMessage)
     {
         $this->saleMessage = $saleMessage;
     }

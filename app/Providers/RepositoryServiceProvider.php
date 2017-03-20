@@ -5,7 +5,8 @@ namespace LaraCall\Providers;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\ServiceProvider;
 use LaraCall\Domain\Entities\Country;
-use LaraCall\Domain\Entities\Delivery;
+use LaraCall\Domain\Entities\EbayPaymentTransaction;
+use LaraCall\Domain\Entities\PinTokenDelivery;
 use LaraCall\Domain\Entities\EbayPriceList;
 use LaraCall\Domain\Entities\EbayUser;
 use LaraCall\Domain\Entities\PaymentTransaction;
@@ -16,8 +17,8 @@ use LaraCall\Domain\Entities\Subscription;
 use LaraCall\Domain\Entities\User;
 use LaraCall\Domain\Repositories\CountryRepository;
 use LaraCall\Domain\Repositories\DeliveryTokenRepository;
+use LaraCall\Domain\Repositories\EbayPaymentTransactionRepository;
 use LaraCall\Domain\Repositories\EbayPriceListRepository;
-use LaraCall\Domain\Repositories\EbaySalesPriceListRepository;
 use LaraCall\Domain\Repositories\EbayUserRepository;
 use LaraCall\Domain\Repositories\PaymentTransactionRepository;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
@@ -25,8 +26,6 @@ use LaraCall\Domain\Repositories\PinRepository;
 use LaraCall\Domain\Repositories\StateRepository;
 use LaraCall\Domain\Repositories\SubscriptionRepository;
 use LaraCall\Domain\Repositories\UserRepository;
-use LaraCall\Infrastructure\Repositories\DoctrineCountryRepository;
-use LaraCall\Infrastructure\Repositories\DoctrinePayPalIpnRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -65,10 +64,13 @@ class RepositoryServiceProvider extends ServiceProvider
             return $em->getRepository(Pin::class);
         });
         $this->app->singleton(DeliveryTokenRepository::class, function () use ($em) {
-            return $em->getRepository(Delivery::class);
+            return $em->getRepository(PinTokenDelivery::class);
         });
         $this->app->singleton(PaymentTransactionRepository::class, function () use ($em) {
             return $em->getRepository(PaymentTransaction::class);
+        });
+        $this->app->singleton(EbayPaymentTransactionRepository::class, function () use ($em) {
+            return $em->getRepository(EbayPaymentTransaction::class);
         });
     }
 

@@ -2,12 +2,8 @@
 namespace LaraCall\Infrastructure\Repositories;
 
 use Doctrine\ORM\EntityRepository;
-use LaraCall\Domain\Entities\Country;
-use LaraCall\Domain\Entities\Delivery;
-use LaraCall\Domain\Entities\PayPalIpn;
-use LaraCall\Domain\Repositories\CountryRepository;
+use LaraCall\Domain\Entities\PinTokenDelivery;
 use LaraCall\Domain\Repositories\DeliveryTokenRepository;
-use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use OutOfBoundsException;
 
 class DoctrineDeliveryTokenRepository extends EntityRepository implements DeliveryTokenRepository
@@ -17,9 +13,9 @@ class DoctrineDeliveryTokenRepository extends EntityRepository implements Delive
      *
      * @throws OutOfBoundsException
      *
-     * @return Delivery
+     * @return PinTokenDelivery
      */
-    public function get(string $token): Delivery
+    public function get(string $token): PinTokenDelivery
     {
         if ($entity = $this->find($token)) {
             return $entity;
@@ -35,9 +31,9 @@ class DoctrineDeliveryTokenRepository extends EntityRepository implements Delive
      *
      * @throws OutOfBoundsException
      *
-     * @return Delivery
+     * @return PinTokenDelivery
      */
-    public function getOneBy(array $criteria): Delivery
+    public function getOneBy(array $criteria): PinTokenDelivery
     {
         if ($entity = $this->findOneBy($criteria)) {
             return $entity;

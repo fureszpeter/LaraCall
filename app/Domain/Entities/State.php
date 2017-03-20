@@ -2,6 +2,7 @@
 namespace LaraCall\Domain\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use RuntimeException;
 
 /**
@@ -14,7 +15,7 @@ use RuntimeException;
  * @ORM\Entity(repositoryClass="LaraCall\Infrastructure\Repositories\DoctrineStateRepository")
  * @ORM\Cache(usage="READ_ONLY", region="state_region")
  */
-class State
+class State implements JsonSerializable
 {
     /**
      * @var string
@@ -70,5 +71,17 @@ class State
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @return array
+     */
+    function jsonSerialize()
+    {
+        return [
+            'stateCode' => $this->getStateCode(),
+            'stateName' => $this->getStateName(),
+            'country'   => $this->getCountry(),
+        ];
     }
 }

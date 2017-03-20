@@ -9,9 +9,10 @@ use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JsonSerializable;
-use LaraCall\Domain\PayPal\ValueObjects\EbayIpnSalesMessage;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedIpnSalesMessage;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalEbayIpn;
+use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 use LaraCall\Domain\ValueObjects\IpnStatus;
+use LaraCall\Events\PayIpnEntityCreatedEvent;
 
 /**
  * Class PayPalIpn.
@@ -125,9 +126,9 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     protected $ebayUsername;
 
     /**
-     * @param ValidatedIpnSalesMessage $saleMessage
+     * @param ValidatedPayPalIpn $saleMessage
      */
-    public function __construct(ValidatedIpnSalesMessage $saleMessage)
+    public function __construct(ValidatedPayPalIpn $saleMessage)
     {
         parent::__construct();
 
@@ -136,7 +137,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
         $this->paymentStatus = $saleMessage->getPaymentStatus();
         $this->dateOfPayment = $saleMessage->getDateOfTransaction();
         $this->isEbay        = $saleMessage->isEbay();
-        $this->ebayUsername  = $this->isEbay ? (new EbayIpnSalesMessage($saleMessage))->getEbayUserId() : null;
+        $this->ebayUsername  = $this->isEbay ? (new PayPalEbayIpn($saleMessage))->getEbayUserId() : null;
 
         $this->salesMessage = json_encode($saleMessage);
         $this->isSandBox    = $saleMessage->isSandBox();
@@ -324,11 +325,11 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @return ValidatedIpnSalesMessage
+     * @return ValidatedPayPalIpn
      */
-    public function getSalesMessage(): ValidatedIpnSalesMessage
+    public function getSalesMessage(): ValidatedPayPalIpn
     {
-        return new ValidatedIpnSalesMessage(json_decode($this->salesMessage, true), $this->getIsValid());
+        return new ValidatedPayPalIpn(json_decode($this->salesMessage, true), $this->getIsValid());
     }
 
     /**

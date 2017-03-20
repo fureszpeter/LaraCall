@@ -43,4 +43,27 @@ class DoctrineEbayUserRepository extends EntityRepository implements EbayUserRep
             sprintf('EbayUserEntity not found by criteria. [criteria: %s]', implode(',', $criteria))
         );
     }
+
+    /**
+     * @param EbayUser $user
+     *
+     * @return EbayUser
+     */
+    public function save(EbayUser $user): EbayUser
+    {
+        $this->_em->persist($user);
+        $this->_em->flush($user);
+
+        return $user;
+    }
+
+    /**
+     * @param string $ebayUserName
+     *
+     * @return EbayUser|null
+     */
+    public function findByEbayUsername(string $ebayUserName): ?EbayUser
+    {
+        return $this->findOneBy(['ebayUserId' => $ebayUserName]);
+    }
 }

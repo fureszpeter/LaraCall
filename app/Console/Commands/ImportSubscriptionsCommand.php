@@ -2,7 +2,6 @@
 
 namespace LaraCall\Console\Commands;
 
-use A2bApiClient\Exceptions\A2bApiException;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
@@ -165,6 +164,7 @@ class ImportSubscriptionsCommand extends Command
             $pinEntity->setCreatedAt(new DateTime($pin['creationdate']));
             $subscription->setDefaultPin($pinEntity);
             $this->em->persist($pinEntity);
+            $this->em->flush();
         }
 
         if ( ! $pinEntity->getSubscription()) {

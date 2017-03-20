@@ -168,7 +168,6 @@ return [
          * Custom providers
          */
         LaraCall\Providers\EbayServiceProvider::class,
-        LaraCall\Domain\Registration\RegistrationServiceProvider::class,
         LaraCall\Providers\ConsoleServiceProvider::class,
         LaraCall\Providers\DomainServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,

@@ -1,19 +1,19 @@
 <?php
 namespace LaraCall\Domain\PayPal;
 
-use LaraCall\Domain\PayPal\ValueObjects\IpnSalesMessage;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedIpnSalesMessage;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
+use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 
 class FalsePayPalIpnValidator implements PayPalIpnValidator
 {
     /**
-     * @param IpnSalesMessage $saleMessage
+     * @param PayPalIpn $saleMessage
      *
-     * @return ValidatedIpnSalesMessage
+     * @return ValidatedPayPalIpn
      */
-    public function validateIpn(IpnSalesMessage $saleMessage): ValidatedIpnSalesMessage
+    public function validateIpn(PayPalIpn $saleMessage): ValidatedPayPalIpn
     {
-        return new ValidatedIpnSalesMessage(
+        return new ValidatedPayPalIpn(
             $saleMessage->getRawPayPalData(),
             false
         );

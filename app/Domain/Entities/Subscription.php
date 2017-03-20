@@ -5,6 +5,7 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use LaraCall\Domain\Collections\EbayUserCollection;
 use LaraCall\Domain\Collections\PinCollection;
 
@@ -17,7 +18,7 @@ use LaraCall\Domain\Collections\PinCollection;
  *
  * @ORM\Entity(repositoryClass="LaraCall\Infrastructure\Repositories\DoctrineSubscriptionRepository")
  */
-class Subscription extends AbstractEntityWithId
+class Subscription extends AbstractEntityWithId implements JsonSerializable
 {
     /**
      * @var User
@@ -56,6 +57,13 @@ class Subscription extends AbstractEntityWithId
     protected $payments;
 
     /**
+     * @var EbayPaymentTransaction[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="EbayPaymentTransaction", mappedBy="subscription")
+     */
+    protected $ebayPayments;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=false)
@@ -72,30 +80,18 @@ class Subscription extends AbstractEntityWithId
     /**
      * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="Country")
+     * @ORM\ManyToOne(targetEntity="Country", inversedBy="isoAlpha3")
+     * @ORM\JoinColumn(name="isoAlpha3", referencedColumnName="isoAlpha3")
      */
     protected $country;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", nullable=false)
-     */
-    protected $countryIsoAlpha3;
-
-    /**
      * @var State
      *
-     * @ORM\ManyToOne(targetEntity="State")
+     * @ORM\ManyToOne(targetEntity="State", inversedBy="stateCode")
+     * @ORM\JoinColumn(name="stateCode", referencedColumnName="stateCode")
      */
     protected $state;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $stateName;
 
     /**
      * @var string
@@ -127,6 +123,8 @@ class Subscription extends AbstractEntityWithId
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
      */
     protected $packageId;
 
@@ -160,7 +158,7 @@ class Subscription extends AbstractEntityWithId
 
     /**
      * @param User              $userEntity
-     * @param Country           $countryEntity
+     * @param Country           $country
      * @param string            $firstName
      * @param string            $lastName
      * @param string            $zipCode
@@ -173,7 +171,7 @@ class Subscription extends AbstractEntityWithId
      */
     public function __construct(
         User $userEntity,
-        Country $countryEntity,
+        Country $country,
         string $firstName,
         string $lastName,
         string $zipCode,
@@ -187,12 +185,11 @@ class Subscription extends AbstractEntityWithId
         parent::__construct();
 
         $this->pins = new PinCollection();
+
         $this->user = $userEntity;
 
-        $this->country          = $countryEntity;
-        $this->countryIsoAlpha3 = $countryEntity->getIsoAlpha3();
-        $this->state            = $state;
-        $this->stateName        = $state ? $state->getStateName() : null;
+        $this->country = $country;
+        $this->state   = $state;
 
         $this->firstName = $firstName;
         $this->lastName  = $lastName;
@@ -216,10 +213,14 @@ class Subscription extends AbstractEntityWithId
     }
 
     /**
-     * @return Pin
+     * @return Pin|null
      */
-    public function getDefaultPin(): Pin
+    public function getDefaultPin(): ?Pin
     {
+        if ( ! $this->defaultPin) {
+            return null;
+        }
+
         return $this->getPins()->findByPin($this->defaultPin);
     }
 
@@ -230,6 +231,12 @@ class Subscription extends AbstractEntityWithId
      */
     public function setDefaultPin(Pin $defaultPin): self
     {
+        if ( ! $this->getPins()->findByPin($defaultPin->getPin())) {
+            $pins = $this->getPins();
+            $pins->add($defaultPin);
+            $this->pins = $pins;
+        }
+
         $this->defaultPin = $defaultPin->getPin();
 
         return $this;
@@ -261,7 +268,7 @@ class Subscription extends AbstractEntityWithId
     public function addPaymentEvent(DateTimeInterface $dateOfPayment, float $amount)
     {
         $this->dateLastPurchase      = $dateOfPayment;
-        $this->lastTransactionAmount = (string) $amount;
+        $this->lastTransactionAmount = (string)$amount;
 
         if ($amount < 0) {
             $this->numberOfRefund++;
@@ -390,5 +397,33 @@ class Subscription extends AbstractEntityWithId
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @param DateTimeInterface $dateLastPurchase
+     *
+     * @return $this
+     */
+    public function setDateLastPurchase(DateTimeInterface $dateLastPurchase)
+    {
+        $this->dateLastPurchase = $dateLastPurchase;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id'       => $this->getId(),
+            'address1' => $this->getAddress1(),
+            'address2' => $this->getAddress2(),
+            'city'     => $this->getCity(),
+            'country'  => $this->getCountry(),
+            'state'    => $this->getState(),
+
+        ];
     }
 }

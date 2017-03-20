@@ -17,7 +17,7 @@ use LaraCall\Events\DeliveryEntityCreatedEvent;
  *
  * @ORM\HasLifecycleCallbacks()
  */
-class Delivery extends AbstractEntity
+class PinTokenDelivery extends AbstractEntity
 {
     /**
      * @var string
@@ -31,7 +31,7 @@ class Delivery extends AbstractEntity
     /**
      * @var Pin
      *
-     * @ORM\ManyToOne(targetEntity="Pin", inversedBy="delivery")
+     * @ORM\ManyToOne(targetEntity="Pin", inversedBy="pinTokenDelivery")
      * @ORM\JoinColumn(name="pin", referencedColumnName="pin", nullable=false)
      */
     protected $pin;
@@ -52,14 +52,14 @@ class Delivery extends AbstractEntity
 
     /**
      * @param DeliveryToken $token
-     * @param Pin           $pinEntity
+     * @param Pin           $pin
      */
-    public function __construct(DeliveryToken $token, Pin $pinEntity)
+    public function __construct(DeliveryToken $token, Pin $pin)
     {
         parent::__construct();
 
         $this->token      = $token->getToken();
-        $this->pin        = $pinEntity;
+        $this->pin        = $pin;
         $this->dateExpire = new DateTime('now + 3 days');
     }
 

@@ -1,8 +1,11 @@
 <?php
 namespace LaraCall\Domain\Registration\Services;
 
+use DateTime;
+use LaraCall\Domain\Entities\EbayUser;
+use LaraCall\Domain\Entities\Subscription;
+use LaraCall\Domain\Repositories\EbayUserRepository;
 use LaraCall\Infrastructure\Services\Ebay\EbayApiService;
-use OutOfBoundsException;
 
 class EbayService
 {
@@ -12,22 +15,42 @@ class EbayService
     private $apiService;
 
     /**
-     * @param EbayApiService $apiService
+     * @var EbayUserRepository
      */
-    public function __construct(EbayApiService $apiService)
+    private $ebayUserRepository;
+
+    /**
+     * @param EbayApiService     $apiService
+     * @param EbayUserRepository $ebayUserRepository
+     */
+    public function __construct(EbayApiService $apiService, EbayUserRepository $ebayUserRepository)
     {
-        $this->apiService = $apiService;
+        $this->apiService         = $apiService;
+        $this->ebayUserRepository = $ebayUserRepository;
     }
 
     /**
-     * @param string $username
+     * @param string $userName
+     * @param Subscription $subscription
      *
-     * @throws OutOfBoundsException If user not found.
-     *
-     * @return array
+     * @return EbayUser
      */
-    public function getEbayUserByUsername(string $username) : array
+    public function getOrSaveEbayUser(string $userName, Subscription $subscription): EbayUser
     {
+        $ebayUser = $this->ebayUserRepository->findOneBy(['ebayUserId' => $userName]);
 
+        if ( ! $ebayUser) {
+            $token    = $this->apiService->getUser($userName)->User->EIASToken;
+            $ebayUser = new EbayUser(
+                $token,
+                $userName,
+                $subscription->getUser()->getEmail(),
+                new DateTime()
+            );
+            $ebayUser->setSubscription($subscription);
+            $ebayUser = $this->ebayUserRepository->save($ebayUser);
+        }
+
+        return $ebayUser;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace LaraCall\Console\Commands;
 
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
-use LaraCall\Domain\PayPal\ValueObjects\IpnSalesMessage;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
 use LaraCall\Domain\Repositories\UserRepository;
 use PDO;
 
@@ -56,7 +55,7 @@ class ImportPayPalIpnCommand extends Command
         $statement->execute($bindParams);
 
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $ipnMessage = new IpnSalesMessage(unserialize($row['ipn_message']));
+            $ipnMessage = new PayPalIpn(unserialize($row['ipn_message']));
             $userEntity = $userRepository->findOneBy(['email' => $ipnMessage->getPayerEmail()]);
 
             if ( ! $userEntity) {

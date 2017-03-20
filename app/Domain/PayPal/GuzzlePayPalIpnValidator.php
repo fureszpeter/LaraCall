@@ -2,8 +2,8 @@
 namespace LaraCall\Domain\PayPal;
 
 use GuzzleHttp\ClientInterface;
-use LaraCall\Domain\PayPal\ValueObjects\IpnSalesMessage;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedIpnSalesMessage;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
+use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 
 class GuzzlePayPalIpnValidator implements PayPalIpnValidator
 {
@@ -21,11 +21,11 @@ class GuzzlePayPalIpnValidator implements PayPalIpnValidator
     }
 
     /**
-     * @param IpnSalesMessage $saleMessage
+     * @param PayPalIpn $saleMessage
      *
-     * @return ValidatedIpnSalesMessage
+     * @return ValidatedPayPalIpn
      */
-    public function validateIpn(IpnSalesMessage $saleMessage): ValidatedIpnSalesMessage
+    public function validateIpn(PayPalIpn $saleMessage): ValidatedPayPalIpn
     {
         $url           = $saleMessage->isSandBox() ? self::VERIFY_URI_SANDBOX : self::VERIFY_URI;
 
@@ -41,7 +41,7 @@ class GuzzlePayPalIpnValidator implements PayPalIpnValidator
 
         $contents = $response->getBody()->getContents();
 
-        return new ValidatedIpnSalesMessage(
+        return new ValidatedPayPalIpn(
             $saleMessage->getRawPayPalData(),
             $contents == self::RESPONSE_VALID
         );

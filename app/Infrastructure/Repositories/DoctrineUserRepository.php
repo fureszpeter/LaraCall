@@ -45,4 +45,34 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository
             sprintf('UserEntity not found by criteria. [criteria: %s]', implode(',', $criteria))
         );
     }
+
+    /**
+     * @param string $email
+     *
+     * @return User
+     *
+     * @throws OutOfBoundsException If User not exists.
+     */
+    public function getByEmail(string $email): User
+    {
+        $user = $this->findByEmail($email);
+
+        if (is_null($user)) {
+            throw new OutOfBoundsException(
+                sprintf('User not found by email. [email: %s]', $email)
+            );
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return User|null
+     */
+    public function findByEmail(string $email): User
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
 }

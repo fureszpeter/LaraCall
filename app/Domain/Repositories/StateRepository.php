@@ -13,18 +13,16 @@ use OutOfBoundsException;
  * @method State find($id)
  * @method State[] findAll()
  * @method State[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method State findOneBy(array $criteria)
+ * @method State|null findOneBy(array $criteria)
  */
 interface StateRepository extends ObjectRepository
 {
     /**
-     * @param int $id
-     *
-     * @throws OutOfBoundsException
+     * @param string $stateCode
      *
      * @return State
      */
-    public function get(int $id): State;
+    public function get(string $stateCode): State;
 
     /**
      * @param array $criteria

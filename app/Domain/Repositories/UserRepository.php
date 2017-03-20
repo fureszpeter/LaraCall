@@ -27,6 +27,22 @@ interface UserRepository extends ObjectRepository
     public function get(int $id): User;
 
     /**
+     * @param string $email
+     *
+     * @return User
+     *
+     * @throws OutOfBoundsException If User not exists.
+     */
+    public function getByEmail(string $email): User;
+
+    /**
+     * @param string $email
+     *
+     * @return User|null
+     */
+    public function findByEmail(string $email): User;
+
+    /**
      * @param array $criteria
      *
      * @throws OutOfBoundsException

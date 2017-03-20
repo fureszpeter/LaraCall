@@ -19,458 +19,375 @@ class StatesTableSeeder extends Seeder
         \DB::table('states')->insert(array (
             0 => 
             array (
-                'id' => 1,
-                'stateName' => 'Alaska',
-                'stateCode' => 'AK',
-                'country_id' => 233,
+                'stateCode' => 'AA',
+            'stateName' => 'Armed Forces Americas (except Canada)',
+                'countryIsoAlpha3' => 'USA',
             ),
             1 => 
             array (
-                'id' => 2,
-                'stateName' => 'Alabama',
-                'stateCode' => 'AL',
-                'country_id' => 233,
+                'stateCode' => 'AE',
+                'stateName' => 'Armed Forces Africa',
+                'countryIsoAlpha3' => 'USA',
             ),
             2 => 
             array (
-                'id' => 3,
-                'stateName' => 'American Samoa',
-                'stateCode' => 'AS',
-                'country_id' => 233,
+                'stateCode' => 'AK',
+                'stateName' => 'Alaska',
+                'countryIsoAlpha3' => 'USA',
             ),
             3 => 
             array (
-                'id' => 4,
-                'stateName' => 'Arizona',
-                'stateCode' => 'AZ',
-                'country_id' => 233,
+                'stateCode' => 'AL',
+                'stateName' => 'Alabama',
+                'countryIsoAlpha3' => 'USA',
             ),
             4 => 
             array (
-                'id' => 5,
-                'stateName' => 'Arkansas',
-                'stateCode' => 'AR',
-                'country_id' => 233,
+                'stateCode' => 'AP',
+                'stateName' => 'Armed Forces Pacific',
+                'countryIsoAlpha3' => 'USA',
             ),
             5 => 
             array (
-                'id' => 6,
-                'stateName' => 'California',
-                'stateCode' => 'CA',
-                'country_id' => 233,
+                'stateCode' => 'AR',
+                'stateName' => 'Arkansas',
+                'countryIsoAlpha3' => 'USA',
             ),
             6 => 
             array (
-                'id' => 7,
-                'stateName' => 'Colorado',
-                'stateCode' => 'CO',
-                'country_id' => 233,
+                'stateCode' => 'AS',
+                'stateName' => 'American Samoa',
+                'countryIsoAlpha3' => 'USA',
             ),
             7 => 
             array (
-                'id' => 8,
-                'stateName' => 'Connecticut',
-                'stateCode' => 'CT',
-                'country_id' => 233,
+                'stateCode' => 'AZ',
+                'stateName' => 'Arizona',
+                'countryIsoAlpha3' => 'USA',
             ),
             8 => 
             array (
-                'id' => 9,
-                'stateName' => 'Delaware',
-                'stateCode' => 'DE',
-                'country_id' => 233,
+                'stateCode' => 'CA',
+                'stateName' => 'California',
+                'countryIsoAlpha3' => 'USA',
             ),
             9 => 
             array (
-                'id' => 10,
-                'stateName' => 'District of Columbia',
-                'stateCode' => 'DC',
-                'country_id' => 233,
+                'stateCode' => 'CO',
+                'stateName' => 'Colorado',
+                'countryIsoAlpha3' => 'USA',
             ),
             10 => 
             array (
-                'id' => 11,
-                'stateName' => 'Federated States of Micronesia',
-                'stateCode' => 'FM',
-                'country_id' => 233,
+                'stateCode' => 'CT',
+                'stateName' => 'Connecticut',
+                'countryIsoAlpha3' => 'USA',
             ),
             11 => 
             array (
-                'id' => 12,
-                'stateName' => 'Florida',
-                'stateCode' => 'FL',
-                'country_id' => 233,
+                'stateCode' => 'DC',
+                'stateName' => 'District of Columbia',
+                'countryIsoAlpha3' => 'USA',
             ),
             12 => 
             array (
-                'id' => 13,
-                'stateName' => 'Georgia',
-                'stateCode' => 'GA',
-                'country_id' => 233,
+                'stateCode' => 'DE',
+                'stateName' => 'Delaware',
+                'countryIsoAlpha3' => 'USA',
             ),
             13 => 
             array (
-                'id' => 14,
-                'stateName' => 'Guam',
-                'stateCode' => 'GU',
-                'country_id' => 233,
+                'stateCode' => 'FL',
+                'stateName' => 'Florida',
+                'countryIsoAlpha3' => 'USA',
             ),
             14 => 
             array (
-                'id' => 15,
-                'stateName' => 'Hawaii',
-                'stateCode' => 'HI',
-                'country_id' => 233,
+                'stateCode' => 'FM',
+                'stateName' => 'Federated States of Micronesia',
+                'countryIsoAlpha3' => 'USA',
             ),
             15 => 
             array (
-                'id' => 16,
-                'stateName' => 'Idaho',
-                'stateCode' => 'ID',
-                'country_id' => 233,
+                'stateCode' => 'GA',
+                'stateName' => 'Georgia',
+                'countryIsoAlpha3' => 'USA',
             ),
             16 => 
             array (
-                'id' => 17,
-                'stateName' => 'Illinois',
-                'stateCode' => 'IL',
-                'country_id' => 233,
+                'stateCode' => 'GU',
+                'stateName' => 'Guam',
+                'countryIsoAlpha3' => 'USA',
             ),
             17 => 
             array (
-                'id' => 18,
-                'stateName' => 'Indiana',
-                'stateCode' => 'IN',
-                'country_id' => 233,
+                'stateCode' => 'HI',
+                'stateName' => 'Hawaii',
+                'countryIsoAlpha3' => 'USA',
             ),
             18 => 
             array (
-                'id' => 19,
-                'stateName' => 'Iowa',
                 'stateCode' => 'IA',
-                'country_id' => 233,
+                'stateName' => 'Iowa',
+                'countryIsoAlpha3' => 'USA',
             ),
             19 => 
             array (
-                'id' => 20,
-                'stateName' => 'Kansas',
-                'stateCode' => 'KS',
-                'country_id' => 233,
+                'stateCode' => 'ID',
+                'stateName' => 'Idaho',
+                'countryIsoAlpha3' => 'USA',
             ),
             20 => 
             array (
-                'id' => 21,
-                'stateName' => 'Kentucky',
-                'stateCode' => 'KY',
-                'country_id' => 233,
+                'stateCode' => 'IL',
+                'stateName' => 'Illinois',
+                'countryIsoAlpha3' => 'USA',
             ),
             21 => 
             array (
-                'id' => 22,
-                'stateName' => 'Louisiana',
-                'stateCode' => 'LA',
-                'country_id' => 233,
+                'stateCode' => 'IN',
+                'stateName' => 'Indiana',
+                'countryIsoAlpha3' => 'USA',
             ),
             22 => 
             array (
-                'id' => 23,
-                'stateName' => 'Maine',
-                'stateCode' => 'ME',
-                'country_id' => 233,
+                'stateCode' => 'KS',
+                'stateName' => 'Kansas',
+                'countryIsoAlpha3' => 'USA',
             ),
             23 => 
             array (
-                'id' => 24,
-                'stateName' => 'Marshall Islands',
-                'stateCode' => 'MH',
-                'country_id' => 233,
+                'stateCode' => 'KY',
+                'stateName' => 'Kentucky',
+                'countryIsoAlpha3' => 'USA',
             ),
             24 => 
             array (
-                'id' => 25,
-                'stateName' => 'Maryland',
-                'stateCode' => 'MD',
-                'country_id' => 233,
+                'stateCode' => 'LA',
+                'stateName' => 'Louisiana',
+                'countryIsoAlpha3' => 'USA',
             ),
             25 => 
             array (
-                'id' => 26,
-                'stateName' => 'Massachusetts',
                 'stateCode' => 'MA',
-                'country_id' => 233,
+                'stateName' => 'Massachusetts',
+                'countryIsoAlpha3' => 'USA',
             ),
             26 => 
             array (
-                'id' => 27,
-                'stateName' => 'Michigan',
-                'stateCode' => 'MI',
-                'country_id' => 233,
+                'stateCode' => 'MD',
+                'stateName' => 'Maryland',
+                'countryIsoAlpha3' => 'USA',
             ),
             27 => 
             array (
-                'id' => 28,
-                'stateName' => 'Minnesota',
-                'stateCode' => 'MN',
-                'country_id' => 233,
+                'stateCode' => 'ME',
+                'stateName' => 'Maine',
+                'countryIsoAlpha3' => 'USA',
             ),
             28 => 
             array (
-                'id' => 29,
-                'stateName' => 'Mississippi',
-                'stateCode' => 'MS',
-                'country_id' => 233,
+                'stateCode' => 'MH',
+                'stateName' => 'Marshall Islands',
+                'countryIsoAlpha3' => 'USA',
             ),
             29 => 
             array (
-                'id' => 30,
-                'stateName' => 'Missouri',
-                'stateCode' => 'MO',
-                'country_id' => 233,
+                'stateCode' => 'MI',
+                'stateName' => 'Michigan',
+                'countryIsoAlpha3' => 'USA',
             ),
             30 => 
             array (
-                'id' => 31,
-                'stateName' => 'Montana',
-                'stateCode' => 'MT',
-                'country_id' => 233,
+                'stateCode' => 'MN',
+                'stateName' => 'Minnesota',
+                'countryIsoAlpha3' => 'USA',
             ),
             31 => 
             array (
-                'id' => 32,
-                'stateName' => 'Nebraska',
-                'stateCode' => 'NE',
-                'country_id' => 233,
+                'stateCode' => 'MO',
+                'stateName' => 'Missouri',
+                'countryIsoAlpha3' => 'USA',
             ),
             32 => 
             array (
-                'id' => 33,
-                'stateName' => 'Nevada',
-                'stateCode' => 'NV',
-                'country_id' => 233,
+                'stateCode' => 'MP',
+                'stateName' => 'Northern Mariana Islands',
+                'countryIsoAlpha3' => 'USA',
             ),
             33 => 
             array (
-                'id' => 34,
-                'stateName' => 'New Hampshire',
-                'stateCode' => 'NH',
-                'country_id' => 233,
+                'stateCode' => 'MS',
+                'stateName' => 'Mississippi',
+                'countryIsoAlpha3' => 'USA',
             ),
             34 => 
             array (
-                'id' => 35,
-                'stateName' => 'New Jersey',
-                'stateCode' => 'NJ',
-                'country_id' => 233,
+                'stateCode' => 'MT',
+                'stateName' => 'Montana',
+                'countryIsoAlpha3' => 'USA',
             ),
             35 => 
             array (
-                'id' => 36,
-                'stateName' => 'New Mexico',
-                'stateCode' => 'NM',
-                'country_id' => 233,
+                'stateCode' => 'NC',
+                'stateName' => 'North Carolina',
+                'countryIsoAlpha3' => 'USA',
             ),
             36 => 
             array (
-                'id' => 37,
-                'stateName' => 'New York',
-                'stateCode' => 'NY',
-                'country_id' => 233,
+                'stateCode' => 'ND',
+                'stateName' => 'North Dakota',
+                'countryIsoAlpha3' => 'USA',
             ),
             37 => 
             array (
-                'id' => 38,
-                'stateName' => 'North Carolina',
-                'stateCode' => 'NC',
-                'country_id' => 233,
+                'stateCode' => 'NE',
+                'stateName' => 'Nebraska',
+                'countryIsoAlpha3' => 'USA',
             ),
             38 => 
             array (
-                'id' => 39,
-                'stateName' => 'North Dakota',
-                'stateCode' => 'ND',
-                'country_id' => 233,
+                'stateCode' => 'NH',
+                'stateName' => 'New Hampshire',
+                'countryIsoAlpha3' => 'USA',
             ),
             39 => 
             array (
-                'id' => 40,
-                'stateName' => 'Northern Mariana Islands',
-                'stateCode' => 'MP',
-                'country_id' => 233,
+                'stateCode' => 'NJ',
+                'stateName' => 'New Jersey',
+                'countryIsoAlpha3' => 'USA',
             ),
             40 => 
             array (
-                'id' => 41,
-                'stateName' => 'Ohio',
-                'stateCode' => 'OH',
-                'country_id' => 233,
+                'stateCode' => 'NM',
+                'stateName' => 'New Mexico',
+                'countryIsoAlpha3' => 'USA',
             ),
             41 => 
             array (
-                'id' => 42,
-                'stateName' => 'Oklahoma',
-                'stateCode' => 'OK',
-                'country_id' => 233,
+                'stateCode' => 'NV',
+                'stateName' => 'Nevada',
+                'countryIsoAlpha3' => 'USA',
             ),
             42 => 
             array (
-                'id' => 43,
-                'stateName' => 'Oregon',
-                'stateCode' => 'OR',
-                'country_id' => 233,
+                'stateCode' => 'NY',
+                'stateName' => 'New York',
+                'countryIsoAlpha3' => 'USA',
             ),
             43 => 
             array (
-                'id' => 44,
-                'stateName' => 'Palau',
-                'stateCode' => 'PW',
-                'country_id' => 233,
+                'stateCode' => 'OH',
+                'stateName' => 'Ohio',
+                'countryIsoAlpha3' => 'USA',
             ),
             44 => 
             array (
-                'id' => 45,
-                'stateName' => 'Pennsylvania',
-                'stateCode' => 'PA',
-                'country_id' => 233,
+                'stateCode' => 'OK',
+                'stateName' => 'Oklahoma',
+                'countryIsoAlpha3' => 'USA',
             ),
             45 => 
             array (
-                'id' => 46,
-                'stateName' => 'Puerto Rico',
-                'stateCode' => 'PR',
-                'country_id' => 233,
+                'stateCode' => 'OR',
+                'stateName' => 'Oregon',
+                'countryIsoAlpha3' => 'USA',
             ),
             46 => 
             array (
-                'id' => 47,
-                'stateName' => 'Rhode Island',
-                'stateCode' => 'RI',
-                'country_id' => 233,
+                'stateCode' => 'PA',
+                'stateName' => 'Pennsylvania',
+                'countryIsoAlpha3' => 'USA',
             ),
             47 => 
             array (
-                'id' => 48,
-                'stateName' => 'South Carolina',
-                'stateCode' => 'SC',
-                'country_id' => 233,
+                'stateCode' => 'PR',
+                'stateName' => 'Puerto Rico',
+                'countryIsoAlpha3' => 'USA',
             ),
             48 => 
             array (
-                'id' => 49,
-                'stateName' => 'South Dakota',
-                'stateCode' => 'SD',
-                'country_id' => 233,
+                'stateCode' => 'PW',
+                'stateName' => 'Palau',
+                'countryIsoAlpha3' => 'USA',
             ),
             49 => 
             array (
-                'id' => 50,
-                'stateName' => 'Tennessee',
-                'stateCode' => 'TN',
-                'country_id' => 233,
+                'stateCode' => 'RI',
+                'stateName' => 'Rhode Island',
+                'countryIsoAlpha3' => 'USA',
             ),
             50 => 
             array (
-                'id' => 51,
-                'stateName' => 'Texas',
-                'stateCode' => 'TX',
-                'country_id' => 233,
+                'stateCode' => 'SC',
+                'stateName' => 'South Carolina',
+                'countryIsoAlpha3' => 'USA',
             ),
             51 => 
             array (
-                'id' => 52,
-                'stateName' => 'Utah',
-                'stateCode' => 'UT',
-                'country_id' => 233,
+                'stateCode' => 'SD',
+                'stateName' => 'South Dakota',
+                'countryIsoAlpha3' => 'USA',
             ),
             52 => 
             array (
-                'id' => 53,
-                'stateName' => 'Vermont',
-                'stateCode' => 'VT',
-                'country_id' => 233,
+                'stateCode' => 'TN',
+                'stateName' => 'Tennessee',
+                'countryIsoAlpha3' => 'USA',
             ),
             53 => 
             array (
-                'id' => 54,
-                'stateName' => 'Virgin Islands',
-                'stateCode' => 'VI',
-                'country_id' => 233,
+                'stateCode' => 'TX',
+                'stateName' => 'Texas',
+                'countryIsoAlpha3' => 'USA',
             ),
             54 => 
             array (
-                'id' => 55,
-                'stateName' => 'Virginia',
-                'stateCode' => 'VA',
-                'country_id' => 233,
+                'stateCode' => 'UT',
+                'stateName' => 'Utah',
+                'countryIsoAlpha3' => 'USA',
             ),
             55 => 
             array (
-                'id' => 56,
-                'stateName' => 'Washington',
-                'stateCode' => 'WA',
-                'country_id' => 233,
+                'stateCode' => 'VA',
+                'stateName' => 'Virginia',
+                'countryIsoAlpha3' => 'USA',
             ),
             56 => 
             array (
-                'id' => 57,
-                'stateName' => 'West Virginia',
-                'stateCode' => 'WV',
-                'country_id' => 233,
+                'stateCode' => 'VI',
+                'stateName' => 'Virgin Islands',
+                'countryIsoAlpha3' => 'USA',
             ),
             57 => 
             array (
-                'id' => 58,
-                'stateName' => 'Wisconsin',
-                'stateCode' => 'WI',
-                'country_id' => 233,
+                'stateCode' => 'VT',
+                'stateName' => 'Vermont',
+                'countryIsoAlpha3' => 'USA',
             ),
             58 => 
             array (
-                'id' => 59,
-                'stateName' => 'Wyoming',
-                'stateCode' => 'WY',
-                'country_id' => 233,
+                'stateCode' => 'WA',
+                'stateName' => 'Washington',
+                'countryIsoAlpha3' => 'USA',
             ),
             59 => 
             array (
-                'id' => 60,
-                'stateName' => 'Armed Forces Africa',
-                'stateCode' => 'AE',
-                'country_id' => 233,
+                'stateCode' => 'WI',
+                'stateName' => 'Wisconsin',
+                'countryIsoAlpha3' => 'USA',
             ),
             60 => 
             array (
-                'id' => 61,
-            'stateName' => 'Armed Forces Americas (except Canada)',
-                'stateCode' => 'AA',
-                'country_id' => 233,
+                'stateCode' => 'WV',
+                'stateName' => 'West Virginia',
+                'countryIsoAlpha3' => 'USA',
             ),
             61 => 
             array (
-                'id' => 62,
-                'stateName' => 'Armed Forces Canada',
-                'stateCode' => 'AE',
-                'country_id' => 233,
-            ),
-            62 => 
-            array (
-                'id' => 63,
-                'stateName' => 'Armed Forces Europe',
-                'stateCode' => 'AE',
-                'country_id' => 233,
-            ),
-            63 => 
-            array (
-                'id' => 64,
-                'stateName' => 'Armed Forces Middle East',
-                'stateCode' => 'AE',
-                'country_id' => 233,
-            ),
-            64 => 
-            array (
-                'id' => 65,
-                'stateName' => 'Armed Forces Pacific',
-                'stateCode' => 'AP',
-                'country_id' => 233,
+                'stateCode' => 'WY',
+                'stateName' => 'Wyoming',
+                'countryIsoAlpha3' => 'USA',
             ),
         ));
         

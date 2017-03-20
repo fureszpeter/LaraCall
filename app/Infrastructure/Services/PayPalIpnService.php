@@ -3,7 +3,7 @@ namespace LaraCall\Infrastructure\Services;
 
 use LaraCall\Domain\Entities\PayPalIpn;
 use LaraCall\Domain\Factories\PaymentStatusFactory;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedIpnSalesMessage;
+use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 use LaraCall\Domain\Services\PayPalIpnService as PayPalIpnServiceInterface;
 use LaraCall\Domain\ValueObjects\IpnType;
 use LaraCall\Domain\ValueObjects\PaymentStatus;
@@ -31,11 +31,11 @@ class PayPalIpnService implements PayPalIpnServiceInterface
     }
 
     /**
-     * @param ValidatedIpnSalesMessage $ipnSalesMessage
+     * @param ValidatedPayPalIpn $ipnSalesMessage
      *
      * @return IpnType
      */
-    public function getIpnType(ValidatedIpnSalesMessage $ipnSalesMessage): IpnType
+    public function getIpnType(ValidatedPayPalIpn $ipnSalesMessage): IpnType
     {
         if ($ipnSalesMessage->isEbay()) {
             return new IpnType(IpnType::TYPE_PAYPAL_EBAY);
@@ -62,11 +62,11 @@ class PayPalIpnService implements PayPalIpnServiceInterface
     }
 
     /**
-     * @param ValidatedIpnSalesMessage $ipnSalesMessage
+     * @param ValidatedPayPalIpn $ipnSalesMessage
      *
      * @return PaymentStatus
      */
-    public function getPaymentStatus(ValidatedIpnSalesMessage $ipnSalesMessage): PaymentStatus
+    public function getPaymentStatus(ValidatedPayPalIpn $ipnSalesMessage): PaymentStatus
     {
         return $this->paymentStatusFactory->createFromPayPalIpn($ipnSalesMessage->getRawPayPalData());
     }

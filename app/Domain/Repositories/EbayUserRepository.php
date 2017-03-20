@@ -34,4 +34,18 @@ interface EbayUserRepository extends ObjectRepository
      * @return EbayUser
      */
     public function getOneBy(array $criteria): EbayUser;
+
+    /**
+     * @param string $ebayUserName
+     *
+     * @return EbayUser|null
+     */
+    public function findByEbayUsername(string $ebayUserName): ?EbayUser;
+
+    /**
+     * @param EbayUser $user
+     *
+     * @return mixed
+     */
+    public function save(EbayUser $user);
 }

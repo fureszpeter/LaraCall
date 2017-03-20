@@ -12,7 +12,7 @@ class PaymentCompleteEvent extends Event
     /**
      * Create a new event instance.
      *
-     * @param int    $paymentTransactionId
+     * @param int $paymentTransactionId
      */
     public function __construct(int $paymentTransactionId)
     {

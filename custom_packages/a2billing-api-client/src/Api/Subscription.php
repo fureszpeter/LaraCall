@@ -5,6 +5,8 @@ use A2bApiClient\Api\Instances\SubscriptionInstance;
 use A2bApiClient\Exceptions\A2bApiException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
+use OutOfBoundsException;
 
 class Subscription
 {
@@ -71,6 +73,7 @@ class Subscription
      * @return SubscriptionInstance[]
      *
      * @throws A2bApiException
+     * @throws OutOfBoundsException If subscription not found for email.
      */
     public function getByEmail($email)
     {
@@ -91,8 +94,13 @@ class Subscription
             }
 
             return $subscriptions;
-        } catch (ClientException $exception) {
-            throw new A2bApiException($exception);
+        } catch (RequestException $exception) {
+            if ($exception->getCode() === 400) {
+                throw new OutOfBoundsException(
+                    sprintf('No subscription found. [email: %s]]', $email)
+                );
+            }
+            throw $exception;
         }
     }
 

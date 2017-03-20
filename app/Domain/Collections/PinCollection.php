@@ -46,8 +46,10 @@ class PinCollection extends ArrayCollection
      */
     public function findByPin(string $pin): ?Pin
     {
-        return $this->filter(function (Pin $pinEntity) use ($pin) {
+        $collection = $this->filter(function (Pin $pinEntity) use ($pin) {
             return $pinEntity->getPin() == $pin;
-        })->first();
+        });
+
+        return $collection->isEmpty() ? null : $collection->first();
     }
 }

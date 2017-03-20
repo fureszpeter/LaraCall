@@ -5,12 +5,14 @@ namespace LaraCall\Providers;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use LaraCall\Events\DeliveryEntityCreatedEvent;
+use LaraCall\Events\EbayPaymentCompleteEvent;
 use LaraCall\Events\Handlers\SendDeliveryTokenEmail;
+use LaraCall\Events\PayIpnEntityCreatedEvent;
 use LaraCall\Events\PaymentCompleteEvent;
 use LaraCall\Events\PaymentFailedEvent;
 use LaraCall\Events\PaymentHandlers\DoEbayPostJobs;
 use LaraCall\Events\PaymentHandlers\ProcessPayPalIpn;
-use LaraCall\Events\PaymentHandlers\SendPaymentReceivedNotification;
+use LaraCall\Events\PaymentHandlers\SendEbayPaymentReceivedNotification;
 use LaraCall\Events\PaymentHandlers\SendPaymentReversedNotification;
 use LaraCall\Events\PaymentPendingEvent;
 use LaraCall\Events\PaymentRefundedEvent;
@@ -34,7 +36,10 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         PaymentCompleteEvent::class => [
-            SendPaymentReceivedNotification::class,
+        ],
+
+        EbayPaymentCompleteEvent::class => [
+            SendEbayPaymentReceivedNotification::class,
             DoEbayPostJobs::class,
         ],
 
@@ -62,6 +67,9 @@ class EventServiceProvider extends ServiceProvider
 
         ],
 
+        PayIpnEntityCreatedEvent::class => [
+
+        ]
     ];
 
     /**

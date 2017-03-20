@@ -3,7 +3,7 @@
 namespace LaraCall\Http\Controllers;
 
 use Carbon\Carbon;
-use LaraCall\Domain\Entities\Delivery;
+use LaraCall\Domain\Entities\PinTokenDelivery;
 
 class DeliveryController extends Controller
 {
@@ -17,11 +17,11 @@ class DeliveryController extends Controller
     }
 
     /**
-     * @param Delivery $token
+     * @param PinTokenDelivery $token
      *
      * @return string
      */
-    public function show(Delivery $token)
+    public function show(PinTokenDelivery $token)
     {
         $errors = [];
 

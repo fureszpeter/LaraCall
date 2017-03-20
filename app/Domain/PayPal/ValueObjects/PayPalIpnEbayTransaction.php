@@ -3,7 +3,7 @@ namespace LaraCall\Domain\PayPal\ValueObjects;
 
 use LaraCall\Infrastructure\Services\Ebay\ValueObjects\ItemId;
 
-class PayPalIpnEbayTransactionDetails
+class PayPalIpnEbayTransaction
 {
     /**
      * @var ItemId
@@ -13,7 +13,7 @@ class PayPalIpnEbayTransactionDetails
     /**
      * @var string
      */
-    private $txnId;
+    private $ebayTxnId;
 
     /**
      * @var int
@@ -31,24 +31,32 @@ class PayPalIpnEbayTransactionDetails
     private $currency;
 
     /**
+     * @var string
+     */
+    private $itemName;
+
+    /**
      * @param ItemId $itemId
-     * @param string $txnId
+     * @param string $itemName
+     * @param string $ebayTxnId
      * @param int    $quantity
      * @param string $amountPaid
      * @param string $currency
      */
     public function __construct(
         ItemId $itemId,
-        string $txnId,
+        string $itemName,
+        string $ebayTxnId,
         int $quantity,
         string $amountPaid,
         string $currency
     ) {
         $this->itemId     = $itemId;
-        $this->txnId      = $txnId;
+        $this->ebayTxnId  = $ebayTxnId;
         $this->amountPaid = $amountPaid;
         $this->currency   = $currency;
-        $this->quantity = $quantity;
+        $this->quantity   = $quantity;
+        $this->itemName   = $itemName;
     }
 
     /**
@@ -80,7 +88,7 @@ class PayPalIpnEbayTransactionDetails
      */
     public function __toString()
     {
-        return sprintf('%s-%s', $this->getItemId(), $this->getTxnId());
+        return sprintf('%s-%s', $this->getItemId(), $this->getEbayTxnId());
     }
 
     /**
@@ -94,8 +102,13 @@ class PayPalIpnEbayTransactionDetails
     /**
      * @return string
      */
-    public function getTxnId(): string
+    public function getEbayTxnId(): string
     {
-        return $this->txnId;
+        return $this->ebayTxnId;
+    }
+
+    public function getItemName(): string
+    {
+        return $this->itemName;
     }
 }

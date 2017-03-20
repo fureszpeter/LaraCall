@@ -4,17 +4,16 @@ namespace LaraCall\Domain\Repositories;
 
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use LaraCall\Domain\Entities\Country;
-use LaraCall\Domain\Entities\Delivery;
+use LaraCall\Domain\Entities\PinTokenDelivery;
 use OutOfBoundsException;
 
 /**
  * @package LaraCall\Domain\Repositories
  *
- * @method Delivery find($id)
- * @method Delivery[] findAll()
- * @method Delivery[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method Delivery findOneBy(array $criteria)
+ * @method PinTokenDelivery find($id)
+ * @method PinTokenDelivery[] findAll()
+ * @method PinTokenDelivery[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PinTokenDelivery findOneBy(array $criteria)
  */
 interface DeliveryTokenRepository extends ObjectRepository
 {
@@ -23,16 +22,16 @@ interface DeliveryTokenRepository extends ObjectRepository
      *
      * @throws OutOfBoundsException
      *
-     * @return Delivery
+     * @return PinTokenDelivery
      */
-    public function get(string $token): Delivery;
+    public function get(string $token): PinTokenDelivery;
 
     /**
      * @param array $criteria
      *
      * @throws OutOfBoundsException
      *
-     * @return Delivery
+     * @return PinTokenDelivery
      */
-    public function getOneBy(array $criteria): Delivery;
+    public function getOneBy(array $criteria): PinTokenDelivery;
 }

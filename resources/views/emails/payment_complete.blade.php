@@ -32,6 +32,16 @@
 
             <table>
                 <tr>
+                    <td>New subscription:</td>
+                    <td>
+                        @if($newSubscription == true)
+                            yes
+                        @else
+                            no
+                        @endif
+                    </td>
+                </tr>
+                <tr>
                     <td>Default pin:</td>
                     <td>{{$pin}}</td>
                 </tr>
@@ -47,7 +57,7 @@
                     <td>Last purchases:</td>
                     <td>
                         @foreach($lastPurchases as $lastPurchase)
-                            <li>{{$lastPurchase->getCreatedAt()->format(DATE_ATOM)}} (${{$lastPurchase->getConvertedAmount()}} USD)</li>
+                            <li>{{$lastPurchase->getCreatedAt()->format(DATE_ATOM)}} (${{$lastPurchase->getMcGross()}} USD)</li>
                         @endforeach
                     </td>
                 </tr>

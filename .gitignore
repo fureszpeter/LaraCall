@@ -8,3 +8,5 @@ Homestead.json
 .env
 _ide_helper*.php
 .idea/
+
+tests/_output/*

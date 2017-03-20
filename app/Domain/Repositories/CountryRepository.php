@@ -10,7 +10,7 @@ use OutOfBoundsException;
 /**
  * @package LaraCall\Domain\Repositories
  *
- * @method Country find($id)
+ * @method Country find($isoAlpha3)
  * @method Country[] findAll()
  * @method Country[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Country findOneBy(array $criteria)
@@ -18,13 +18,17 @@ use OutOfBoundsException;
 interface CountryRepository extends ObjectRepository
 {
     /**
-     * @param int $id
+     * @param string $isoAlpha3
      *
      * @throws OutOfBoundsException
      *
      * @return Country
      */
-    public function get(int $id): Country;
+    public function get(string $isoAlpha3): Country;
+
+    public function getByIsoAlpha3(string $isoAlpha3): Country;
+
+    public function getByIso2(string $iso2): Country;
 
     /**
      * @param array $criteria

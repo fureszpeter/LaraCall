@@ -1,18 +1,18 @@
 <?php
 namespace LaraCall\Domain\PayPal;
 
-use LaraCall\Domain\PayPal\ValueObjects\IpnSalesMessage;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedIpnSalesMessage;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
+use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 
 class NativePayPalService implements PayPalIpnValidator
 {
 
     /**
-     * @param IpnSalesMessage $saleMessage
+     * @param PayPalIpn $saleMessage
      *
-     * @return ValidatedIpnSalesMessage
+     * @return ValidatedPayPalIpn
      */
-    public function validateIpn(IpnSalesMessage $saleMessage): ValidatedIpnSalesMessage
+    public function validateIpn(PayPalIpn $saleMessage): ValidatedPayPalIpn
     {
         // STEP 1: read POST data
 // Reading POSTed data directly from $_POST causes serialization issues with array data in the POST.
@@ -62,11 +62,11 @@ class NativePayPalService implements PayPalIpnValidator
         // inspect IPN validation result and act accordingly
         if (strcmp($res, "VERIFIED") == 0) {
             // The IPN is verified, process it
-            return new ValidatedIpnSalesMessage($saleMessage->getRawPayPalData(), true);
+            return new ValidatedPayPalIpn($saleMessage->getRawPayPalData(), true);
         } else {
             if (strcmp($res, "INVALID") == 0) {
                 // IPN invalid, log for manual investigation
-                return new ValidatedIpnSalesMessage($saleMessage->getRawPayPalData(), false);
+                return new ValidatedPayPalIpn($saleMessage->getRawPayPalData(), false);
             }
         }
     }

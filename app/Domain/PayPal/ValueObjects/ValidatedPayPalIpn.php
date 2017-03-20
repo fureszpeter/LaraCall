@@ -1,7 +1,7 @@
 <?php
 namespace LaraCall\Domain\PayPal\ValueObjects;
 
-class ValidatedIpnSalesMessage extends IpnSalesMessage
+class ValidatedPayPalIpn extends PayPalIpn
 {
     /**
      * @var bool

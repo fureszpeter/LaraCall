@@ -40,11 +40,11 @@ class Pin extends AbstractEntity
     protected $subscription;
 
     /**
-     * @var Delivery
+     * @var PinTokenDelivery
      *
-     * @ORM\OneToMany(targetEntity="Delivery", mappedBy="pin")
+     * @ORM\OneToMany(targetEntity="PinTokenDelivery", mappedBy="pin")
      */
-    protected $deliveryEntity;
+    protected $pinTokenDelivery;
 
     /**
      * @param string       $pin
@@ -86,6 +86,18 @@ class Pin extends AbstractEntity
     public function getBlocked(): BlockedEmbeddable
     {
         return $this->blocked;
+    }
+
+    /**
+     * @param BlockedEmbeddable $blocked
+     *
+     * @return $this
+     */
+    public function setBlocked(BlockedEmbeddable $blocked)
+    {
+        $this->blocked = $blocked;
+
+        return $this;
     }
 
     /**

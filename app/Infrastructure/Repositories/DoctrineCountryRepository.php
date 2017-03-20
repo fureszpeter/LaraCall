@@ -3,28 +3,26 @@ namespace LaraCall\Infrastructure\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 use LaraCall\Domain\Entities\Country;
-use LaraCall\Domain\Entities\PayPalIpn;
 use LaraCall\Domain\Repositories\CountryRepository;
-use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use OutOfBoundsException;
 
 class DoctrineCountryRepository extends EntityRepository implements CountryRepository
 {
     /**
-     * @param int $id
+     * @param string $isoAlpha3
      *
      * @throws OutOfBoundsException
      *
      * @return Country
      */
-    public function get(int $id): Country
+    public function get(string $isoAlpha3): Country
     {
-        if ($entity = $this->find($id)) {
+        if ($entity = $this->find($isoAlpha3)) {
             return $entity;
         }
 
         throw new OutOfBoundsException(
-            sprintf('CountryEntity not found by id. [id: %s]', $id)
+            sprintf('CountryEntity not found by code. [code: %s]', $isoAlpha3)
         );
     }
 
@@ -43,6 +41,22 @@ class DoctrineCountryRepository extends EntityRepository implements CountryRepos
 
         throw new OutOfBoundsException(
             sprintf('CountryEntity not found by criteria. [criteria: %s]', implode(',', $criteria))
+        );
+    }
+
+    public function getByIsoAlpha3(string $isoAlpha3): Country
+    {
+        return $this->get($isoAlpha3);
+    }
+
+    public function getByIso2(string $iso2): Country
+    {
+        if ($entity = $this->findOneBy(['countryCode' => $iso2])) {
+            return $entity;
+        }
+
+        throw new OutOfBoundsException(
+            sprintf('CountryEntity not found by code. [code: %s]', $iso2)
         );
     }
 }

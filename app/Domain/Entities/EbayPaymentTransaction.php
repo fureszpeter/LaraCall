@@ -1,8 +1,10 @@
 <?php
 namespace LaraCall\Domain\Entities;
 
-use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use LaraCall\Infrastructure\Services\Ebay\ValueObjects\ItemId;
 
 /**
  * Class EbayPaymentTransaction.
@@ -11,16 +13,29 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @license Proprietary
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="LaraCall\Infrastructure\Repositories\DoctrineEbayPaymentTransactionRepository")
  */
-class EbayPaymentTransaction extends AbstractEntityWithId
+class EbayPaymentTransaction extends AbstractEntityWithId implements JsonSerializable
 {
     /**
-     * @var DateTime
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $newSubscription;
+
+    /**
+     * @var DateTimeInterface
      *
      * @ORM\Column(type="datetimetz", nullable=false)
      */
     protected $datePayment;
+
+    /**
+     * @var EbayUser
+     * @ORM\ManyToOne(targetEntity="EbayUser", inversedBy="id")
+     */
+    protected $ebayUser;
 
     /**
      * @var string
@@ -107,17 +122,18 @@ class EbayPaymentTransaction extends AbstractEntityWithId
     protected $buyerLastName;
 
     /**
-     * @var string
+     * @var Country
      *
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="countryCode")
-     * @ORM\JoinColumn(name="countryCode", referencedColumnName="countryCode")
+     * @ORM\ManyToOne(targetEntity="Country", inversedBy="isoAlpha3")
+     * @ORM\JoinColumn(name="buyerCountry", referencedColumnName="isoAlpha3")
      */
     protected $buyerCountry;
 
     /**
-     * @var string|null
+     * @var State|null
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="State", inversedBy="stateCode")
+     * @ORM\JoinColumn(name="stateCode", referencedColumnName="stateCode")
      */
     protected $buyerState;
 
@@ -164,80 +180,148 @@ class EbayPaymentTransaction extends AbstractEntityWithId
     protected $subscription;
 
     /**
-     * @param DateTime     $datePayment
-     * @param string       $ebayToken
-     * @param string       $ebayUsername
-     * @param string       $itemId
-     * @param string       $transactionId
-     * @param float        $itemValue
-     * @param string       $itemName
-     * @param int          $quantity
-     * @param string       $mcGross
-     * @param string       $mcCurrency
-     * @param float        $amountInUsd
-     * @param string       $buyerFirstName
-     * @param string       $buyerLastName
-     * @param string       $buyerCountry
-     * @param string       $buyerZip
-     * @param string       $buyerAddress
-     * @param string       $buyerEmail
-     * @param string       $receiverEmail
-     * @param float        $paymentFee
-     * @param Subscription $subscription
-     * @param null|string  $buyerState
+     * @var string
+     */
+    private $city;
+
+    /**
+     * @param bool              $newSubscription
+     * @param DateTimeInterface $datePayment
+     * @param EbayUser          $ebayUser
+     * @param ItemId            $itemId
+     * @param string            $transactionId
+     * @param float             $itemValue
+     * @param string            $itemName
+     * @param int               $quantity
+     * @param float             $mcGross
+     * @param string            $mcCurrency
+     * @param float             $amountInUsd
+     * @param string            $buyerFirstName
+     * @param string            $buyerLastName
+     * @param Country           $buyerCountry
+     * @param string            $buyerZip
+     * @param string            $city
+     * @param string            $buyerAddress
+     * @param string            $buyerEmail
+     * @param string            $receiverEmail
+     * @param float             $paymentFee
+     * @param Subscription      $subscription
+     * @param State|null        $buyerState
      */
     public function __construct(
-        DateTime $datePayment,
-        $ebayToken,
-        $ebayUsername,
-        $itemId,
-        $transactionId,
-        $itemValue,
-        $itemName,
-        $quantity,
-        $mcGross,
-        $mcCurrency,
-        $amountInUsd,
-        $buyerFirstName,
-        $buyerLastName,
-        $buyerCountry,
-        $buyerZip,
-        $buyerAddress,
-        $buyerEmail,
-        $receiverEmail,
-        $paymentFee,
+        bool $newSubscription,
+        DateTimeInterface $datePayment,
+        EbayUser $ebayUser,
+        ItemId $itemId,
+        string $transactionId,
+        float $itemValue,
+        string $itemName,
+        int $quantity,
+        float $mcGross,
+        string $mcCurrency,
+        float $amountInUsd,
+        string $buyerFirstName,
+        string $buyerLastName,
+        Country $buyerCountry,
+        string $buyerZip,
+        string $city,
+        string $buyerAddress,
+        string $buyerEmail,
+        string $receiverEmail,
+        float $paymentFee,
         Subscription $subscription,
-        $buyerState = null
+        State $buyerState = null
     ) {
-        $this->datePayment    = $datePayment;
-        $this->ebayToken      = $ebayToken;
-        $this->ebayUsername   = $ebayUsername;
-        $this->itemId         = $itemId;
-        $this->transactionId  = $transactionId;
-        $this->itemValue      = $itemValue;
-        $this->itemName       = $itemName;
-        $this->quantity       = $quantity;
-        $this->mcGross        = $mcGross;
-        $this->mcCurrency     = $mcCurrency;
-        $this->amountInUsd    = $amountInUsd;
-        $this->buyerFirstName = $buyerFirstName;
-        $this->buyerLastName  = $buyerLastName;
-        $this->buyerCountry   = $buyerCountry;
-        $this->buyerState     = $buyerState;
-        $this->buyerZip       = $buyerZip;
-        $this->buyerAddress   = $buyerAddress;
-        $this->buyerEmail     = $buyerEmail;
-        $this->receiverEmail  = $receiverEmail;
-        $this->paymentFee     = $paymentFee;
-        $this->subscription   = $subscription;
+        parent::__construct();
+
+        $this->newSubscription = $newSubscription;
+        $this->datePayment     = $datePayment;
+        $this->ebayToken       = $ebayUser->getEbayUserTokenId();
+        $this->ebayUsername    = $ebayUser->getEbayUserId();
+        $this->itemId          = $itemId->getItemId();
+        $this->ebayUser        = $ebayUser;
+        $this->transactionId   = $transactionId;
+        $this->itemValue       = $itemValue;
+        $this->itemName        = $itemName;
+        $this->quantity        = $quantity;
+        $this->mcGross         = $mcGross;
+        $this->mcCurrency      = $mcCurrency;
+        $this->amountInUsd     = $amountInUsd;
+        $this->buyerFirstName  = $buyerFirstName;
+        $this->buyerLastName   = $buyerLastName;
+        $this->buyerCountry    = $buyerCountry;
+        $this->buyerState      = $buyerState;
+        $this->buyerZip        = $buyerZip;
+        $this->buyerAddress    = $buyerAddress;
+        $this->buyerEmail      = $buyerEmail;
+        $this->receiverEmail   = $receiverEmail;
+        $this->paymentFee      = $paymentFee;
+        $this->subscription    = $subscription;
+        $this->city            = $city;
     }
 
     /**
-     * @return DateTime
+     * @return Subscription
      */
-    public function getDatePayment(): DateTime
+    public function getSubscription(): Subscription
+    {
+        return $this->subscription;
+    }
+
+    /**
+     * @return array;
+     */
+    function jsonSerialize()
+    {
+        return [
+            'newSubscription' => $this->isNewSubscription(),
+            'datePayment'     => $this->getDatePayment(),
+            'ebayUser'        => $this->getEbayUser(),
+            'ebayToken'       => $this->getEbayToken(),
+            'ebayUsername'    => $this->getEbayUsername(),
+            'itemId'          => $this->getItemId(),
+            'transactionId'   => $this->getTransactionId(),
+            'itemValue'       => $this->getItemValue(),
+            'itemName'        => $this->getItemName(),
+            'quantity'        => $this->getQuantity(),
+            'mcGross'         => $this->getMcGross(),
+            'mcCurrency'      => $this->getMcCurrency(),
+            'amountInUsd'     => $this->getAmountInUsd(),
+            'buyerFirstName'  => $this->getBuyerFirstName(),
+            'buyerLastName'   => $this->getBuyerLastName(),
+            'buyerCountry'    => $this->getBuyerCountry(),
+            'buyerState'      => $this->getBuyerState(),
+            'buyerZip'        => $this->getBuyerZip(),
+            'buyerAddress'    => $this->getBuyerAddress(),
+            'buyerEmail'      => $this->getBuyerEmail(),
+            'receiverEmail'   => $this->getReceiverEmail(),
+            'paymentFee'      => $this->getPaymentFee(),
+            'city'            => $this->getCity(),
+        ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNewSubscription(): bool
+    {
+        return $this->newSubscription;
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
+    public function getDatePayment(): DateTimeInterface
     {
         return $this->datePayment;
+    }
+
+    /**
+     * @return EbayUser
+     */
+    public function getEbayUser(): EbayUser
+    {
+        return $this->ebayUser;
     }
 
     /**
@@ -257,11 +341,11 @@ class EbayPaymentTransaction extends AbstractEntityWithId
     }
 
     /**
-     * @return string
+     * @return ItemId
      */
-    public function getItemId(): string
+    public function getItemId(): ItemId
     {
-        return $this->itemId;
+        return new ItemId($this->itemId);
     }
 
     /**
@@ -337,17 +421,17 @@ class EbayPaymentTransaction extends AbstractEntityWithId
     }
 
     /**
-     * @return string
+     * @return Country
      */
-    public function getBuyerCountry(): string
+    public function getBuyerCountry(): Country
     {
         return $this->buyerCountry;
     }
 
     /**
-     * @return null|string
+     * @return State|null
      */
-    public function getBuyerState(): ?string
+    public function getBuyerState()
     {
         return $this->buyerState;
     }
@@ -393,10 +477,10 @@ class EbayPaymentTransaction extends AbstractEntityWithId
     }
 
     /**
-     * @return Subscription
+     * @return string
      */
-    public function getSubscription(): Subscription
+    public function getCity(): ?string
     {
-        return $this->subscription;
+        return $this->city;
     }
 }

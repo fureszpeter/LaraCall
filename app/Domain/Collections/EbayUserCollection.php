@@ -4,7 +4,6 @@ namespace LaraCall\Domain\Collections;
 use Doctrine\Common\Collections\ArrayCollection;
 use Furesz\TypeChecker\TypeChecker;
 use LaraCall\Domain\Entities\EbayUser;
-use LaraCall\Domain\Entities\Pin;
 
 class EbayUserCollection extends ArrayCollection
 {

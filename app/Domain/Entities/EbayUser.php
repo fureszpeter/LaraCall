@@ -4,6 +4,8 @@ namespace LaraCall\Domain\Entities;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use JsonSerializable;
 
 /**
  * Class EbayUserEntity.
@@ -12,26 +14,33 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @license Proprietary
  *
+ * @ORM\Table(
+ *     uniqueConstraints={@UniqueConstraint(
+ *          name="token_username_unique",
+ *          columns={"ebay_user_token_id", "ebay_user_id"}
+ *      )}
+ * )
  * @ORM\Entity(repositoryClass="LaraCall\Infrastructure\Repositories\DoctrineEbayUserRepository")
  */
-class EbayUser extends AbstractEntityWithId
+class EbayUser extends AbstractEntityWithId implements JsonSerializable
 {
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     protected $ebayUserTokenId;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     protected $ebayUserId;
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string", length=64, nullable=true)
      */
     protected $email;
@@ -103,9 +112,9 @@ class EbayUser extends AbstractEntityWithId
     /**
      * @return string
      */
-    public function getEbayUserTokenId(): string
+    public function __toString()
     {
-        return $this->ebayUserTokenId;
+        return $this->getEbayUserId();
     }
 
     /**
@@ -114,6 +123,27 @@ class EbayUser extends AbstractEntityWithId
     public function getEbayUserId(): string
     {
         return $this->ebayUserId;
+    }
+
+    /**
+     * @return array
+     */
+    function jsonSerialize()
+    {
+        return [
+            'ebayUserTokenId'  => $this->getEbayUserTokenId(),
+            'ebayUserId'       => $this->getEbayUserId(),
+            'email'            => $this->getEmail(),
+            'dateLastPurchase' => $this->getDateLastPurchase(),
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getEbayUserTokenId(): string
+    {
+        return $this->ebayUserTokenId;
     }
 
     /**
@@ -142,13 +172,5 @@ class EbayUser extends AbstractEntityWithId
         $this->dateLastPurchase = $dateLastPurchase;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getEbayUserId();
     }
 }

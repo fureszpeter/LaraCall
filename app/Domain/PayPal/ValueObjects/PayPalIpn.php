@@ -5,17 +5,72 @@ use DateTimeImmutable;
 use JsonSerializable;
 use UnexpectedValueException;
 
-class IpnSalesMessage implements JsonSerializable
+class PayPalIpn implements JsonSerializable
 {
     /**
      * @var array
      */
-    private $rawPayPalData;
+    protected $rawPayPalData;
 
     /**
      * @var bool
      */
-    private $isSandBox;
+    protected $isSandBox;
+
+    /** @var string */
+    protected $txnId;
+
+    /** @var string|null */
+    protected $parentTxnId;
+
+    /** @var string */
+    protected $receiverEmail;
+
+    /** @var string */
+    protected $payerEmail;
+
+    /**
+     * @var DateTimeImmutable
+     */
+    protected $dateOfTransaction;
+
+    /** @var string */
+    protected $paymentStatus;
+
+    /** @var bool */
+    protected $isEbay;
+
+    /** @var string|null */
+    protected $customField;
+
+    /** @var string */
+    protected $firstName;
+
+    /** @var string */
+    protected $lastName;
+
+    /** @var string */
+    protected $countryCode;
+
+    /** @var string|null */
+    protected $zipCode;
+
+    /** @var string|null */
+    protected $city;
+
+    /** @var string|null */
+    protected $address;
+
+    /**
+     * @var float
+     */
+    protected $fee;
+
+    /** @var string|null */
+    protected $state;
+
+    /** @var float */
+    protected $grossAmount;
 
     /**
      * @param array $rawPayPalData
@@ -28,10 +83,61 @@ class IpnSalesMessage implements JsonSerializable
             throw new UnexpectedValueException('Empty IPN message not allowed for PayPal!');
         }
 
-        $this->rawPayPalData = $rawPayPalData;
-        $this->isSandBox     = (array_key_exists('test_ipn', $rawPayPalData) && $rawPayPalData['test_ipn'] == 1)
+        $this->rawPayPalData     = $rawPayPalData;
+        $this->isSandBox         = $this->checkIsSandbox($rawPayPalData);
+        $this->txnId             = $this->getRawPayPalData()['txn_id'];
+        $this->receiverEmail     = $this->getRawPayPalData()['receiver_email'];
+        $this->dateOfTransaction = new DateTimeImmutable($this->getRawPayPalData()['payment_date']);
+        $this->payerEmail        = $this->getRawPayPalData()['payer_email'];
+        $this->parentTxnId       = array_key_exists('parent_txn_id', $this->getRawPayPalData())
+            ? $this->getRawPayPalData()['parent_txn_id']
+            : null;
+        $this->paymentStatus     = $this->getRawPayPalData()['payment_status'];
+        $this->isEbay            = (
+            array_key_exists('txn_type', $this->rawPayPalData) &&
+            $this->rawPayPalData['txn_type'] == 'cart'
+            && array_key_exists('num_cart_items', $this->getRawPayPalData())
+        );
+        $this->customField       = array_key_exists('custom', $this->getRawPayPalData())
+            ? $this->rawPayPalData['custom']
+            : null;
+        $this->firstName         = $this->rawPayPalData['first_name'];
+        $this->lastName          = $this->rawPayPalData['last_name'];
+        $this->countryCode       = $this->getRawPayPalData()['address_country_code'];
+        $this->zipCode           = (empty($this->rawPayPalData['address_zip']))
+            ? null
+            : $this->rawPayPalData['address_zip'];
+        $this->city              = (empty($this->rawPayPalData['address_city']))
+            ? null
+            : $this->rawPayPalData['address_city'];
+        $this->address           = (empty($this->rawPayPalData['address_street']))
+            ? null
+            : $this->rawPayPalData['address_street'];
+        $this->fee               = floatval($this->rawPayPalData['mc_fee']);
+        $this->state             = (empty($this->rawPayPalData['address_state']))
+            ? null
+            : $this->rawPayPalData['address_state'];
+        $this->grossAmount       = floatval($this->getRawPayPalData()['payment_gross']);
+    }
+
+    /**
+     * @param array $rawPayPalData
+     *
+     * @return bool
+     */
+    private function checkIsSandbox(array $rawPayPalData): bool
+    {
+        return (array_key_exists('test_ipn', $rawPayPalData) && $rawPayPalData['test_ipn'] == 1)
             ? true
             : false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRawPayPalData(): array
+    {
+        return $this->rawPayPalData;
     }
 
     /**
@@ -47,15 +153,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getTxnId(): string
     {
-        return $this->getRawPayPalData()['txn_id'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getRawPayPalData(): array
-    {
-        return $this->rawPayPalData;
+        return $this->txnId;
     }
 
     /**
@@ -63,7 +161,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getReceiverEmail(): string
     {
-        return $this->getRawPayPalData()['receiver_email'];
+        return $this->receiverEmail;
     }
 
     /**
@@ -71,7 +169,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getDateOfTransaction(): DateTimeImmutable
     {
-        return new DateTimeImmutable($this->getRawPayPalData()['payment_date']);
+        return $this->dateOfTransaction;
     }
 
     /**
@@ -79,7 +177,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getPayerEmail(): string
     {
-        return $this->getRawPayPalData()['payer_email'];
+        return $this->payerEmail;
     }
 
     /**
@@ -87,9 +185,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getParentTxnId(): ?string
     {
-        return array_key_exists('parent_txn_id', $this->getRawPayPalData())
-            ? $this->getRawPayPalData()['parent_txn_id']
-            : null;
+        return $this->parentTxnId;
     }
 
     /**
@@ -97,7 +193,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getPaymentStatus(): string
     {
-        return $this->getRawPayPalData()['payment_status'];
+        return $this->paymentStatus;
     }
 
     /**
@@ -105,21 +201,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function isEbay(): bool
     {
-        return (
-            array_key_exists('txn_type', $this->rawPayPalData) &&
-            $this->rawPayPalData['txn_type'] == 'cart'
-            && array_key_exists('num_cart_items', $this->rawPayPalData)
-        );
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCustomField(): ?string
-    {
-        return $this->hasCustomField()
-            ? $this->rawPayPalData['custom']
-            : null;
+        return $this->isEbay;
     }
 
     /**
@@ -127,7 +209,55 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function hasCustomField(): bool
     {
-        return array_key_exists('custom', $this->rawPayPalData);
+        return is_null($this->getCustomField());
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomField(): ?string
+    {
+        return $this->customField;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function getFee(): float
+    {
+        return $this->fee;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
     }
 
     /**
@@ -135,7 +265,7 @@ class IpnSalesMessage implements JsonSerializable
      */
     public function getGrossAmount()
     {
-        return floatval($this->getRawPayPalData()['payment_gross']);
+        return $this->grossAmount;
     }
 
     /**

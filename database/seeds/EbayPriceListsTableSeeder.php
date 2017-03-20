@@ -19,6 +19,18 @@ class EbayPriceListsTableSeeder extends Seeder
         \DB::table('ebay_price_lists')->insert(array (
             0 => 
             array (
+                'item_id' => '110190666836',
+                'product_value' => '5',
+                'product_price' => '4.49',
+                'currency' => 'USD',
+                'tariff_id' => 13,
+                'description' => 'SANDBOX Ebay 5 USD card',
+                'deleted' => 0,
+                'created_at' => '2017-01-17 00:00:00',
+                'updated_at' => '2017-01-17 00:00:00',
+            ),
+            1 => 
+            array (
                 'item_id' => '111385463106',
                 'product_value' => '5',
                 'product_price' => '4.49',
@@ -29,7 +41,7 @@ class EbayPriceListsTableSeeder extends Seeder
                 'created_at' => '2017-01-17 00:00:00',
                 'updated_at' => '2017-01-17 00:00:00',
             ),
-            1 => 
+            2 => 
             array (
                 'item_id' => '121371844968',
                 'product_value' => '1',

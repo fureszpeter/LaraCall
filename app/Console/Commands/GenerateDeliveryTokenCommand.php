@@ -4,7 +4,7 @@ namespace LaraCall\Console\Commands;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
-use LaraCall\Domain\Entities\Delivery;
+use LaraCall\Domain\Entities\PinTokenDelivery;
 use LaraCall\Domain\Repositories\PinRepository;
 use LaraCall\Domain\Services\DeliveryTokenGenerator;
 
@@ -49,7 +49,7 @@ class GenerateDeliveryTokenCommand extends Command
         $pin  = $pinRepository->get($this->argument('pin'));
         $token = $tokenGenerator->generate();
 
-        $deliveryEntity = new Delivery($token, $pin);
+        $deliveryEntity = new PinTokenDelivery($token, $pin);
         $em->persist($deliveryEntity);
         $em->flush();
     }
