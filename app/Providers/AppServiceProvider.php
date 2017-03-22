@@ -29,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
          * Non-production service providers.
          */
         if ($this->app->environment() !== 'production') {
-            $this->app->register(IdeHelperServiceProvider::class);
+            if (class_exists(Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)){
+                $this->app->register(IdeHelperServiceProvider::class);
+            }
             $this->app->register(IseedServiceProvider::class);
         }
     }

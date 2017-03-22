@@ -3,9 +3,8 @@ namespace LaraCall\Domain\Entities;
 
 use Carbon\Carbon;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword;
 use JsonSerializable;
 use LaraCall\Domain\Entities\Embeddables\BlockedEmbeddable;
 
@@ -18,10 +17,8 @@ use LaraCall\Domain\Entities\Embeddables\BlockedEmbeddable;
  *
  * @ORM\Entity(repositoryClass="LaraCall\Infrastructure\Repositories\DoctrineUserRepository")
  */
-class User extends AbstractEntityWithId implements JsonSerializable, Authenticatable, CanResetPassword
+class User extends AbstractEntityWithId implements JsonSerializable
 {
-    use \LaravelDoctrine\ORM\Auth\Authenticatable;
-
     /**
      * @var string
      *
@@ -173,7 +170,7 @@ class User extends AbstractEntityWithId implements JsonSerializable, Authenticat
         return $this->registrationDate;
     }
 
-    public function setRegistrationDate(\DateTimeInterface $dateTime)
+    public function setRegistrationDate(DateTimeInterface $dateTime)
     {
         $this->registrationDate = $dateTime;
 
@@ -186,28 +183,5 @@ class User extends AbstractEntityWithId implements JsonSerializable, Authenticat
     public function isAdmin(): bool
     {
         return $this->admin;
-    }
-
-    /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string
-     */
-    public function getEmailForPasswordReset()
-    {
-        return $this->getEmail();
-    }
-
-    /**
-     * @param string $token
-     *
-     * @return $this
-     */
-    public function setToken($token)
-    {
-        $this->token           = $token;
-        $this->tokenExpireDate = Carbon::now()->addDays(7);
-
-        return $this;
     }
 }
