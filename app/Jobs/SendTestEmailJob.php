@@ -1,6 +1,7 @@
 <?php
 namespace LaraCall\Jobs;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,11 +29,11 @@ class SendTestEmailJob extends Job implements ShouldQueue
             'state'           => 'test state',
             'amount'          => 5,
             'quantity'        => 1,
-            'date'            => new \DateTime(),
+            'date'            => Carbon::now()->format(DATE_ATOM),
             /*
              * Subscription details
              */
-            'regDate'         => new \DateTime(),
+            'regDate'         => Carbon::now()->format(DATE_ATOM),
             'pinCount'        => '123',
             'lastPurchases'   => [],
         ];
