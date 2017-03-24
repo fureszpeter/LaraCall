@@ -12,7 +12,7 @@ use JsonSerializable;
 use LaraCall\Domain\PayPal\ValueObjects\PayPalEbayIpn;
 use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 use LaraCall\Domain\ValueObjects\IpnStatus;
-use LaraCall\Events\PayIpnEntityCreatedEvent;
+use LaraCall\Events\PayPalIpnEntityCreatedEvent;
 
 /**
  * Class PayPalIpn.
@@ -418,7 +418,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
      */
     public function postPersist()
     {
-        event(new PayIpnEntityCreatedEvent($this->getId()));
+        event(new PayPalIpnEntityCreatedEvent($this->getId()));
     }
 
     /**

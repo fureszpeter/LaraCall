@@ -6,7 +6,6 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use LaraCall\Events\DeliveryEntityCreatedEvent;
 use LaraCall\Events\EbayPaymentCompleteEvent;
 use LaraCall\Events\Handlers\SendDeliveryTokenEmail;
-use LaraCall\Events\PayIpnEntityCreatedEvent;
 use LaraCall\Events\PaymentCompleteEvent;
 use LaraCall\Events\PaymentFailedEvent;
 use LaraCall\Events\PaymentHandlers\DoEbayPostJobs;
@@ -65,10 +64,6 @@ class EventServiceProvider extends ServiceProvider
         PaymentFailedEvent::class => [
 
         ],
-
-        PayIpnEntityCreatedEvent::class => [
-
-        ]
     ];
 
     /**
