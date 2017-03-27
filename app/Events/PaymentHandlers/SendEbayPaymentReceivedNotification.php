@@ -55,7 +55,7 @@ class SendEbayPaymentReceivedNotification implements ShouldQueue
             /*
              * Subscription details
              */
-            'regDate'         => $subscription->getCreatedAt()->format(DATE_ATOM),
+            'regDate'         => $subscription->getUser()->getCreatedAt()->format(DATE_ATOM),
             'pinCount'        => $subscription->getPins()->count(),
             'lastPurchases'   => $lastPurchases,
         ];
