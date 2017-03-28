@@ -3,6 +3,7 @@
 namespace LaraCall\Providers;
 
 use A2bApiClient\Client;
+use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
 use LaraCall\Domain\Factories\PaymentStatusFactory;
 use LaraCall\Domain\Services\ApiImportService;
@@ -28,7 +29,6 @@ class DomainServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 
     /**
@@ -62,5 +62,8 @@ class DomainServiceProvider extends ServiceProvider
         $this->app->singleton(PasswordService::class, SimplePasswordService::class);
         $this->app->singleton(EbayProcessPaymentService::class,
             \LaraCall\Infrastructure\Services\EbayProcessPaymentService::class);
+        $this->app->bind(ClientInterface::class, function(){
+            return new \GuzzleHttp\Client();
+        });
     }
 }
