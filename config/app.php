@@ -182,6 +182,7 @@ return [
         LaraCall\Providers\ConsoleServiceProvider::class,
         LaraCall\Providers\DomainServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
+        MaxBrokman\SafeQueue\DoctrineQueueProvider::class,
     ],
 
     /*
@@ -227,10 +228,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        'Html'      => Illuminate\Html\HtmlFacade::class,
-        'Form'      => Illuminate\Html\FormFacade::class,
-
     ],
 
 ];

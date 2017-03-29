@@ -52,6 +52,12 @@ class DoctrinePayPalIpnRepository extends EntityRepository implements PayPalIpnR
      */
     public function findLast(int $limit = 100, array $orderBy = []): array
     {
+        if (empty($orderBy))
+        {
+            $orderBy = [
+                'id' => 'desc'
+            ];
+        }
         $builder      = $this->_em->createQueryBuilder();
         $queryBuilder = $builder
             ->addSelect(['ipn'])

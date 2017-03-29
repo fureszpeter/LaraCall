@@ -7,7 +7,7 @@ use LaraCall\Domain\Entities\PayPalIpn;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use Symfony\Component\Console\Helper\Table;
 
-class ListPayPalIpnMessagesCommand extends Command
+class IpnListCommand extends Command
 {
     /**
      * The name and signature of the console command.
