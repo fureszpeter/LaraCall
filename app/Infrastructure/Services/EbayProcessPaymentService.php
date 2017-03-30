@@ -155,7 +155,10 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
 
         foreach ($priceListTransactions as $transaction) {
             $this->em->beginTransaction();
+            $subscription->increaseRefill();
             $subscription->setDateLastPurchase($dateOfPurchase);
+            $subscription->setLastTransactionAmount($transaction->getAmountPaid());
+
             $ipn->setProcessedProperties();
             $priceListEntity        = $this->priceListRepository->get($transaction->getItemId());
             $quantity               = $transaction->getQuantity();
