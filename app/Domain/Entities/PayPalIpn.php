@@ -212,7 +212,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     /**
      * @return DateTimeImmutable|null
      */
-    public function getDateProcessed():? DateTimeImmutable
+    public function getDateProcessed(): ?DateTimeImmutable
     {
         return $this->dateProcessed
             ? DateTimeImmutable::createFromMutable($this->dateProcessed)
