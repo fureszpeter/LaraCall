@@ -183,6 +183,7 @@ return [
         LaraCall\Providers\DomainServiceProvider::class,
         Snowfire\Beautymail\BeautymailServiceProvider::class,
         MaxBrokman\SafeQueue\DoctrineQueueProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
     ],
 
     /*
