@@ -46,12 +46,16 @@
                     <td>{{$pin}}</td>
                 </tr>
                 <tr>
-                    <td>Transaction date:</td>
-                    <td>{{$date}}</td>
+                    <td>Ebay user reg. date:</td>
+                    <td>{{$ebayRegistrationDate}}</td>
                 </tr>
                 <tr>
-                    <td>Reg date:</td>
-                    <td>{{$regDate}}</td>
+                    <td>Transaction date:</td>
+                    <td>{{$paymentDate}}</td>
+                </tr>
+                <tr>
+                    <td>User created date:</td>
+                    <td>{{$userCreatedDate}}</td>
                 </tr>
                 <tr>
                     <td>Last purchases:</td>
