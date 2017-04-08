@@ -1,4 +1,5 @@
 <?php
+
 namespace A2bApiClient\Api;
 
 use A2bApiClient\Api\Instances\SubscriptionInstance;
@@ -20,31 +21,7 @@ class Subscription
      */
     public function __construct(ClientInterface $client)
     {
-        $this->client          = $client;
-    }
-
-    /**
-     * @param string $pin
-     *
-     * @return SubscriptionInstance
-     *
-     * @throws A2bApiException
-     */
-    public function getByPin($pin)
-    {
-        try {
-            $response = $this->client->request('GET', "subscriptions", [
-                'query' => [
-                    'pin' => $pin,
-                ],
-            ]);
-
-            $body = $response->getBody();
-
-            return new SubscriptionInstance(json_decode($body, true));
-        } catch (ClientException $exception) {
-            throw new A2bApiException($exception);
-        }
+        $this->client = $client;
     }
 
     /**
@@ -123,6 +100,57 @@ class Subscription
 
             return json_decode($body, true);
 
+        } catch (ClientException $exception) {
+            throw new A2bApiException($exception);
+        }
+    }
+
+    /**
+     * @param string $pin
+     *
+     * @return SubscriptionInstance
+     */
+    public function blockByPin($pin)
+    {
+        $subscription = $this->getByPin($pin);
+
+        try {
+            $id = $subscription->id;
+            $response = $this->client->request('POST', "subscriptions/{$id}/block");
+
+            $body = $response->getBody();
+
+            return new SubscriptionInstance(json_decode($body, true));
+        } catch (RequestException $exception) {
+            if ($exception->getCode() === 400) {
+                throw new OutOfBoundsException(
+                    sprintf('Block failed. [pin: %s]]', $pin)
+                );
+            }
+            throw $exception;
+        }
+
+    }
+
+    /**
+     * @param string $pin
+     *
+     * @return SubscriptionInstance
+     *
+     * @throws A2bApiException
+     */
+    public function getByPin($pin)
+    {
+        try {
+            $response = $this->client->request('GET', "subscriptions", [
+                'query' => [
+                    'pin' => $pin,
+                ],
+            ]);
+
+            $body = $response->getBody();
+
+            return new SubscriptionInstance(json_decode($body, true));
         } catch (ClientException $exception) {
             throw new A2bApiException($exception);
         }

@@ -8,11 +8,11 @@ use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
 use LaraCall\Domain\Entities\EbayPaymentTransaction;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
-use LaraCall\Events\PaymentReversedEvent;
+use LaraCall\Events\PaymentReversalCanceledEvent;
 use LaraCall\Infrastructure\Services\Ebay\EbayApiService;
 use Snowfire\Beautymail\Beautymail;
 
-class SendPaymentReversedNotification implements ShouldQueue
+class SendPaymentReversedCanceledNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -54,7 +54,7 @@ class SendPaymentReversedNotification implements ShouldQueue
         $this->ebayApiService      = $ebayApiService;
     }
 
-    public function handle(PaymentReversedEvent $event)
+    public function handle(PaymentReversalCanceledEvent $event)
     {
         $ipn = $this->payPalIpnRepository->get($event->getIpnId());
         if ( ! $ipn->isEbay()) {
@@ -72,7 +72,7 @@ class SendPaymentReversedNotification implements ShouldQueue
         $apiSubscription = $this->a2bClient->getSubscription()->getByPin($subscription->getDefaultPin()->getPin());
         $apiSubscription->credit;
         $data = [
-            'subject'  => 'Payment reversed! What should I do now?',
+            'subject'  => 'Payment reversed CANCELED! What should I do now?',
             'credit'   => $apiSubscription->credit,
             'lastUsed' => $apiSubscription->lastuse,
             'pinCount' => $subscription->getPins()->count(),

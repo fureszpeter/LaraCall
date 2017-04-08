@@ -11,6 +11,7 @@ use LaraCall\Events\PaymentFailedEvent;
 use LaraCall\Events\PaymentHandlers\DoEbayPostJobs;
 use LaraCall\Events\PaymentHandlers\ProcessPayPalIpn;
 use LaraCall\Events\PaymentHandlers\SendEbayPaymentReceivedNotification;
+use LaraCall\Events\PaymentHandlers\SendPaymentReversedCanceledNotification;
 use LaraCall\Events\PaymentHandlers\SendPaymentReversedNotification;
 use LaraCall\Events\PaymentPendingEvent;
 use LaraCall\Events\PaymentRefundedEvent;
@@ -58,7 +59,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         PaymentReversalCanceledEvent::class => [
-
+            SendPaymentReversedCanceledNotification::class,
         ],
 
         PaymentFailedEvent::class => [

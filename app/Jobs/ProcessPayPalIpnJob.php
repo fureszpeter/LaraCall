@@ -103,6 +103,7 @@ class ProcessPayPalIpnJob extends Job implements ShouldQueue
 
                 break;
             case PaymentStatus::STATUS_REVERSED:
+                $ipnEntity->setProcessedProperties();
                 event(new PaymentReversedEvent($ipnEntity->getId()));
 
                 return;
