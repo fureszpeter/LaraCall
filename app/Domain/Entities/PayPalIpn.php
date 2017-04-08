@@ -321,7 +321,8 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
             $this
                 ->setParentIpn($parentEntity)
                 ->setIsEbay($parentEntity->isEbay())
-                ->setSubscription($parentEntity->getSubscription());
+                ->setSubscription($parentEntity->getSubscription())
+                ->setEbayUsername($parentEntity->getEbayUsername());
         }
     }
 
@@ -351,6 +352,75 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     public function isEbay(): bool
     {
         return $this->isEbay;
+    }
+
+    /**
+     * @return Subscription|null
+     */
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    /**
+     * @param null|Subscription $subscription
+     *
+     * @return PayPalIpn
+     */
+    public function setSubscription(Subscription $subscription = null): self
+    {
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
+
+//    /**
+//     * @ORM\PreUpdate()
+//     *
+//     * @param PreUpdateEventArgs $eventArgs
+//     */
+//    public function preUpdate(PreUpdateEventArgs $eventArgs)
+//    {
+//        if ( ! $eventArgs->hasChangedField('subscription')) {
+//            return;
+//        }
+//
+//        $children = $this->getChildren();
+//
+//        if (empty($children)) {
+//            return;
+//        }
+//
+//        $entityManager = $eventArgs->getEntityManager();
+//        $uow           = $entityManager->getUnitOfWork();
+//
+//        foreach ($children as $child) {
+//            $subscription = $this->getSubscription();
+//            $child->setSubscription($subscription);
+//            $meta = $entityManager->getClassMetadata(self::class);
+//            $uow->recomputeSingleEntityChangeSet($meta, $child);
+//        }
+//    }
+
+    /**
+     * @return string|null
+     */
+    public function getEbayUsername(): ?string
+    {
+        return $this->ebayUsername;
+    }
+
+    /**
+     * @param string $ebayUsername
+     *
+     * @return $this
+     */
+    public function setEbayUsername($ebayUsername)
+    {
+        $this->ebayUsername = $ebayUsername;
+
+        return $this;
     }
 
     /**
@@ -385,63 +455,6 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
         }
     }
 
-
-//    /**
-//     * @ORM\PreUpdate()
-//     *
-//     * @param PreUpdateEventArgs $eventArgs
-//     */
-//    public function preUpdate(PreUpdateEventArgs $eventArgs)
-//    {
-//        if ( ! $eventArgs->hasChangedField('subscription')) {
-//            return;
-//        }
-//
-//        $children = $this->getChildren();
-//
-//        if (empty($children)) {
-//            return;
-//        }
-//
-//        $entityManager = $eventArgs->getEntityManager();
-//        $uow           = $entityManager->getUnitOfWork();
-//
-//        foreach ($children as $child) {
-//            $subscription = $this->getSubscription();
-//            $child->setSubscription($subscription);
-//            $meta = $entityManager->getClassMetadata(self::class);
-//            $uow->recomputeSingleEntityChangeSet($meta, $child);
-//        }
-//    }
-
-    /**
-     * @ORM\PostPersist()
-     */
-    public function postPersist()
-    {
-        event(new PayPalIpnEntityCreatedEvent($this->getId()));
-    }
-
-    /**
-     * @return Subscription|null
-     */
-    public function getSubscription(): ?Subscription
-    {
-        return $this->subscription;
-    }
-
-    /**
-     * @param null|Subscription $subscription
-     *
-     * @return PayPalIpn
-     */
-    public function setSubscription(Subscription $subscription = null): self
-    {
-        $this->subscription = $subscription;
-
-        return $this;
-    }
-
     /**
      * @return ArrayCollection|PayPalIpn[]
      */
@@ -451,10 +464,10 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @return string|null
+     * @ORM\PostPersist()
      */
-    public function getEbayUsername(): ?string
+    public function postPersist()
     {
-        return $this->ebayUsername;
+        event(new PayPalIpnEntityCreatedEvent($this->getId()));
     }
 }

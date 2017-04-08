@@ -6,6 +6,7 @@ use A2bApiClient\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
+use LaraCall\Domain\Entities\EbayPaymentTransaction;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use LaraCall\Events\PaymentReversedEvent;
 use LaraCall\Infrastructure\Services\Ebay\EbayApiService;
@@ -62,7 +63,9 @@ class SendPaymentReversedNotification implements ShouldQueue
 
         $subscription = $ipn->getParentIpn()->getSubscription();
 
-        $getUserResponse          = $this->ebayApiService->getUser($ipn->getEbayUsername());
+        /** @var EbayPaymentTransaction $ebayTransaction */
+        $ebayTransaction          = $subscription->getEbayPayments()->first();
+        $getUserResponse          = $this->ebayApiService->getUser($ebayTransaction->getEbayUsername());
         $userEbayRegistrationDate = $getUserResponse->User->RegistrationDate;
 
 
