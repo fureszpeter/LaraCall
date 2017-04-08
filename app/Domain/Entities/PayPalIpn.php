@@ -320,7 +320,8 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
             ]);
             $this
                 ->setParentIpn($parentEntity)
-                ->setIsEbay($parentEntity->isEbay());
+                ->setIsEbay($parentEntity->isEbay())
+                ->setSubscription($parentEntity->getSubscription());
         }
     }
 
@@ -430,11 +431,11 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @param Subscription $subscription
+     * @param null|Subscription $subscription
      *
      * @return PayPalIpn
      */
-    public function setSubscription(Subscription $subscription): self
+    public function setSubscription(Subscription $subscription = null): self
     {
         $this->subscription = $subscription;
 

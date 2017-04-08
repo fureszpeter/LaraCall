@@ -37,8 +37,13 @@ class SendPaymentReversedNotification implements ShouldQueue
     public function handle(PaymentReversedEvent $event)
     {
         $ipn = $this->payPalIpnRepository->get($event->getIpnId());
+        if (!$ipn->isEbay())
+        {
+            return;
+        }
 
-        $subscription = $ipn->getSubscription();
+        $subscription = $ipn->getParentIpn()->getSubscription();
+
         $data         = [
             'subject'      => 'Payment reversed! What should I do now?',
             'name'         => $subscription->getFirstName() . $subscription->getLastName(),
