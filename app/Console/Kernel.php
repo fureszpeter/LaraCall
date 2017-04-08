@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use LaraCall\Console\Commands\ApiGetPayment;
 use LaraCall\Console\Commands\ApiSubscriptionCreate;
 use LaraCall\Console\Commands\ApiSubscriptionGet;
+use LaraCall\Console\Commands\BlockUserCommand;
 use LaraCall\Console\Commands\EbayChangeListingQuantityCommand;
 use LaraCall\Console\Commands\EbayGetBestOffersCommand;
 use LaraCall\Console\Commands\EbayGetItemsCommand;
@@ -60,6 +61,11 @@ class Kernel extends ConsoleKernel
         ApiSubscriptionGet::class,
         ApiSubscriptionCreate::class,
         ApiGetPayment::class,
+
+        /*
+         * Maintenance commands
+         */
+        BlockUserCommand::class,
 
         /*
          *
