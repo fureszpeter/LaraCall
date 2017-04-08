@@ -42,6 +42,22 @@
                     <td>{{$name}}</td>
                 </tr>
                 <tr>
+                    <td>Number of pins:</td>
+                    <td>{{$pinCount}}</td>
+                </tr>
+                <tr>
+                    <td>Balance:</td>
+                    <td>{{$credit}}</td>
+                </tr>
+                <tr>
+                    <td>Last used:</td>
+                    <td>{{$lastUsed}}</td>
+                </tr>
+                <tr>
+                    <td>Ebay user reg. date:</td>
+                    <td>{{$ebayRegistrationDate}}</td>
+                </tr>
+                <tr>
                     <td>Subscriber email:</td>
                     <td>{{$email}}</td>
                 </tr>
