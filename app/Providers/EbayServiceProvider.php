@@ -9,6 +9,8 @@ use Illuminate\Support\ServiceProvider;
 use LaraCall\Domain\PayPal\PayPalIpnValidator;
 use LaraCall\Factories\PayPalIpnValidatorFactory;
 use LaraCall\Infrastructure\Services\Ebay\EbayConfig;
+use Swap\Builder;
+use Swap\Swap;
 
 /**
  * Class EbayServiceProvider
@@ -85,5 +87,10 @@ class EbayServiceProvider extends ServiceProvider
 
             return $service;
         });
+
+        $this->app->singleton(Swap::class, function (){
+            return (new Builder())->add('fixer')->build();
+        });
+
     }
 }

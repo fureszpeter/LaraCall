@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,7 +16,3 @@ Route::match(
     '/paypal/ipn',
     ['uses' =>  'IpnController@payPalIpn']
 );
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');

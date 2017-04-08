@@ -31,6 +31,7 @@ use LaraCall\Infrastructure\Services\Ebay\EbayApiService;
 use LaraCall\Infrastructure\Services\Ebay\ValueObjects\ItemId;
 use Log;
 use OutOfBoundsException;
+use Swap\Swap;
 
 class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
 {
@@ -95,6 +96,11 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
     private $ebayApiService;
 
     /**
+     * @var Swap
+     */
+    private $swap;
+
+    /**
      * @param EbayPriceListRepository          $ebayPriceListRepository
      * @param EbayPaymentTransactionRepository $ebayPaymentTransactionRepository
      * @param EntityManagerInterface           $em
@@ -107,6 +113,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
      * @param PasswordService                  $passwordService
      * @param PinGeneratorService              $pinGeneratorService
      * @param Client                           $client
+     * @param Swap                             $swap
      */
     public function __construct(
         EbayPriceListRepository $ebayPriceListRepository,
@@ -120,7 +127,8 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         PaymentService $paymentService,
         PasswordService $passwordService,
         PinGeneratorService $pinGeneratorService,
-        Client $client
+        Client $client,
+        Swap $swap
     ) {
         $this->priceListRepository              = $ebayPriceListRepository;
         $this->em                               = $em;
@@ -134,6 +142,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         $this->pinGeneratorService              = $pinGeneratorService;
         $this->client                           = $client;
         $this->ebayApiService                   = $ebayApiService;
+        $this->swap                             = $swap;
     }
 
     /**
@@ -155,11 +164,23 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
 
         foreach ($priceListTransactions as $transaction) {
             $this->em->beginTransaction();
+            $subscription->increaseRefill();
             $subscription->setDateLastPurchase($dateOfPurchase);
+            $subscription->setLastTransactionAmount($transaction->getAmountPaid());
+
             $ipn->setProcessedProperties();
-            $priceListEntity        = $this->priceListRepository->get($transaction->getItemId());
-            $quantity               = $transaction->getQuantity();
-            $creditAdded            = floatval(floatval($priceListEntity->getProductValue()) * $quantity);
+            $priceListEntity = $this->priceListRepository->get($transaction->getItemId());
+            $quantity        = $transaction->getQuantity();
+
+            if ($priceListEntity->getCurrency() == 'USD') {
+                $productValue = $priceListEntity->getProductValue();
+            } else {
+                $rate = $this->swap->latest('EUR/USD');
+                $rate->getValue();
+                $productValue = floatval($rate * $priceListEntity->getProductValue());
+            }
+
+            $creditAdded            = floatval($productValue * $quantity);
             $convertedAmount        = floatval($transaction->getAmountPaid());
             $paymentSource          = new PaymentSource(PaymentSource::SOURCE_EBAY);
             $ebayPaymentTransaction = new EbayPaymentTransaction(
@@ -297,7 +318,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         $city      = $transaction->Buyer->BuyerInfo->ShippingAddress->CityName;
         $address1  =
             $transaction->Buyer->BuyerInfo->ShippingAddress->Street1 ?: ''
-            . $transaction->Buyer->BuyerInfo->ShippingAddress->Street2 ?: '';
+            .$transaction->Buyer->BuyerInfo->ShippingAddress->Street2 ?: '';
 
         $subscription = new Subscription(
             $user,

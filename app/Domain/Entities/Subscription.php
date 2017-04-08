@@ -412,6 +412,67 @@ class Subscription extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
+     * @return ArrayCollection|EbayPaymentTransaction[]
+     */
+    public function getEbayPayments()
+    {
+        return $this->ebayPayments;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfRefill(): int
+    {
+        return $this->numberOfRefill;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfRefund(): int
+    {
+        return $this->numberOfRefund;
+    }
+
+    /**
+     * @return $this
+     */
+    public function increaseRefund()
+    {
+        $this->numberOfRefund++;
+
+        return $this;
+    }
+
+    public function increaseRefill()
+    {
+        $this->numberOfRefill++;
+
+        return $this;
+    }
+
+    /**
+     * @param string $lastTransactionAmount
+     *
+     * @return $this
+     */
+    public function setLastTransactionAmount($lastTransactionAmount)
+    {
+        $this->lastTransactionAmount = $lastTransactionAmount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastTransactionAmount(): string
+    {
+        return $this->lastTransactionAmount;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()

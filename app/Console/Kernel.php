@@ -21,7 +21,7 @@ use LaraCall\Console\Commands\ImportPayPalIpnCommand;
 use LaraCall\Console\Commands\ImportSubscriptionsCommand;
 use LaraCall\Console\Commands\ImportUsersCommand;
 use LaraCall\Console\Commands\IpnProcessCommand;
-use LaraCall\Console\Commands\ListPayPalIpnMessagesCommand;
+use LaraCall\Console\Commands\IpnListCommand;
 use LaraCall\Console\Commands\MigrateDbCommand;
 use LaraCall\Console\Commands\testCommand;
 
@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ListPayPalIpnMessagesCommand::class,
+        IpnListCommand::class,
         IpnProcessCommand::class,
         MigrateDbCommand::class,
         ImportUsersCommand::class,
