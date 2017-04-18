@@ -53,7 +53,12 @@ class BlockUserCommand extends Command
         $em->persist($user);
         $em->flush();
         try {
-            $a2bClient->getSubscription()->blockByPin($user->getSubscription()->getDefaultPin()->getPin());
+            $pins = $user->getSubscription()->getPins();
+            foreach ($pins as $pin) {
+                $pinText = $pin->getPin();
+                $this->info(sprintf('Blocking pin: %s', $pinText));
+                $a2bClient->getSubscription()->blockByPin($pinText);
+            }
             $em->commit();
         } catch (Exception $exception) {
             $em->rollback();
