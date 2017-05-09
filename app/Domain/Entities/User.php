@@ -1,7 +1,6 @@
 <?php
 namespace LaraCall\Domain\Entities;
 
-use Carbon\Carbon;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -67,6 +66,13 @@ class User extends AbstractEntityWithId implements JsonSerializable
      * @ORM\Column(type="boolean", nullable=false)
      */
     protected $admin = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $password;
 
     /**
      * @param string $email
