@@ -23,6 +23,11 @@ class ProcessPayPalIpnWebJob extends Job implements ShouldQueue
     private $ipnId;
 
     /**
+     * @var int
+     */
+    public $tries = 4;
+
+    /**
      * Create a new job instance.
      *
      * @param int $ipnId

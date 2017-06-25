@@ -65,6 +65,11 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
     private $priceListRepository;
 
     /**
+     * @var int
+     */
+    public $tries = 4;
+
+    /**
      * Create a new job instance.
      *
      * @param int $ipnId

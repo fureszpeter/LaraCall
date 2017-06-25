@@ -25,6 +25,7 @@ use LaraCall\Console\Commands\IpnProcessCommand;
 use LaraCall\Console\Commands\IpnListCommand;
 use LaraCall\Console\Commands\MigrateDbCommand;
 use LaraCall\Console\Commands\testCommand;
+use LaraCall\Console\Commands\TestJobFailCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -71,6 +72,7 @@ class Kernel extends ConsoleKernel
          *
          */
         testCommand::class,
+        TestJobFailCommand::class,
     ];
 
     /**
