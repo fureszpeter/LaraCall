@@ -176,8 +176,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
                 $productValue = $priceListEntity->getProductValue();
             } else {
                 $rate = $this->swap->latest('EUR/USD');
-                $rate->getValue();
-                $productValue = floatval($rate * $priceListEntity->getProductValue());
+                $productValue = floatval($rate->getValue() * $priceListEntity->getProductValue());
             }
 
             $creditAdded            = floatval($productValue * $quantity);
