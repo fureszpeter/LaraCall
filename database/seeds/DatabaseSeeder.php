@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(CountriesTableSeeder::class);
 //        $this->call(StatesTableSeeder::class);
 //        $this->call(PayPalIpnsTableSeeder::class);
-//        $this->call(EbayPriceListsTableSeeder::class);
+        $this->call(EbayPriceListsTableSeeder::class);
 //        $this->call(SubscriptionsTableSeeder::class);
 //        $this->call(PinsTableSeeder::class);
     }
