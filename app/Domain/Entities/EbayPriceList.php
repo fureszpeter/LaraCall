@@ -67,6 +67,13 @@ class EbayPriceList extends AbstractEntity
     protected $deleted = false;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $minStock = 20;
+
+    /**
      * @param ItemId $itemId
      * @param string $price
      * @param string $currency
@@ -134,5 +141,13 @@ class EbayPriceList extends AbstractEntity
     public function isDeleted(): bool
     {
         return $this->deleted;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinStock(): int
+    {
+        return $this->minStock;
     }
 }
