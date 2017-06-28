@@ -8,6 +8,7 @@ use LaraCall\Events\EbayPaymentCompleteEvent;
 use LaraCall\Events\Handlers\SendDeliveryTokenEmail;
 use LaraCall\Events\PaymentCompleteEvent;
 use LaraCall\Events\PaymentFailedEvent;
+use LaraCall\Events\PaymentHandlers\AddItemsToStockIfNeeded;
 use LaraCall\Events\PaymentHandlers\DoEbayPostJobs;
 use LaraCall\Events\PaymentHandlers\ProcessPayPalIpn;
 use LaraCall\Events\PaymentHandlers\SendEbayPaymentReceivedNotification;
@@ -40,6 +41,7 @@ class EventServiceProvider extends ServiceProvider
         EbayPaymentCompleteEvent::class => [
             SendEbayPaymentReceivedNotification::class,
             DoEbayPostJobs::class,
+            AddItemsToStockIfNeeded::class,
         ],
 
         DeliveryEntityCreatedEvent::class => [
