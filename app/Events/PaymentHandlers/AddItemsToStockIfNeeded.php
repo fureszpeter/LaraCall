@@ -2,6 +2,7 @@
 
 namespace LaraCall\Events\PaymentHandlers;
 
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use LaraCall\Domain\Repositories\EbayPaymentTransactionRepository;
 use LaraCall\Domain\Repositories\EbayPriceListRepository;
@@ -40,6 +41,8 @@ class AddItemsToStockIfNeeded implements ShouldQueue
 
     /**
      * @param EbayPaymentCompleteEvent $event
+     *
+     * @throws Exception
      */
     public function handle(EbayPaymentCompleteEvent $event)
     {
@@ -50,6 +53,12 @@ class AddItemsToStockIfNeeded implements ShouldQueue
         $itemId          = $paymentTransaction->getItemId();
         $priceListEntity = $this->priceListRepository->get($itemId->getItemId());
 
-        $this->apiService->changeListingQuantity($itemId, $priceListEntity->getMinStock());
+        try {
+            $this->apiService->changeListingQuantity($itemId, $priceListEntity->getMinStock());
+        } catch (Exception $exception) {
+            if (!preg_match('/Best Offer/i', $exception->getMessage())) {
+                throw $exception;
+            }
+        }
     }
 }
