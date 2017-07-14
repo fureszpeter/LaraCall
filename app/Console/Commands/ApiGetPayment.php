@@ -9,8 +9,6 @@ use Symfony\Component\Console\Helper\Table;
 class ApiGetPayment extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
      * @var string
      */
     protected $signature = 'api:payment:list {subscriptionId : Id of the subscription}';
@@ -34,8 +32,6 @@ class ApiGetPayment extends Command
      * Execute the console command.
      *
      * @param Client $client
-     *
-     * @return mixed
      */
     public function handle(Client $client)
     {

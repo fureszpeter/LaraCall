@@ -7,18 +7,13 @@ use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
 use LaraCall\Domain\Factories\PaymentStatusFactory;
 use LaraCall\Domain\Services\ApiImportService;
-use LaraCall\Domain\Services\DeliveryTokenGenerator;
 use LaraCall\Domain\Services\EbayProcessPaymentService;
-use LaraCall\Domain\Services\EbayUsernameTokenResolver;
 use LaraCall\Domain\Services\ImportService;
 use LaraCall\Domain\Services\PasswordService;
-use LaraCall\Domain\Services\PayPalIpnAddressResolver;
 use LaraCall\Domain\Services\PayPalIpnService;
 use LaraCall\Domain\Services\PinGeneratorService;
-use LaraCall\Infrastructure\Services\DbEbayUsernameTokenResolver;
 use LaraCall\Infrastructure\Services\SimplePasswordService;
 use LaraCall\Infrastructure\Services\SimplePinGeneratorService;
-use LaraCall\Infrastructure\Services\SimpleTokenGenerator;
 
 class DomainServiceProvider extends ServiceProvider
 {
@@ -45,11 +40,6 @@ class DomainServiceProvider extends ServiceProvider
                 env('A2B_API_PASSWORD')
             );
         });
-
-        $this->app->singleton(EbayUsernameTokenResolver::class, DbEbayUsernameTokenResolver::class);
-        $this->app->singleton(PayPalIpnAddressResolver::class,
-            \LaraCall\Infrastructure\Services\PayPalIpnAddressResolver::class);
-        $this->app->singleton(DeliveryTokenGenerator::class, SimpleTokenGenerator::class);
 
         $this->app->singleton(PayPalIpnService::class, function () {
             return new \LaraCall\Infrastructure\Services\PayPalIpnService(

@@ -375,34 +375,6 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
 
-//    /**
-//     * @ORM\PreUpdate()
-//     *
-//     * @param PreUpdateEventArgs $eventArgs
-//     */
-//    public function preUpdate(PreUpdateEventArgs $eventArgs)
-//    {
-//        if ( ! $eventArgs->hasChangedField('subscription')) {
-//            return;
-//        }
-//
-//        $children = $this->getChildren();
-//
-//        if (empty($children)) {
-//            return;
-//        }
-//
-//        $entityManager = $eventArgs->getEntityManager();
-//        $uow           = $entityManager->getUnitOfWork();
-//
-//        foreach ($children as $child) {
-//            $subscription = $this->getSubscription();
-//            $child->setSubscription($subscription);
-//            $meta = $entityManager->getClassMetadata(self::class);
-//            $uow->recomputeSingleEntityChangeSet($meta, $child);
-//        }
-//    }
-
     /**
      * @return string|null
      */

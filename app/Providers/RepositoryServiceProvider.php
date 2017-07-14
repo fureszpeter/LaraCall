@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\ServiceProvider;
 use LaraCall\Domain\Entities\Country;
 use LaraCall\Domain\Entities\EbayPaymentTransaction;
-use LaraCall\Domain\Entities\PinTokenDelivery;
 use LaraCall\Domain\Entities\EbayPriceList;
 use LaraCall\Domain\Entities\EbayUser;
 use LaraCall\Domain\Entities\PaymentTransaction;
@@ -16,7 +15,6 @@ use LaraCall\Domain\Entities\State;
 use LaraCall\Domain\Entities\Subscription;
 use LaraCall\Domain\Entities\User;
 use LaraCall\Domain\Repositories\CountryRepository;
-use LaraCall\Domain\Repositories\DeliveryTokenRepository;
 use LaraCall\Domain\Repositories\EbayPaymentTransactionRepository;
 use LaraCall\Domain\Repositories\EbayPriceListRepository;
 use LaraCall\Domain\Repositories\EbayUserRepository;
@@ -62,9 +60,6 @@ class RepositoryServiceProvider extends ServiceProvider
         });
         $this->app->singleton(PinRepository::class, function () use ($em) {
             return $em->getRepository(Pin::class);
-        });
-        $this->app->singleton(DeliveryTokenRepository::class, function () use ($em) {
-            return $em->getRepository(PinTokenDelivery::class);
         });
         $this->app->singleton(PaymentTransactionRepository::class, function () use ($em) {
             return $em->getRepository(PaymentTransaction::class);
