@@ -4,14 +4,13 @@ namespace LaraCall\Jobs;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use LaraCall\Domain\Entities\PayPalIpn;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use LaraCall\Domain\Services\PayPalIpnService;
 use LaraCall\Domain\ValueObjects\IpnStatus;
 use LaraCall\Domain\ValueObjects\IpnType;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use LaraCall\Domain\ValueObjects\PaymentStatus;
 use LaraCall\Events\InvalidIpnMessageReceivedEvent;
 use LaraCall\Events\PaymentFailedEvent;
@@ -24,7 +23,12 @@ use UnexpectedValueException;
 
 class ProcessPayPalIpnJob extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    use InteractsWithQueue;
+
+    /**
+     * @var int
+     */
+    public $tries = 4;
 
     /**
      * @var int
@@ -50,11 +54,6 @@ class ProcessPayPalIpnJob extends Job implements ShouldQueue
      * @var Dispatcher
      */
     private $dispatcher;
-
-    /**
-     * @var int
-     */
-    public $tries = 4;
 
     /**
      * Create a new job instance.
@@ -91,7 +90,7 @@ class ProcessPayPalIpnJob extends Job implements ShouldQueue
 
         $this->assertIpnIsNotProcessed($ipnEntity);
 
-        if ( ! $this->assertIpnValid($ipnEntity)) {
+        if (false === $this->assertIpnValid($ipnEntity)) {
             event(new InvalidIpnMessageReceivedEvent($ipnEntity->getSalesMessage()));
 
             return;
@@ -155,10 +154,12 @@ class ProcessPayPalIpnJob extends Job implements ShouldQueue
 
     /**
      * @param PayPalIpn $ipnEntity
+     *
+     * @throws UnexpectedValueException If IPN already processed.
      */
     private function assertIpnIsNotProcessed(PayPalIpn $ipnEntity)
     {
-        if ($ipnEntity->getStatus() == IpnStatus::STATUS_PROCESSED) {
+        if ($ipnEntity->getStatus()->isProcessed()) {
             throw new UnexpectedValueException(
                 sprintf('Ipn already processed. [id: %s]', $ipnEntity->getTxnId())
             );
@@ -172,7 +173,7 @@ class ProcessPayPalIpnJob extends Job implements ShouldQueue
      */
     private function assertIpnValid(PayPalIpn $ipnEntity): bool
     {
-        if ( ! $this->payPalIpnService->isValid($ipnEntity)) {
+        if (!$this->payPalIpnService->isValid($ipnEntity)) {
             $ipnEntity->setProcessedProperties();
             $ipnEntity->setStatus(new IpnStatus(IpnStatus::STATUS_PROCESSED));
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraCall\Domain\ValueObjects;
 
 use UnexpectedValueException;
@@ -34,7 +35,7 @@ class IpnStatus
      */
     public function __construct(string $status)
     {
-        if ( ! in_array($status, self::ALLOWED_STATUSES)) {
+        if (!in_array($status, self::ALLOWED_STATUSES)) {
             throw new UnexpectedValueException(
                 sprintf(
                     'Invalid status received. [allowed: %s, received: %s]',
@@ -58,5 +59,29 @@ class IpnStatus
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProcessed(): bool
+    {
+        return $this->getStatus() === self::STATUS_PROCESSED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnprocessed(): bool
+    {
+        return $this->getStatus() === self::STATUS_UNPROCESSED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFailed(): bool
+    {
+        return $this->getStatus() === self::STATUS_FAILED;
     }
 }

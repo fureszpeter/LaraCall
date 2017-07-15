@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraCall\Domain\Entities;
 
 use DateTime;
@@ -141,7 +142,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
 
         $this->salesMessage = json_encode($saleMessage);
         $this->isSandBox    = $saleMessage->isSandBox();
-        $this->status       = (string) new IpnStatus(IpnStatus::STATUS_UNPROCESSED);
+        $this->status       = (string)new IpnStatus(IpnStatus::STATUS_UNPROCESSED);
         $this->processCount = 0;
         $this->isValid      = $saleMessage->isValid();
         $this->children     = new ArrayCollection();
@@ -234,7 +235,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
      */
     public function setStatus(IpnStatus $status): self
     {
-        $this->status = (string) $status;
+        $this->status = (string)$status;
 
         return $this;
     }
@@ -335,6 +336,14 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isEbay(): bool
+    {
+        return $this->isEbay;
+    }
+
+    /**
      * @param bool $isEbay
      *
      * @return PayPalIpn
@@ -344,14 +353,6 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
         $this->isEbay = $isEbay;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEbay(): bool
-    {
-        return $this->isEbay;
     }
 
     /**
@@ -402,7 +403,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
      */
     public function preFlush(PreFlushEventArgs $preFlushEventArgs)
     {
-        if ( ! $this->getSubscription()) {
+        if (!$this->getSubscription()) {
             return;
         }
 
