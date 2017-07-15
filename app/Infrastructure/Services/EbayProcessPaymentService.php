@@ -336,7 +336,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         $this->em->persist($subscription);
         $this->em->flush();
 
-        $this->ebayService->getOrSaveEbayUser($ipnVo->getEbayUserId(), $subscription);
+        $this->ebayService->getOrSaveEbayUser($ipn->getEbayUsername(), $subscription);
 
         $pin = new Pin(
             $this->pinGeneratorService->generate(),
