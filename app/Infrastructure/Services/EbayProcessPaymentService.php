@@ -253,10 +253,9 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         foreach ($ebayTransactions as $ebayTransaction) {
             $priceListEntity = $this->priceListRepository->find($ebayTransaction->getItemId()->getItemId());
             if (is_null($priceListEntity)) {
-//                event(new ItemNotInPriceListEvent(
-//                        $ebayTransaction->getEbayTxnId(),
-//                        $ebayTransaction->getItemId()->getItemId())
-//                );
+                /**
+                 * @TODO Fire event here if needed. (ItemNotInPriceListEvent)
+                 */
 
                 Log::info(
                     sprintf(

@@ -14,8 +14,6 @@ use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use LaraCall\Domain\Repositories\UserRepository;
 use LaraCall\Domain\Services\EbayProcessPaymentService;
 use LaraCall\Domain\Services\ImportService;
-use LaraCall\Events\BlockedSubscriptionEbayPaymentReceivedEvent;
-use LaraCall\Events\ItemNotInPriceListEvent;
 use Log;
 
 /**
@@ -127,12 +125,9 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
             $ebayUserEntity
             && $ebayUserEntity->getSubscription()->isBlocked()
         ) {
-            $this->eventDispatcher->fire(
-                new BlockedSubscriptionEbayPaymentReceivedEvent(
-                    $ebayUserEntity->getSubscription()->getId(),
-                    $ebayUserEntity->getId()
-                )
-            );
+            /**
+             * @TODO Fire event here if needed. (BlockedSubscriptionEbayPaymentReceivedEvent)
+             */
 
             return;
         }
@@ -177,11 +172,9 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
         foreach ($ebayTransactions as $ebayTransaction) {
             $priceListEntity = $this->priceListRepository->find($ebayTransaction->getItemId()->getItemId());
             if (is_null($priceListEntity)) {
-                event(new ItemNotInPriceListEvent(
-                        $ebayTransaction->getEbayTxnId(),
-                        $ebayTransaction->getItemId()->getItemId())
-                );
-
+                /**
+                 * @TODO Fire events here if needed. (ItemNotInPriceListEvent)
+                 */
                 Log::info(
                     sprintf(
                         'Transaction not belongs to ebay price list. [transaction id: %s]',
