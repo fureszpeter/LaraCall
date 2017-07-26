@@ -10,9 +10,9 @@ class PayPalEbayIpn extends ValidatedPayPalIpn
     protected $numberOfCartItems;
 
     /**
-     * @var PayPalIpnEbayTransaction[]
+     * @var EbayTransaction[]
      */
-    protected $transactionDetails = [];
+    protected $ebayTransactions = [];
 
     /** @var string */
     protected $ebayUserId;
@@ -42,13 +42,13 @@ class PayPalEbayIpn extends ValidatedPayPalIpn
         $rawPayPalData = $this->getRawPayPalData();
 
         for ($i = 1; $i <= $rawPayPalData['num_cart_items']; $i++) {
-            $this->transactionDetails[] = new PayPalIpnEbayTransaction(
+            $this->ebayTransactions[] = new EbayTransaction(
                 new ItemId($rawPayPalData[sprintf('item_number%s', $i)]),
                 $rawPayPalData['item_name' . $i],
                 $rawPayPalData[sprintf('ebay_txn_id%s', $i)],
                 $rawPayPalData[sprintf('quantity%s', $i)],
-                (string) $rawPayPalData[sprintf('mc_gross_%s', $i)],
-                (string) $rawPayPalData['mc_currency']
+                (string)$rawPayPalData[sprintf('mc_gross_%s', $i)],
+                (string)$rawPayPalData['mc_currency']
             );
         }
     }
@@ -62,11 +62,11 @@ class PayPalEbayIpn extends ValidatedPayPalIpn
     }
 
     /**
-     * @return PayPalIpnEbayTransaction[]
+     * @return EbayTransaction[]
      */
     public function getEbayTransactions(): array
     {
-        return $this->transactionDetails;
+        return $this->ebayTransactions;
     }
 
     /**

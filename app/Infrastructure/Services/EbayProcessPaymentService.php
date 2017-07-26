@@ -12,7 +12,7 @@ use LaraCall\Domain\Entities\Pin;
 use LaraCall\Domain\Entities\Subscription;
 use LaraCall\Domain\Entities\User;
 use LaraCall\Domain\PayPal\ValueObjects\PayPalEbayIpn;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalIpnEbayTransaction;
+use LaraCall\Domain\PayPal\ValueObjects\EbayTransaction;
 use LaraCall\Domain\Registration\Services\EbayService;
 use LaraCall\Domain\Repositories\CountryRepository;
 use LaraCall\Domain\Repositories\EbayPaymentTransactionRepository;
@@ -241,36 +241,34 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
     }
 
     /**
-     * @param PayPalIpnEbayTransaction[] ...$payPalIpnEbayTransactions
+     * @param EbayTransaction[] ...$ebayTransactions
      *
-     * @return PayPalIpnEbayTransaction[]
+     * @return EbayTransaction[]
      */
     private function getTransactionsExistsInPriceList(
-        PayPalIpnEbayTransaction ...$payPalIpnEbayTransactions
+        EbayTransaction ...$ebayTransactions
     ) {
         $filteredTransactions = [];
 
-        foreach ($payPalIpnEbayTransactions as $payPalIpnEbayTransaction) {
-            $priceListEntity = $this->priceListRepository->find($payPalIpnEbayTransaction->getItemId()->getItemId());
+        foreach ($ebayTransactions as $ebayTransaction) {
+            $priceListEntity = $this->priceListRepository->find($ebayTransaction->getItemId()->getItemId());
             if (is_null($priceListEntity)) {
-//                event(
-//                    new ItemNotInPriceListEvent(
-//                        $payPalIpnEbayTransaction->getEbayTxnId(),
-//                        $payPalIpnEbayTransaction->getItemId()->getItemId()
-//                    )
+//                event(new ItemNotInPriceListEvent(
+//                        $ebayTransaction->getEbayTxnId(),
+//                        $ebayTransaction->getItemId()->getItemId())
 //                );
 
                 Log::info(
                     sprintf(
                         'Transaction not belongs to ebay price list. [transaction id: %s]',
-                        $payPalIpnEbayTransaction->getEbayTxnId()
+                        $ebayTransaction->getEbayTxnId()
                     )
                 );
 
                 continue;
             }
 
-            $filteredTransactions[] = $payPalIpnEbayTransaction;
+            $filteredTransactions[] = $ebayTransaction;
         }
 
         return $filteredTransactions;
