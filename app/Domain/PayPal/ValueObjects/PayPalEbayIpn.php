@@ -70,6 +70,14 @@ class PayPalEbayIpn extends ValidatedPayPalIpn
     }
 
     /**
+     * @param string $ebayUserId
+     */
+    public function setEbayUserId(string $ebayUserId)
+    {
+        $this->ebayUserId = $ebayUserId;
+    }
+
+    /**
      * @return string
      */
     public function getEbayUserId(): string

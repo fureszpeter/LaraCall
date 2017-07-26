@@ -27,7 +27,7 @@ class IpnController extends Controller
     /**
      * @var PayPalIpnValidator
      */
-    private $payPalService;
+    private $payPalIpnValidator;
 
     /**
      * @var EntityManager
@@ -41,19 +41,19 @@ class IpnController extends Controller
 
     /**
      * @param Dispatcher          $dispatcher
-     * @param PayPalIpnValidator  $payPalService
+     * @param PayPalIpnValidator  $payPalIpnValidator
      * @param EntityManager       $em
      * @param PayPalIpnRepository $ipnSalesMessageRepository
      */
     public function __construct(
         Dispatcher $dispatcher,
-        PayPalIpnValidator $payPalService,
+        PayPalIpnValidator $payPalIpnValidator,
         EntityManager $em,
         PayPalIpnRepository $ipnSalesMessageRepository
 
     ) {
         $this->dispatcher                = $dispatcher;
-        $this->payPalService             = $payPalService;
+        $this->payPalIpnValidator        = $payPalIpnValidator;
         $this->em                        = $em;
         $this->ipnSalesMessageRepository = $ipnSalesMessageRepository;
     }
@@ -63,7 +63,7 @@ class IpnController extends Controller
      */
     public function payPalIpn(Request $request)
     {
-        $ipnSalesMessage = $this->payPalService->validateIpn(new PayPalIpn($request->request->all()));
+        $ipnSalesMessage = $this->payPalIpnValidator->validateIpn(new PayPalIpn($request->request->all()));
 
         $entity = new PayPalIpnEntity($ipnSalesMessage);
         $this->em->persist($entity);

@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraCall\Domain\PayPal\ValueObjects;
 
 use DateTimeImmutable;

@@ -17,7 +17,6 @@ use LaraCall\Console\Commands\EbayGetSellerTransactionsCommand;
 use LaraCall\Console\Commands\EbayGetTransactionCommand;
 use LaraCall\Console\Commands\EbayGetUserCommand;
 use LaraCall\Console\Commands\EbayMarkShippedCommand;
-use LaraCall\Console\Commands\GenerateDeliveryTokenCommand;
 use LaraCall\Console\Commands\ImportPayPalIpnCommand;
 use LaraCall\Console\Commands\ImportSubscriptionsCommand;
 use LaraCall\Console\Commands\ImportUsersCommand;
@@ -41,7 +40,6 @@ class Kernel extends ConsoleKernel
         ImportUsersCommand::class,
         ImportSubscriptionsCommand::class,
         ImportPayPalIpnCommand::class,
-        GenerateDeliveryTokenCommand::class,
 
         /*
          * Ebay commands

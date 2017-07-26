@@ -1,10 +1,11 @@
 <?php
+
 namespace LaraCall\Events\PaymentHandlers;
 
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
-use Illuminate\Contracts\Bus\Dispatcher;
 use LaraCall\Events\PayPalIpnEntityCreatedEvent;
 use LaraCall\Jobs\ProcessPayPalIpnJob;
 

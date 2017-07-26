@@ -40,13 +40,6 @@ class Pin extends AbstractEntity
     protected $subscription;
 
     /**
-     * @var PinTokenDelivery
-     *
-     * @ORM\OneToMany(targetEntity="PinTokenDelivery", mappedBy="pin")
-     */
-    protected $pinTokenDelivery;
-
-    /**
      * @param string       $pin
      * @param Subscription $subscription
      */

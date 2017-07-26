@@ -109,6 +109,10 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
         $payPalIpnEntity = $payPalIpnRepository->get($this->ipnId);
         $payPalEbayIpn   = new PayPalEbayIpn($payPalIpnEntity->getSalesMessage());
 
+        if ($payPalIpnEntity->getEbayUsername() != $payPalEbayIpn->getEbayUserId()) {
+            $payPalEbayIpn->setEbayUserId($payPalEbayIpn->getEbayUserId());
+        }
+
         $transactionsExistsInPriceList = $this->getTransactionsExistsInPriceList(
             ...$payPalEbayIpn->getEbayTransactions()
         );

@@ -3,9 +3,7 @@
 namespace LaraCall\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use LaraCall\Events\DeliveryEntityCreatedEvent;
 use LaraCall\Events\EbayPaymentCompleteEvent;
-use LaraCall\Events\Handlers\SendDeliveryTokenEmail;
 use LaraCall\Events\PaymentCompleteEvent;
 use LaraCall\Events\PaymentFailedEvent;
 use LaraCall\Events\PaymentHandlers\AddItemsToStockIfNeeded;
@@ -42,10 +40,6 @@ class EventServiceProvider extends ServiceProvider
             SendEbayPaymentReceivedNotification::class,
             DoEbayPostJobs::class,
             AddItemsToStockIfNeeded::class,
-        ],
-
-        DeliveryEntityCreatedEvent::class => [
-            SendDeliveryTokenEmail::class,
         ],
 
         PaymentPendingEvent::class => [
