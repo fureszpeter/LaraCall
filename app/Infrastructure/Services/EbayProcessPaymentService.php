@@ -25,7 +25,6 @@ use LaraCall\Domain\Services\PaymentService;
 use LaraCall\Domain\Services\PinGeneratorService;
 use LaraCall\Domain\ValueObjects\PaymentSource;
 use LaraCall\Events\EbayPaymentCompleteEvent;
-use LaraCall\Events\ItemNotInPriceListEvent;
 use LaraCall\Events\PaymentCompleteEvent;
 use LaraCall\Infrastructure\Services\Ebay\EbayApiService;
 use LaraCall\Infrastructure\Services\Ebay\ValueObjects\ItemId;
@@ -254,10 +253,12 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         foreach ($payPalIpnEbayTransactions as $payPalIpnEbayTransaction) {
             $priceListEntity = $this->priceListRepository->find($payPalIpnEbayTransaction->getItemId()->getItemId());
             if (is_null($priceListEntity)) {
-                event(new ItemNotInPriceListEvent(
-                        $payPalIpnEbayTransaction->getEbayTxnId(),
-                        $payPalIpnEbayTransaction->getItemId()->getItemId())
-                );
+//                event(
+//                    new ItemNotInPriceListEvent(
+//                        $payPalIpnEbayTransaction->getEbayTxnId(),
+//                        $payPalIpnEbayTransaction->getItemId()->getItemId()
+//                    )
+//                );
 
                 Log::info(
                     sprintf(
@@ -366,7 +367,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
             ));
         } catch (Exception $exception) {
             $this->em->rollback();
-            throw new $exception;
+            throw $exception;
         }
 
         $this->em->commit();
