@@ -56,9 +56,13 @@ class AddItemsToStockIfNeeded implements ShouldQueue
         try {
             $this->apiService->changeListingQuantity($itemId, $priceListEntity->getMinStock());
         } catch (Exception $exception) {
-            if (!preg_match('/Best Offer/i', $exception->getMessage())) {
-                throw $exception;
+            if (preg_match('/Best Offer/i', $exception->getMessage())) {
+                return;
             }
+            if (preg_match('/The existing quantity value is identical/i', $exception->getMessage())) {
+                return;
+            }
+            throw $exception;
         }
     }
 }

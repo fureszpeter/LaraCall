@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use LaraCall\Domain\Entities\PayPalIpn;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use LaraCall\Domain\Services\PayPalIpnService;
@@ -90,7 +91,17 @@ class ProcessPayPalIpnJob extends Job implements ShouldQueue
 
         $this->assertIpnIsNotProcessed($ipnEntity);
 
+        Log::info(sprintf('Job started. [name: %s]', self::class));
+
         if (false === $this->assertIpnValid($ipnEntity)) {
+            Log::info(
+                sprintf(
+                    'Invalid ipn received. [ipn id: %s; email: %s]',
+                    $ipnEntity->getId(),
+                    $ipnEntity->getSalesMessage()->getPayerEmail()
+                )
+            );
+
             event(new InvalidIpnMessageReceivedEvent($ipnEntity->getSalesMessage()));
 
             return;
