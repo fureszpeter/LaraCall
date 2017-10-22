@@ -2,11 +2,11 @@
 
 namespace LaraCall\Jobs;
 
-use Illuminate\Events\Dispatcher;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalEbayIpn;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use LaraCall\Domain\Factories\PayPalIpnFactory;
 use LaraCall\Domain\PayPal\ValueObjects\EbayTransaction;
 use LaraCall\Domain\Repositories\EbayPriceListRepository;
 use LaraCall\Domain\Repositories\EbayUserRepository;
@@ -27,45 +27,29 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    /**
-     * @var int
-     */
+    /** @var int */
+    public $tries = 4;
+
+    /** @var int */
     private $ipnId;
 
-    /**
-     * @var EbayUserRepository
-     */
+    /** @var EbayUserRepository */
     private $ebayUserRepository;
 
-    /**
-     * @var UserRepository
-     */
+    /** @var UserRepository */
     private $userRepository;
 
-    /**
-     * @var Dispatcher
-     */
+    /** @var Dispatcher */
     private $eventDispatcher;
 
-    /**
-     * @var ImportService
-     */
+    /** @var ImportService */
     private $importService;
 
-    /**
-     * @var EbayProcessPaymentService
-     */
+    /** @var EbayProcessPaymentService */
     private $ebayProcessPaymentService;
 
-    /**
-     * @var EbayPriceListRepository
-     */
+    /** @var EbayPriceListRepository */
     private $priceListRepository;
-
-    /**
-     * @var int
-     */
-    public $tries = 4;
 
     /**
      * Create a new job instance.
@@ -85,6 +69,7 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
      * @param EbayPriceListRepository   $priceListRepository
      * @param ImportService             $importService
      * @param EbayProcessPaymentService $ebayProcessPaymentService
+     * @param PayPalIpnFactory          $payPalIpnFactory
      *
      * @return void
      */
@@ -95,7 +80,8 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
         PayPalIpnRepository $payPalIpnRepository,
         EbayPriceListRepository $priceListRepository,
         ImportService $importService,
-        EbayProcessPaymentService $ebayProcessPaymentService
+        EbayProcessPaymentService $ebayProcessPaymentService,
+        PayPalIpnFactory $payPalIpnFactory
     ) {
         $this->eventDispatcher           = $eventDispatcher;
         $this->ebayUserRepository        = $ebayUserRepository;
@@ -105,21 +91,21 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
         $this->priceListRepository       = $priceListRepository;
 
         $payPalIpnEntity = $payPalIpnRepository->get($this->ipnId);
-        $payPalEbayIpn   = new PayPalEbayIpn($payPalIpnEntity->getSalesMessage());
+        $ipnVo   = $payPalIpnFactory->createFromIpnEntity($payPalIpnEntity);
 
-        if ($payPalIpnEntity->getEbayUsername() != $payPalEbayIpn->getEbayUserId()) {
-            $payPalEbayIpn->setEbayUserId($payPalEbayIpn->getEbayUserId());
+        if ($payPalIpnEntity->getEbayUsername() != $ipnVo->getEbayUserId()) {
+            $ipnVo->setEbayUserId($payPalIpnEntity->getEbayUsername());
         }
 
         $transactionsExistsInPriceList = $this->getTransactionsExistsInPriceList(
-            ...$payPalEbayIpn->getEbayTransactions()
+            ...$ipnVo->getEbayTransactions()
         );
 
         if (empty($transactionsExistsInPriceList)) {
             return;
         }
 
-        $ebayUserEntity = $this->ebayUserRepository->findByEbayUsername($payPalEbayIpn->getEbayUserId());
+        $ebayUserEntity = $this->ebayUserRepository->findByEbayUsername($ipnVo->getEbayUserId());
 
         if (
             $ebayUserEntity
@@ -132,13 +118,13 @@ class ProcessPayPalIpnEbayJob extends Job implements ShouldQueue
             return;
         }
 
-        $pins = $this->importService->importByEmail($payPalEbayIpn->getPayerEmail());
+        $pins = $this->importService->importByEmail($ipnVo->getPayerEmail());
 
-        if ( ! $pins->isEmpty()) {
+        if (!$pins->isEmpty()) {
             /*
              * This is an existing user
              */
-            $user = $this->userRepository->getByEmail($payPalEbayIpn->getPayerEmail());
+            $user = $this->userRepository->getByEmail($ipnVo->getPayerEmail());
 
             $this->ebayProcessPaymentService->addPaymentToSubscription($user->getSubscription(), $payPalIpnEntity);
 

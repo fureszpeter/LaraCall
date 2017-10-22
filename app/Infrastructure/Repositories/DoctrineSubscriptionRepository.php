@@ -2,11 +2,7 @@
 namespace LaraCall\Infrastructure\Repositories;
 
 use Doctrine\ORM\EntityRepository;
-use LaraCall\Domain\Entities\Country;
-use LaraCall\Domain\Entities\PayPalIpn;
 use LaraCall\Domain\Entities\Subscription;
-use LaraCall\Domain\Repositories\CountryRepository;
-use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use LaraCall\Domain\Repositories\SubscriptionRepository;
 use OutOfBoundsException;
 

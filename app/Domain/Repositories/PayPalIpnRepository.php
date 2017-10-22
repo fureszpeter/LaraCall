@@ -4,16 +4,14 @@ namespace LaraCall\Domain\Repositories;
 
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use LaraCall\Domain\Entities\PayPalIpn;
+use LaraCall\Domain\Entities\PayPalIpnEntity;
 use OutOfBoundsException;
 
 /**
- * @package LaraCall\Domain\Repositories
- *
- * @method PayPalIpn find($id)
- * @method PayPalIpn[] findAll()
- * @method PayPalIpn[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method PayPalIpn findOneBy(array $criteria)
+ * @method PayPalIpnEntity find($id)
+ * @method PayPalIpnEntity[] findAll()
+ * @method PayPalIpnEntity[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PayPalIpnEntity findOneBy(array $criteria)
  */
 interface PayPalIpnRepository extends ObjectRepository
 {
@@ -22,24 +20,31 @@ interface PayPalIpnRepository extends ObjectRepository
      *
      * @throws OutOfBoundsException
      *
-     * @return PayPalIpn
+     * @return PayPalIpnEntity
      */
-    public function get(int $id) : PayPalIpn;
+    public function get(int $id) : PayPalIpnEntity;
 
     /**
      * @param array $criteria
      *
      * @throws OutOfBoundsException
      *
-     * @return PayPalIpn
+     * @return PayPalIpnEntity
      */
-    public function getOneBy(array $criteria) : PayPalIpn;
+    public function getOneBy(array $criteria) : PayPalIpnEntity;
 
     /**
      * @param int   $limit
      * @param array $orderBy
      *
-     * @return PayPalIpn[]
+     * @return PayPalIpnEntity[]
      */
     public function findLast(int $limit, array $orderBy = []) : array;
+
+    /**
+     * @param PayPalIpnEntity $entity
+     *
+     * @return PayPalIpnEntity
+     */
+    public function save(PayPalIpnEntity $entity): PayPalIpnEntity;
 }

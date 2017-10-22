@@ -1,15 +1,12 @@
 <?php
+
 namespace LaraCall\Domain\PayPal;
 
 use GuzzleHttp\ClientInterface;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
 
 class GuzzlePayPalIpnValidator implements PayPalIpnValidator
 {
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     private $guzzleClient;
 
     /**
@@ -21,29 +18,39 @@ class GuzzlePayPalIpnValidator implements PayPalIpnValidator
     }
 
     /**
-     * @param PayPalIpn $saleMessage
+     * @param array $raw
      *
-     * @return ValidatedPayPalIpn
+     * @return bool
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function validateIpn(PayPalIpn $saleMessage): ValidatedPayPalIpn
+    public function isSentByPayPal(array $raw): bool
     {
-        $url           = $saleMessage->isSandBox() ? self::VERIFY_URI_SANDBOX : self::VERIFY_URI;
+        $url = $this->isSandBox($raw) ? self::VERIFY_URI_SANDBOX : self::VERIFY_URI;
 
-        $rawPayPalData = $saleMessage->getRawPayPalData();
-        $response      = $this->guzzleClient->request('POST', $url,
+        $response = $this->guzzleClient->request('POST', $url,
             [
                 'form_params' => array_merge(
                     ['cmd' => '_notify-validate'],
-                    $rawPayPalData
+                    $raw
                 ),
             ]
         );
 
         $contents = $response->getBody()->getContents();
 
-        return new ValidatedPayPalIpn(
-            $saleMessage->getRawPayPalData(),
-            $contents == self::RESPONSE_VALID
-        );
+        return $contents == self::RESPONSE_VALID;
+    }
+
+    /**
+     * @param array $raw
+     *
+     * @return bool
+     */
+    public function isSandbox(array $raw): bool
+    {
+        return
+            array_key_exists('test_ipn', $raw)
+            && $raw['test_ipn'] == 1;
     }
 }
