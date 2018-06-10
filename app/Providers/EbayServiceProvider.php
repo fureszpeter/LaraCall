@@ -89,7 +89,7 @@ class EbayServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(Swap::class, function (){
-            return (new Builder())->add('fixer')->build();
+            return (new Builder())->add('european_central_bank')->build();
         });
 
     }
