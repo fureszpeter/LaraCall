@@ -10,24 +10,24 @@ use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use JsonSerializable;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalEbayIpn;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
+use LaraCall\Domain\Factories\PaymentStatusFactory;
+use LaraCall\Domain\Factories\PayPalIpnFactory;
+use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
 use LaraCall\Domain\ValueObjects\IpnStatus;
 use LaraCall\Events\PayPalIpnEntityCreatedEvent;
 
 /**
- * Class PayPalIpn.
- *
- * @package LaraCall
- *
- * @license Proprietary
- *
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="LaraCall\Infrastructure\Repositories\DoctrinePayPalIpnRepository")
- * @ORM\Table(uniqueConstraints={@UniqueConstraint(name="uniq_paypal_ipn",
- *                                        columns={"txn_id", "payment_status"})})
+ * @ORM\Table(
+ *     name="pay_pal_ipns",
+ *     uniqueConstraints={@UniqueConstraint(
+ *          name="uniq_paypal_ipn",
+ *          columns={"txn_id", "payment_status"}
+ *     )}
+ * )
  */
-class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
+class PayPalIpnEntity extends AbstractEntityWithId implements JsonSerializable
 {
     /**
      * @var string
@@ -37,16 +37,16 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     protected $txnId;
 
     /**
-     * @var PayPalIpn
+     * @var static
      *
-     * @ORM\ManyToOne(targetEntity="PayPalIpn", inversedBy="id", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="PayPalIpnEntity", inversedBy="id", cascade={"persist"})
      */
     protected $parentIpn;
 
     /**
-     * @var PayPalIpn[]|ArrayCollection
+     * @var static[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="PayPalIpn", mappedBy="parentIpn", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="PayPalIpnEntity", mappedBy="parentIpn", cascade={"persist"})
      */
     protected $children;
 
@@ -59,6 +59,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
 
     /**
      * @var int
+     *
      * @ORM\Column(type="integer", nullable=false)
      */
     protected $processCount;
@@ -127,24 +128,25 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     protected $ebayUsername;
 
     /**
-     * @param ValidatedPayPalIpn $saleMessage
+     * @param PayPalIpn $ipnVo
+     * @param bool      $isValid
      */
-    public function __construct(ValidatedPayPalIpn $saleMessage)
+    public function __construct(PayPalIpn $ipnVo, bool $isValid)
     {
         parent::__construct();
 
-        $this->txnId = $saleMessage->getTxnId();
+        $this->txnId = $ipnVo->getTxnId();
 
-        $this->paymentStatus = $saleMessage->getPaymentStatus();
-        $this->dateOfPayment = $saleMessage->getDateOfTransaction();
-        $this->isEbay        = $saleMessage->isEbay();
-        $this->ebayUsername  = $this->isEbay ? (new PayPalEbayIpn($saleMessage))->getEbayUserId() : null;
+        $this->paymentStatus = $ipnVo->getPaymentStatus();
+        $this->dateOfPayment = $ipnVo->getDateOfTransaction();
+        $this->isEbay        = $ipnVo->isEbay();
+        $this->ebayUsername  = $this->isEbay ? $ipnVo->getEbayUserId() : null;
 
-        $this->salesMessage = json_encode($saleMessage);
-        $this->isSandBox    = $saleMessage->isSandBox();
+        $this->salesMessage = json_encode($ipnVo);
+        $this->isSandBox    = $ipnVo->isSandBox();
         $this->status       = (string)new IpnStatus(IpnStatus::STATUS_UNPROCESSED);
         $this->processCount = 0;
-        $this->isValid      = $saleMessage->isValid();
+        $this->isValid      = $isValid;
         $this->children     = new ArrayCollection();
     }
 
@@ -231,9 +233,9 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     /**
      * @param IpnStatus $status
      *
-     * @return PayPalIpn
+     * @return PayPalIpnEntity
      */
-    public function setStatus(IpnStatus $status): self
+    public function setStatus(IpnStatus $status): PayPalIpnEntity
     {
         $this->status = (string)$status;
 
@@ -265,7 +267,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @return PayPalIpn
+     * @return static
      */
     public function setProcessedProperties(): self
     {
@@ -277,7 +279,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @return PayPalIpn
+     * @return static
      */
     public function getParentIpn()
     {
@@ -285,11 +287,11 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @param PayPalIpn $parentIpn
+     * @param PayPalIpnEntity $parentIpn
      *
-     * @return PayPalIpn
+     * @return $this
      */
-    public function setParentIpn($parentIpn): self
+    public function setParentIpn(PayPalIpnEntity $parentIpn): self
     {
         $this->parentIpn = $parentIpn;
 
@@ -314,7 +316,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
         $parentTxnId = $this->getSalesMessage()->getParentTxnId();
 
         if ($parentTxnId) {
-            /** @var PayPalIpn $parentEntity */
+            /** @var PayPalIpnEntity $parentEntity */
             $parentEntity = $eventArgs->getObjectManager()->getRepository(self::class)->findOneBy([
                 'txnId'     => $parentTxnId,
                 'parentIpn' => null,
@@ -328,11 +330,16 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @return ValidatedPayPalIpn
+     * @return PayPalIpn
      */
-    public function getSalesMessage(): ValidatedPayPalIpn
+    public function getSalesMessage(): PayPalIpn
     {
-        return new ValidatedPayPalIpn(json_decode($this->salesMessage, true), $this->getIsValid());
+        $paymentStatusFactory = new PaymentStatusFactory();
+        $payPalIpnFactory     = new PayPalIpnFactory($paymentStatusFactory);
+
+        return $payPalIpnFactory->createFromArray(
+            json_decode($this->salesMessage, true)
+        );
     }
 
     /**
@@ -346,7 +353,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     /**
      * @param bool $isEbay
      *
-     * @return PayPalIpn
+     * @return $this
      */
     public function setIsEbay($isEbay): self
     {
@@ -364,9 +371,9 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @param null|Subscription $subscription
+     * @param Subscription|null $subscription
      *
-     * @return PayPalIpn
+     * @return $this
      */
     public function setSubscription(Subscription $subscription = null): self
     {
@@ -429,7 +436,7 @@ class PayPalIpn extends AbstractEntityWithId implements JsonSerializable
     }
 
     /**
-     * @return ArrayCollection|PayPalIpn[]
+     * @return ArrayCollection|PayPalIpnEntity[]
      */
     public function getChildren()
     {

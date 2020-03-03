@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraCall\Infrastructure\Services;
 
 use A2bApiClient\Api\SubscriptionCreateRequest;
@@ -7,12 +8,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use LaraCall\Domain\Entities\EbayPaymentTransaction;
 use LaraCall\Domain\Entities\PaymentTransaction;
-use LaraCall\Domain\Entities\PayPalIpn;
+use LaraCall\Domain\Entities\PayPalIpnEntity;
 use LaraCall\Domain\Entities\Pin;
 use LaraCall\Domain\Entities\Subscription;
 use LaraCall\Domain\Entities\User;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalEbayIpn;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalIpnEbayTransaction;
+use LaraCall\Domain\Factories\PayPalIpnFactory;
+use LaraCall\Domain\PayPal\ValueObjects\EbayTransaction;
 use LaraCall\Domain\Registration\Services\EbayService;
 use LaraCall\Domain\Repositories\CountryRepository;
 use LaraCall\Domain\Repositories\EbayPaymentTransactionRepository;
@@ -98,6 +99,8 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
      * @var Swap
      */
     private $swap;
+    /** @var PayPalIpnFactory */
+    private $ipnFactory;
 
     /**
      * @param EbayPriceListRepository          $ebayPriceListRepository
@@ -113,6 +116,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
      * @param PinGeneratorService              $pinGeneratorService
      * @param Client                           $client
      * @param Swap                             $swap
+     * @param PayPalIpnFactory                 $ipnFactory
      */
     public function __construct(
         EbayPriceListRepository $ebayPriceListRepository,
@@ -127,7 +131,8 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         PasswordService $passwordService,
         PinGeneratorService $pinGeneratorService,
         Client $client,
-        Swap $swap
+        Swap $swap,
+        PayPalIpnFactory $ipnFactory
     ) {
         $this->priceListRepository              = $ebayPriceListRepository;
         $this->em                               = $em;
@@ -142,18 +147,22 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         $this->client                           = $client;
         $this->ebayApiService                   = $ebayApiService;
         $this->swap                             = $swap;
+        $this->ipnFactory                       = $ipnFactory;
     }
 
     /**
-     * @param Subscription $subscription
-     * @param PayPalIpn    $ipn
-     * @param bool         $newSubscription
+     * @param Subscription    $subscription
+     * @param PayPalIpnEntity $ipn
+     * @param bool            $newSubscription
      *
      * @throws Exception
      */
-    public function addPaymentToSubscription(Subscription $subscription, PayPalIpn $ipn, bool $newSubscription = false)
-    {
-        $ipnVo                 = new PayPalEbayIpn($ipn->getSalesMessage());
+    public function addPaymentToSubscription(
+        Subscription $subscription,
+        PayPalIpnEntity $ipn,
+        bool $newSubscription = false
+    ) {
+        $ipnVo                 = $this->ipnFactory->createFromIpnEntity($ipn);
         $transactions          = $ipnVo->getEbayTransactions();
         $priceListTransactions = $this->getTransactionsExistsInPriceList(...$transactions);
 
@@ -174,7 +183,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
             if ($priceListEntity->getCurrency() == 'USD') {
                 $productValue = $priceListEntity->getProductValue();
             } else {
-                $rate = $this->swap->latest('EUR/USD');
+                $rate         = $this->swap->latest('EUR/USD');
                 $productValue = floatval($rate->getValue() * $priceListEntity->getProductValue());
             }
 
@@ -241,36 +250,33 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
     }
 
     /**
-     * @param PayPalIpnEbayTransaction[] ...$payPalIpnEbayTransactions
+     * @param EbayTransaction[] ...$ebayTransactions
      *
-     * @return PayPalIpnEbayTransaction[]
+     * @return EbayTransaction[]
      */
     private function getTransactionsExistsInPriceList(
-        PayPalIpnEbayTransaction ...$payPalIpnEbayTransactions
+        EbayTransaction ...$ebayTransactions
     ) {
         $filteredTransactions = [];
 
-        foreach ($payPalIpnEbayTransactions as $payPalIpnEbayTransaction) {
-            $priceListEntity = $this->priceListRepository->find($payPalIpnEbayTransaction->getItemId()->getItemId());
+        foreach ($ebayTransactions as $ebayTransaction) {
+            $priceListEntity = $this->priceListRepository->find($ebayTransaction->getItemId()->getItemId());
             if (is_null($priceListEntity)) {
-//                event(
-//                    new ItemNotInPriceListEvent(
-//                        $payPalIpnEbayTransaction->getEbayTxnId(),
-//                        $payPalIpnEbayTransaction->getItemId()->getItemId()
-//                    )
-//                );
+                /**
+                 * @TODO Fire event here if needed. (ItemNotInPriceListEvent)
+                 */
 
                 Log::info(
                     sprintf(
                         'Transaction not belongs to ebay price list. [transaction id: %s]',
-                        $payPalIpnEbayTransaction->getEbayTxnId()
+                        $ebayTransaction->getEbayTxnId()
                     )
                 );
 
                 continue;
             }
 
-            $filteredTransactions[] = $payPalIpnEbayTransaction;
+            $filteredTransactions[] = $ebayTransaction;
         }
 
         return $filteredTransactions;
@@ -278,15 +284,15 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
 
 
     /**
-     * @param PayPalIpn $ipn
+     * @param PayPalIpnEntity $ipn
      *
      * @return Subscription
      *
      * @throws OutOfBoundsException If no parsable transaction found in IPN.
      */
-    public function createSubscriptionForIpn(PayPalIpn $ipn): Subscription
+    public function createSubscriptionForIpn(PayPalIpnEntity $ipn): Subscription
     {
-        $ipnVo                 = new PayPalEbayIpn($ipn->getSalesMessage());
+        $ipnVo                 = $this->ipnFactory->createFromIpnEntity($ipn);
         $transactions          = $ipnVo->getEbayTransactions();
         $priceListTransactions = $this->getTransactionsExistsInPriceList(...$transactions);
 
@@ -318,7 +324,7 @@ class EbayProcessPaymentService implements EbayProcessPaymentServiceInterface
         $city      = $transaction->Buyer->BuyerInfo->ShippingAddress->CityName;
         $address1  =
             $transaction->Buyer->BuyerInfo->ShippingAddress->Street1 ?: ''
-            .$transaction->Buyer->BuyerInfo->ShippingAddress->Street2 ?: '';
+                                                                        . $transaction->Buyer->BuyerInfo->ShippingAddress->Street2 ?: '';
 
         $subscription = new Subscription(
             $user,

@@ -8,8 +8,9 @@ use LaraCall\Domain\Entities\Country;
 use LaraCall\Domain\Entities\EbayPaymentTransaction;
 use LaraCall\Domain\Entities\EbayPriceList;
 use LaraCall\Domain\Entities\EbayUser;
+use LaraCall\Domain\Entities\IpnQueue;
 use LaraCall\Domain\Entities\PaymentTransaction;
-use LaraCall\Domain\Entities\PayPalIpn;
+use LaraCall\Domain\Entities\PayPalIpnEntity;
 use LaraCall\Domain\Entities\Pin;
 use LaraCall\Domain\Entities\State;
 use LaraCall\Domain\Entities\Subscription;
@@ -18,6 +19,7 @@ use LaraCall\Domain\Repositories\CountryRepository;
 use LaraCall\Domain\Repositories\EbayPaymentTransactionRepository;
 use LaraCall\Domain\Repositories\EbayPriceListRepository;
 use LaraCall\Domain\Repositories\EbayUserRepository;
+use LaraCall\Domain\Repositories\IpnQueueRepository;
 use LaraCall\Domain\Repositories\PaymentTransactionRepository;
 use LaraCall\Domain\Repositories\PayPalIpnRepository;
 use LaraCall\Domain\Repositories\PinRepository;
@@ -38,7 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $em = $this->app->make(EntityManagerInterface::class);
 
         $this->app->singleton(PayPalIpnRepository::class, function () use ($em) {
-            return $em->getRepository(PayPalIpn::class);
+            return $em->getRepository(PayPalIpnEntity::class);
         });
         $this->app->singleton(UserRepository::class, function () use ($em) {
             return $em->getRepository(User::class);
@@ -66,6 +68,9 @@ class RepositoryServiceProvider extends ServiceProvider
         });
         $this->app->singleton(EbayPaymentTransactionRepository::class, function () use ($em) {
             return $em->getRepository(EbayPaymentTransaction::class);
+        });
+        $this->app->singleton(IpnQueueRepository::class, function () use ($em) {
+            return $em->getRepository(IpnQueue::class);
         });
     }
 

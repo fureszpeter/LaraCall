@@ -1,21 +1,16 @@
 <?php
-namespace LaraCall\Domain\PayPal;
 
-use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
-use LaraCall\Domain\PayPal\ValueObjects\ValidatedPayPalIpn;
+namespace LaraCall\Domain\PayPal;
 
 class FalsePayPalIpnValidator implements PayPalIpnValidator
 {
-    /**
-     * @param PayPalIpn $saleMessage
-     *
-     * @return ValidatedPayPalIpn
-     */
-    public function validateIpn(PayPalIpn $saleMessage): ValidatedPayPalIpn
+    public function isSentByPayPal(array $raw): bool
     {
-        return new ValidatedPayPalIpn(
-            $saleMessage->getRawPayPalData(),
-            false
-        );
+        return false;
+    }
+
+    public function isSandbox(array $raw): bool
+    {
+        return false;
     }
 }

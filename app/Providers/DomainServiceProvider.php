@@ -5,12 +5,10 @@ namespace LaraCall\Providers;
 use A2bApiClient\Client;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
-use LaraCall\Domain\Factories\PaymentStatusFactory;
 use LaraCall\Domain\Services\ApiImportService;
 use LaraCall\Domain\Services\EbayProcessPaymentService;
 use LaraCall\Domain\Services\ImportService;
 use LaraCall\Domain\Services\PasswordService;
-use LaraCall\Domain\Services\PayPalIpnService;
 use LaraCall\Domain\Services\PinGeneratorService;
 use LaraCall\Infrastructure\Services\SimplePasswordService;
 use LaraCall\Infrastructure\Services\SimplePinGeneratorService;
@@ -41,12 +39,6 @@ class DomainServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton(PayPalIpnService::class, function () {
-            return new \LaraCall\Infrastructure\Services\PayPalIpnService(
-                env('PAYPAL_SELLER_EMAIL'),
-                app(PaymentStatusFactory::class)
-            );
-        });
         $this->app->singleton(ImportService::class, ApiImportService::class);
         $this->app->singleton(PinGeneratorService::class, SimplePinGeneratorService::class);
         $this->app->singleton(PasswordService::class, SimplePasswordService::class);

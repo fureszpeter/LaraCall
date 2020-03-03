@@ -8,7 +8,7 @@ use LaraCall\Events\PaymentCompleteEvent;
 use LaraCall\Events\PaymentFailedEvent;
 use LaraCall\Events\PaymentHandlers\AddItemsToStockIfNeeded;
 use LaraCall\Events\PaymentHandlers\DoEbayPostJobs;
-use LaraCall\Events\PaymentHandlers\ProcessPayPalIpn;
+use LaraCall\Events\PaymentHandlers\ProcessIpnInQueue;
 use LaraCall\Events\PaymentHandlers\SendEbayPaymentReceivedNotification;
 use LaraCall\Events\PaymentHandlers\SendPaymentReversedCanceledNotification;
 use LaraCall\Events\PaymentHandlers\SendPaymentReversedNotification;
@@ -17,6 +17,8 @@ use LaraCall\Events\PaymentRefundedEvent;
 use LaraCall\Events\PaymentReversalCanceledEvent;
 use LaraCall\Events\PaymentReversedEvent;
 use LaraCall\Events\PayPalIpnEntityCreatedEvent;
+use LaraCall\Events\IpnStoredToQueueEvent;
+use LaraCall\Jobs\ProcessPayPalIpnJob;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -29,8 +31,12 @@ class EventServiceProvider extends ServiceProvider
         /*
          * Event fired after a new TransactionLogEntity inserted into the database.
          */
+        IpnStoredToQueueEvent::class => [
+            ProcessIpnInQueue::class,
+        ],
+
         PayPalIpnEntityCreatedEvent::class => [
-            ProcessPayPalIpn::class,
+            ProcessPayPalIpnJob::class,
         ],
 
         PaymentCompleteEvent::class => [

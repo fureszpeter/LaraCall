@@ -3,7 +3,7 @@ namespace LaraCall\Domain\PayPal\ValueObjects;
 
 use LaraCall\Infrastructure\Services\Ebay\ValueObjects\ItemId;
 
-class PayPalIpnEbayTransaction
+class EbayTransaction
 {
     /**
      * @var ItemId

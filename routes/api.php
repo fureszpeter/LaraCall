@@ -12,7 +12,7 @@
 */
 
 Route::match(
-    ['GET', 'POST'],
+    ['POST'],
     '/paypal/ipn',
     ['uses' =>  'IpnController@payPalIpn']
 );

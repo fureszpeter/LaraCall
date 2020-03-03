@@ -1,0 +1,26 @@
+paths:
+    tests: tests
+    log: tests/_output
+    data: tests/_data
+    output: tests/_output
+    support: tests/_support
+    envs: tests/_envs
+settings:
+    colors: true
+    memory_limit: 1024M
+actor_suffix: Tester
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+params:
+    - .env.testing
+modules:
+    config:
+        Db:
+            dsn: 'mysql:host=%DB_HOST%;dbname=%DB_DATABASE%'
+            user: '%DB_USERNAME%'
+            password: '%DB_PASSWORD%'
+            dump: tests/_data/schema.sql
+            populate: true
+            cleanup: true
+

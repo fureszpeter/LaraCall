@@ -1,0 +1,9 @@
+actor: FunctionalTester
+modules:
+    enabled:
+        - Db
+        - \Helper\DbHelper
+        # add a framework module here
+        - Laravel5:
+            environment_file: .env.testing
+        - \Helper\Functional

@@ -1,4 +1,5 @@
 <?php
+
 namespace LaraCall\Domain\ValueObjects;
 
 use UnexpectedValueException;
@@ -7,7 +8,7 @@ class PaymentStatus
 {
     const STATUS_COMPLETED       = 'completed';
     const STATUS_PENDING         = 'pending';
-    const STATUS_CANCEL_REVERSED = 'cancel_reversed';
+    const STATUS_CANCEL_REVERSED = 'canceled_reversal';
     const STATUS_REVERSED        = 'reversed';
     const STATUS_REFUNDED        = 'refunded';
     const STATUS_FAILED          = 'failed';
@@ -21,17 +22,29 @@ class PaymentStatus
         self::STATUS_FAILED,
     ];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $status;
 
     /**
      * @param string $status
+     *
+     * @throws UnexpectedValueException If status is not valid.
      */
     public function __construct(string $status)
     {
-        if ( ! in_array($status, self::VALID_STATUSES)) {
+        $this->assertStatus($status);
+
+        $this->status = $status;
+    }
+
+    /**
+     * @param string $status
+     *
+     * @throws UnexpectedValueException If status is not valid.
+     */
+    private function assertStatus(string $status): void
+    {
+        if (!in_array($status, self::VALID_STATUSES)) {
             throw new UnexpectedValueException(
                 sprintf(
                     'Invalid status. [received: %s, valid statuses: %s]',
@@ -40,13 +53,12 @@ class PaymentStatus
                 )
             );
         }
-        $this->status = $status;
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getStatus();
     }

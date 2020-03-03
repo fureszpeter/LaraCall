@@ -2,13 +2,11 @@
 
 namespace LaraCall\Http\Controllers;
 
-use Doctrine\ORM\EntityManager;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Http\Request;
+use LaraCall\Domain\Entities\IpnQueue;
 use LaraCall\Domain\PayPal\PayPalIpnValidator;
-use LaraCall\Domain\PayPal\ValueObjects\PayPalIpn;
-use LaraCall\Domain\Entities\PayPalIpn as PayPalIpnEntity;
-use LaraCall\Domain\Repositories\PayPalIpnRepository;
+use LaraCall\Domain\Repositories\IpnQueueRepository;
 
 /**
  * Class IpnController.
@@ -19,43 +17,29 @@ use LaraCall\Domain\Repositories\PayPalIpnRepository;
  */
 class IpnController extends Controller
 {
-    /**
-     * @var Dispatcher
-     */
+    /** @var Dispatcher */
     private $dispatcher;
 
-    /**
-     * @var PayPalIpnValidator
-     */
+    /** @var PayPalIpnValidator */
     private $payPalIpnValidator;
 
-    /**
-     * @var EntityManager
-     */
-    private $em;
+    /** @var IpnQueueRepository */
+    private $ipnQueueRepository;
 
     /**
-     * @var PayPalIpnRepository
-     */
-    private $ipnSalesMessageRepository;
-
-    /**
-     * @param Dispatcher          $dispatcher
-     * @param PayPalIpnValidator  $payPalIpnValidator
-     * @param EntityManager       $em
-     * @param PayPalIpnRepository $ipnSalesMessageRepository
+     * @param Dispatcher         $dispatcher
+     * @param PayPalIpnValidator $payPalIpnValidator
+     * @param IpnQueueRepository $ipnQueueRepository
      */
     public function __construct(
         Dispatcher $dispatcher,
         PayPalIpnValidator $payPalIpnValidator,
-        EntityManager $em,
-        PayPalIpnRepository $ipnSalesMessageRepository
+        IpnQueueRepository $ipnQueueRepository
 
     ) {
-        $this->dispatcher                = $dispatcher;
-        $this->payPalIpnValidator        = $payPalIpnValidator;
-        $this->em                        = $em;
-        $this->ipnSalesMessageRepository = $ipnSalesMessageRepository;
+        $this->dispatcher         = $dispatcher;
+        $this->payPalIpnValidator = $payPalIpnValidator;
+        $this->ipnQueueRepository = $ipnQueueRepository;
     }
 
     /**
@@ -63,10 +47,10 @@ class IpnController extends Controller
      */
     public function payPalIpn(Request $request)
     {
-        $ipnSalesMessage = $this->payPalIpnValidator->validateIpn(new PayPalIpn($request->request->all()));
+        $rawData  = $request->request->all();
 
-        $entity = new PayPalIpnEntity($ipnSalesMessage);
-        $this->em->persist($entity);
-        $this->em->flush();
+        $ipnQueue = new IpnQueue($rawData, $request->server());
+
+        $this->ipnQueueRepository->save($ipnQueue);
     }
 }
